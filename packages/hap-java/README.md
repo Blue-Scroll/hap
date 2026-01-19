@@ -10,7 +10,7 @@ HAP is an open standard for verified job applications. It enables Verification A
 
 ```xml
 <dependency>
-    <groupId>com.bluescroll</groupId>
+    <groupId>io.bluescroll</groupId>
     <artifactId>hap</artifactId>
     <version>0.1.0</version>
 </dependency>
@@ -19,7 +19,7 @@ HAP is an open standard for verified job applications. It enables Verification A
 ### Gradle
 
 ```groovy
-implementation 'com.bluescroll:hap:0.1.0'
+implementation 'io.bluescroll:hap:0.1.0'
 ```
 
 ## Quick Start
@@ -27,7 +27,7 @@ implementation 'com.bluescroll:hap:0.1.0'
 ### Verifying a Claim (For Employers)
 
 ```java
-import com.bluescroll.hap.*;
+import io.bluescroll.hap.*;
 
 public class VerifyExample {
     public static void main(String[] args) throws Exception {
@@ -88,7 +88,7 @@ if (response.isValid() && response.getJws() != null) {
 ### Signing Claims (For Verification Authorities)
 
 ```java
-import com.bluescroll.hap.*;
+import io.bluescroll.hap.*;
 import java.security.KeyPair;
 import java.util.Map;
 
@@ -160,7 +160,7 @@ String jws = HapSigner.signClaim(claim, keyPair.getPrivate(), "my_key_001");
 ### Types
 
 ```java
-import com.bluescroll.hap.*;
+import io.bluescroll.hap.*;
 
 // Main claim types
 HapClaim claim;

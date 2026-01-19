@@ -126,14 +126,14 @@ if claim != nil && !hap.IsClaimExpired(claim) {
 
 ```xml
 <dependency>
-    <groupId>com.bluescroll</groupId>
+    <groupId>io.bluescroll</groupId>
     <artifactId>hap</artifactId>
     <version>0.1.0</version>
 </dependency>
 ```
 
 ```java
-import com.bluescroll.hap.*;
+import io.bluescroll.hap.*;
 
 HumanEffortClaim claim = Hap.verifyHapClaim("hap_abc123xyz456", "ballista.io");
 if (claim != null && !Hap.isClaimExpired(claim)) {
