@@ -1,4 +1,4 @@
-package com.bluescroll.hap;
+package io.bluescroll.hap;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nimbusds.jose.*;

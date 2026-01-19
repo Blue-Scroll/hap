@@ -1,13 +1,13 @@
-package com.bluescroll.hap;
+package io.bluescroll.hap;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Represents a human effort verification claim.
+ * Represents an employer commitment claim.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class HumanEffortClaim implements HapClaim {
+public class EmployerCommitmentClaim implements HapClaim {
     @JsonProperty("v")
     private String v;
 
@@ -15,16 +15,13 @@ public class HumanEffortClaim implements HapClaim {
     private String id;
 
     @JsonProperty("type")
-    private String type = "human_effort";
+    private String type = "employer_commitment";
 
-    @JsonProperty("method")
-    private String method;
+    @JsonProperty("employer")
+    private EmployerInfo employer;
 
-    @JsonProperty("tier")
-    private String tier;
-
-    @JsonProperty("to")
-    private ClaimTarget to;
+    @JsonProperty("commitment")
+    private String commitment;
 
     @JsonProperty("at")
     private String at;
@@ -35,14 +32,13 @@ public class HumanEffortClaim implements HapClaim {
     @JsonProperty("iss")
     private String iss;
 
-    public HumanEffortClaim() {}
+    public EmployerCommitmentClaim() {}
 
-    public HumanEffortClaim(String method, String company, String domain, String tier, String issuer) {
+    public EmployerCommitmentClaim(String employerName, String employerDomain, String commitment, String issuer) {
         this.v = Hap.VERSION;
         this.id = Hap.generateHapId();
-        this.method = method;
-        this.to = new ClaimTarget(company, domain);
-        this.tier = tier;
+        this.employer = new EmployerInfo(employerName, employerDomain);
+        this.commitment = commitment;
         this.at = java.time.Instant.now().toString();
         this.iss = issuer;
     }
@@ -54,41 +50,39 @@ public class HumanEffortClaim implements HapClaim {
     @Override public String getExp() { return exp; }
     @Override public String getIss() { return iss; }
 
-    public String getMethod() { return method; }
-    public String getTier() { return tier; }
-    public ClaimTarget getTo() { return to; }
+    public EmployerInfo getEmployer() { return employer; }
+    public String getCommitment() { return commitment; }
 
     public void setV(String v) { this.v = v; }
     public void setId(String id) { this.id = id; }
     public void setType(String type) { this.type = type; }
-    public void setMethod(String method) { this.method = method; }
-    public void setTier(String tier) { this.tier = tier; }
-    public void setTo(ClaimTarget to) { this.to = to; }
+    public void setEmployer(EmployerInfo employer) { this.employer = employer; }
+    public void setCommitment(String commitment) { this.commitment = commitment; }
     public void setAt(String at) { this.at = at; }
     public void setExp(String exp) { this.exp = exp; }
     public void setIss(String iss) { this.iss = iss; }
 
     /**
-     * Target company information.
+     * Employer information.
      */
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public static class ClaimTarget {
-        @JsonProperty("company")
-        private String company;
+    public static class EmployerInfo {
+        @JsonProperty("name")
+        private String name;
 
         @JsonProperty("domain")
         private String domain;
 
-        public ClaimTarget() {}
+        public EmployerInfo() {}
 
-        public ClaimTarget(String company, String domain) {
-            this.company = company;
+        public EmployerInfo(String name, String domain) {
+            this.name = name;
             this.domain = domain;
         }
 
-        public String getCompany() { return company; }
+        public String getName() { return name; }
         public String getDomain() { return domain; }
-        public void setCompany(String company) { this.company = company; }
+        public void setName(String name) { this.name = name; }
         public void setDomain(String domain) { this.domain = domain; }
     }
 }

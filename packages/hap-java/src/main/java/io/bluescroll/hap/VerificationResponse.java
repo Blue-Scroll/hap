@@ -1,4 +1,4 @@
-package com.bluescroll.hap;
+package io.bluescroll.hap;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;

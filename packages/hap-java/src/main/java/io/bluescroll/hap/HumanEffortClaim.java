@@ -1,13 +1,13 @@
-package com.bluescroll.hap;
+package io.bluescroll.hap;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Represents an employer commitment claim.
+ * Represents a human effort verification claim.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class EmployerCommitmentClaim implements HapClaim {
+public class HumanEffortClaim implements HapClaim {
     @JsonProperty("v")
     private String v;
 
@@ -15,13 +15,16 @@ public class EmployerCommitmentClaim implements HapClaim {
     private String id;
 
     @JsonProperty("type")
-    private String type = "employer_commitment";
+    private String type = "human_effort";
 
-    @JsonProperty("employer")
-    private EmployerInfo employer;
+    @JsonProperty("method")
+    private String method;
 
-    @JsonProperty("commitment")
-    private String commitment;
+    @JsonProperty("tier")
+    private String tier;
+
+    @JsonProperty("to")
+    private ClaimTarget to;
 
     @JsonProperty("at")
     private String at;
@@ -32,13 +35,14 @@ public class EmployerCommitmentClaim implements HapClaim {
     @JsonProperty("iss")
     private String iss;
 
-    public EmployerCommitmentClaim() {}
+    public HumanEffortClaim() {}
 
-    public EmployerCommitmentClaim(String employerName, String employerDomain, String commitment, String issuer) {
+    public HumanEffortClaim(String method, String company, String domain, String tier, String issuer) {
         this.v = Hap.VERSION;
         this.id = Hap.generateHapId();
-        this.employer = new EmployerInfo(employerName, employerDomain);
-        this.commitment = commitment;
+        this.method = method;
+        this.to = new ClaimTarget(company, domain);
+        this.tier = tier;
         this.at = java.time.Instant.now().toString();
         this.iss = issuer;
     }
@@ -50,39 +54,41 @@ public class EmployerCommitmentClaim implements HapClaim {
     @Override public String getExp() { return exp; }
     @Override public String getIss() { return iss; }
 
-    public EmployerInfo getEmployer() { return employer; }
-    public String getCommitment() { return commitment; }
+    public String getMethod() { return method; }
+    public String getTier() { return tier; }
+    public ClaimTarget getTo() { return to; }
 
     public void setV(String v) { this.v = v; }
     public void setId(String id) { this.id = id; }
     public void setType(String type) { this.type = type; }
-    public void setEmployer(EmployerInfo employer) { this.employer = employer; }
-    public void setCommitment(String commitment) { this.commitment = commitment; }
+    public void setMethod(String method) { this.method = method; }
+    public void setTier(String tier) { this.tier = tier; }
+    public void setTo(ClaimTarget to) { this.to = to; }
     public void setAt(String at) { this.at = at; }
     public void setExp(String exp) { this.exp = exp; }
     public void setIss(String iss) { this.iss = iss; }
 
     /**
-     * Employer information.
+     * Target company information.
      */
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public static class EmployerInfo {
-        @JsonProperty("name")
-        private String name;
+    public static class ClaimTarget {
+        @JsonProperty("company")
+        private String company;
 
         @JsonProperty("domain")
         private String domain;
 
-        public EmployerInfo() {}
+        public ClaimTarget() {}
 
-        public EmployerInfo(String name, String domain) {
-            this.name = name;
+        public ClaimTarget(String company, String domain) {
+            this.company = company;
             this.domain = domain;
         }
 
-        public String getName() { return name; }
+        public String getCompany() { return company; }
         public String getDomain() { return domain; }
-        public void setName(String name) { this.name = name; }
+        public void setCompany(String company) { this.company = company; }
         public void setDomain(String domain) { this.domain = domain; }
     }
 }
