@@ -24,6 +24,7 @@ A HAP verification does NOT confirm:
 ### Option 1: Scan the QR Code
 
 Scan with your phone's camera. You'll see a verification page showing:
+
 - Company name (should match yours)
 - Verification date
 - The issuing authority
@@ -34,18 +35,44 @@ Scan with your phone's camera. You'll see a verification page showing:
 curl https://ballista.app/api/v1/verify/hap_abc123xyz456
 ```
 
-Response:
+Response (valid claim):
+
 ```json
 {
   "valid": true,
+  "id": "hap_abc123xyz456",
   "claims": {
+    "v": "0.1",
+    "id": "hap_abc123xyz456",
     "type": "human_effort",
     "method": "physical_mail",
-    "to": { "company": "Your Company" },
-    "at": "2026-01-19T06:00:00Z"
-  }
+    "tier": "standard",
+    "to": {
+      "company": "Your Company",
+      "domain": "yourcompany.com"
+    },
+    "at": "2026-01-19T06:00:00Z",
+    "iss": "ballista.app"
+  },
+  "jws": "eyJhbGciOiJFZERTQSIsImtpZCI6ImJhX2tleV8wMDEifQ...",
+  "issuer": "ballista.app",
+  "verifyUrl": "https://ballista.app/v/hap_abc123xyz456"
 }
 ```
+
+Response (revoked claim):
+
+```json
+{
+  "valid": false,
+  "id": "hap_abc123xyz456",
+  "revoked": true,
+  "revocationReason": "user_request",
+  "revokedAt": "2026-02-01T12:00:00Z"
+}
+```
+
+**Note:** A revoked claim means the applicant or VA withdrew the verification. Treat it as if there's no verification.
 
 ### Option 3: Verify the Signature
 
@@ -61,7 +88,7 @@ See [SPEC.md](../SPEC.md) for technical details.
 
 In a sea of automated applications, HAP-verified applications stand out because:
 
-1. **Higher intent signal.** Someone who spends money and time on a physical application probably wants *this* job, not just *a* job.
+1. **Higher intent signal.** Someone who spends money and time on a physical application probably wants _this_ job, not just _a_ job.
 
 2. **Lower spam volume.** The cost of verification makes mass-applying impractical.
 

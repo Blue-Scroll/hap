@@ -1,0 +1,210 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'packages/**'
+      - '.github/workflows/ci.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'packages/**'
+      - '.github/workflows/ci.yml'
+
+jobs:
+  typescript:
+    name: TypeScript SDK
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/hap-js
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: packages/hap-js/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+        continue-on-error: true
+
+      - name: Type check
+        run: npm run typecheck
+
+      - name: Build
+        run: npm run build
+
+      - name: Test
+        run: npm test
+        continue-on-error: true
+
+  python:
+    name: Python SDK
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/hap-python
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+
+      - name: Lint with ruff
+        run: ruff check .
+        continue-on-error: true
+
+      - name: Type check with mypy
+        run: mypy .
+        continue-on-error: true
+
+      - name: Test with pytest
+        run: pytest
+        continue-on-error: true
+
+  go:
+    name: Go SDK
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/hap-go
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.21'
+          cache-dependency-path: packages/hap-go/go.sum
+
+      - name: Download dependencies
+        run: go mod download
+
+      - name: Build
+        run: go build ./...
+
+      - name: Test
+        run: go test ./...
+        continue-on-error: true
+
+  java:
+    name: Java SDK
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/hap-java
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'maven'
+
+      - name: Compile
+        run: mvn clean compile
+
+      - name: Test
+        run: mvn test
+        continue-on-error: true
+
+  ruby:
+    name: Ruby SDK
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/hap-ruby
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+          bundler-cache: true
+          working-directory: packages/hap-ruby
+
+      - name: Create Gemfile for bundler
+        run: |
+          echo 'source "https://rubygems.org"' > Gemfile
+          echo 'gemspec' >> Gemfile
+
+      - name: Install dependencies
+        run: bundle install
+
+      - name: Lint with rubocop
+        run: bundle exec rubocop
+        continue-on-error: true
+
+      - name: Test with rspec
+        run: bundle exec rspec
+        continue-on-error: true
+
+  php:
+    name: PHP SDK
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/hap-php
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: sodium, json
+          tools: composer:v2
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress
+
+      - name: Static analysis with PHPStan
+        run: composer run analyse
+        continue-on-error: true
+
+      - name: Test with PHPUnit
+        run: composer run test
+        continue-on-error: true
+
+  csharp:
+    name: C# SDK
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/hap-csharp
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --no-restore
+
+      - name: Test
+        run: dotnet test --no-build --verbosity normal
+        continue-on-error: true

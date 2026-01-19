@@ -1,0 +1,45 @@
+{
+    "name": "bluescroll/hap",
+    "description": "Official HAP (Human Application Protocol) SDK for PHP",
+    "version": "0.1.0",
+    "type": "library",
+    "license": "Apache-2.0",
+    "homepage": "https://github.com/BlueScroll/hap",
+    "keywords": [
+        "hap",
+        "human-application-protocol",
+        "verification",
+        "job-applications",
+        "ed25519",
+        "jws"
+    ],
+    "authors": [
+        {
+            "name": "BlueScroll Inc."
+        }
+    ],
+    "require": {
+        "php": ">=8.1",
+        "guzzlehttp/guzzle": "^7.8",
+        "web-token/jwt-signature": "^3.2",
+        "web-token/jwt-signature-algorithm-eddsa": "^3.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.4",
+        "phpstan/phpstan": "^1.10"
+    },
+    "autoload": {
+        "psr-4": {
+            "BlueScroll\\Hap\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "BlueScroll\\Hap\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "analyse": "phpstan analyse"
+    }
+}

@@ -10,14 +10,15 @@
         "method": "physical_mail",
         "tier": "standard",
         "to": {
-          "company": "Acme Corp"
+          "company": "Acme Corp",
+          "domain": "acme.com"
         },
         "at": "2026-01-19T06:00:00Z",
         "iss": "ballista.app"
       }
     },
     {
-      "name": "Premium tier claim",
+      "name": "Premium tier claim with expiration",
       "claim": {
         "v": "0.1",
         "id": "hap_pRm789QrS012",
@@ -25,10 +26,27 @@
         "method": "physical_mail",
         "tier": "premium",
         "to": {
-          "company": "TechStartup Inc"
+          "company": "TechStartup Inc",
+          "domain": "techstartup.com"
         },
         "at": "2026-01-19T12:30:00Z",
+        "exp": "2028-01-19T12:30:00Z",
         "iss": "ballista.app"
+      }
+    },
+    {
+      "name": "Custom method claim (x- prefix)",
+      "claim": {
+        "v": "0.1",
+        "id": "hap_cstm56789ABC",
+        "type": "human_effort",
+        "method": "x-video-interview",
+        "to": {
+          "company": "Future Corp",
+          "domain": "futurecorp.io"
+        },
+        "at": "2026-01-20T09:00:00Z",
+        "iss": "example-va.com"
       }
     }
   ],
@@ -42,14 +60,27 @@
       "method": "physical_mail",
       "tier": "standard",
       "to": {
-        "company": "Acme Corp"
+        "company": "Acme Corp",
+        "domain": "acme.com"
       },
       "at": "2026-01-19T06:00:00Z",
       "iss": "ballista.app"
     },
-    "jws": "eyJhbGciOiJFZERTQSIsImtpZCI6ImJhX2tleV8wMDEifQ.eyJ2IjoiMC4xIiwiaWQiOiJoYXBfYWJjMTIzeHl6NDU2IiwidHlwZSI6Imh1bWFuX2VmZm9ydCIsIm1ldGhvZCI6InBoeXNpY2FsX21haWwiLCJ0aWVyIjoic3RhbmRhcmQiLCJ0byI6eyJjb21wYW55IjoiQWNtZSBDb3JwIn0sImF0IjoiMjAyNi0wMS0xOVQwNjowMDowMFoiLCJpc3MiOiJiYWxsaXN0YS5hcHAifQ.EXAMPLE_SIGNATURE",
+    "jws": "eyJhbGciOiJFZERTQSIsImtpZCI6ImJhX2tleV8wMDEifQ.eyJ2IjoiMC4xIiwiaWQiOiJoYXBfYWJjMTIzeHl6NDU2IiwidHlwZSI6Imh1bWFuX2VmZm9ydCIsIm1ldGhvZCI6InBoeXNpY2FsX21haWwiLCJ0aWVyIjoic3RhbmRhcmQiLCJ0byI6eyJjb21wYW55IjoiQWNtZSBDb3JwIiwiZG9tYWluIjoiYWNtZS5jb20ifSwiYXQiOiIyMDI2LTAxLTE5VDA2OjAwOjAwWiIsImlzcyI6ImJhbGxpc3RhLmFwcCJ9.EXAMPLE_SIGNATURE",
     "issuer": "ballista.app",
     "verifyUrl": "https://ballista.app/v/hap_abc123xyz456"
+  },
+  "revoked_response": {
+    "valid": false,
+    "id": "hap_rvk123456789",
+    "revoked": true,
+    "revocationReason": "user_request",
+    "revokedAt": "2026-02-01T12:00:00Z",
+    "issuer": "ballista.app"
+  },
+  "not_found_response": {
+    "valid": false,
+    "error": "not_found"
   },
   "public_key_response": {
     "issuer": "ballista.app",

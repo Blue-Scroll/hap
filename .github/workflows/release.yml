@@ -1,0 +1,275 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to release (e.g., 0.2.0)'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  validate:
+    name: Validate Version
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.validate.outputs.version }}
+    steps:
+      - name: Validate version format
+        id: validate
+        run: |
+          VERSION="${{ inputs.version }}"
+          if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Error: Version must be in semver format (e.g., 0.2.0)"
+            exit 1
+          fi
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "✓ Version $VERSION is valid"
+
+  sync-and-tag:
+    name: Sync Versions & Create Tag
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Sync versions
+        run: ./scripts/sync-versions.sh ${{ needs.validate.outputs.version }}
+
+      - name: Commit and tag
+        run: |
+          git add .
+          git commit -m "chore: release v${{ needs.validate.outputs.version }}"
+          git tag v${{ needs.validate.outputs.version }}
+          git push
+          git push origin v${{ needs.validate.outputs.version }}
+
+  publish-npm:
+    name: Publish to npm
+    needs: [validate, sync-and-tag]
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/hap-js
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: v${{ needs.validate.outputs.version }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Publish
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
+
+  publish-pypi:
+    name: Publish to PyPI
+    needs: [validate, sync-and-tag]
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/hap-python
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: v${{ needs.validate.outputs.version }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install build tools
+        run: pip install build twine
+
+      - name: Build package
+        run: python -m build
+
+      - name: Publish to PyPI
+        run: twine upload dist/*
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_API_KEY }}
+
+  publish-maven:
+    name: Publish to Maven Central
+    needs: [validate, sync-and-tag]
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/hap-java
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: v${{ needs.validate.outputs.version }}
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'maven'
+          server-id: ossrh
+          server-username: MAVEN_USERNAME
+          server-password: MAVEN_PASSWORD
+          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+          gpg-passphrase: MAVEN_GPG_PASSPHRASE
+
+      - name: Publish to Maven Central
+        run: mvn clean deploy -P release -DskipTests
+        env:
+          MAVEN_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+
+  publish-rubygems:
+    name: Publish to RubyGems
+    needs: [validate, sync-and-tag]
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/hap-ruby
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: v${{ needs.validate.outputs.version }}
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+          working-directory: packages/hap-ruby
+
+      - name: Build gem
+        run: gem build hap.gemspec
+
+      - name: Publish to RubyGems
+        run: |
+          mkdir -p ~/.gem
+          echo ":rubygems_api_key: ${{ secrets.RUBYGEMS_API_KEY }}" > ~/.gem/credentials
+          chmod 0600 ~/.gem/credentials
+          gem push bluescroll-hap-${{ needs.validate.outputs.version }}.gem
+
+  publish-packagist:
+    name: Publish to Packagist
+    needs: [validate, sync-and-tag]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Packagist update
+        run: |
+          curl -XPOST \
+            -H "Content-Type: application/json" \
+            "https://packagist.org/api/update-package?username=bluescroll&apiToken=${{ secrets.PACKAGIST_API_TOKEN }}" \
+            -d '{"repository":{"url":"https://github.com/BlueScroll/hap"}}'
+
+  publish-nuget:
+    name: Publish to NuGet
+    needs: [validate, sync-and-tag]
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/hap-csharp
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: v${{ needs.validate.outputs.version }}
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build -c Release --no-restore
+
+      - name: Pack
+        run: dotnet pack -c Release --no-build -o ./nupkg
+
+      - name: Publish to NuGet
+        run: dotnet nuget push ./nupkg/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+
+  create-release:
+    name: Create GitHub Release
+    needs: [validate, publish-npm, publish-pypi, publish-maven, publish-rubygems, publish-packagist, publish-nuget]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: v${{ needs.validate.outputs.version }}
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ needs.validate.outputs.version }}
+          name: v${{ needs.validate.outputs.version }}
+          body: |
+            ## HAP SDK v${{ needs.validate.outputs.version }}
+
+            ### Installation
+
+            **JavaScript/TypeScript:**
+            ```bash
+            npm install @bluescroll/hap@${{ needs.validate.outputs.version }}
+            ```
+
+            **Python:**
+            ```bash
+            pip install bluescroll-hap==${{ needs.validate.outputs.version }}
+            ```
+
+            **Go:**
+            ```bash
+            go get github.com/BlueScroll/hap/packages/hap-go@v${{ needs.validate.outputs.version }}
+            ```
+
+            **Java (Maven):**
+            ```xml
+            <dependency>
+                <groupId>com.bluescroll</groupId>
+                <artifactId>hap</artifactId>
+                <version>${{ needs.validate.outputs.version }}</version>
+            </dependency>
+            ```
+
+            **Ruby:**
+            ```bash
+            gem install bluescroll-hap -v ${{ needs.validate.outputs.version }}
+            ```
+
+            **PHP:**
+            ```bash
+            composer require bluescroll/hap:${{ needs.validate.outputs.version }}
+            ```
+
+            **C#/.NET:**
+            ```bash
+            dotnet add package BlueScroll.Hap --version ${{ needs.validate.outputs.version }}
+            ```
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

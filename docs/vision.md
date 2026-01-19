@@ -1,5 +1,43 @@
 # The Vision: Human-First Hiring
 
+**HAP exists because trust has collapsed in hiring.**
+
+Job seekers submit into black holes. They're reduced to keywords. They wonder if anyone even saw their name. Meanwhile, employers drown in AI-generated spam and can't tell who's real.
+
+**This is not a spec for a spec's sake. This is infrastructure for restoring trust.**
+
+---
+
+## The Enemy
+
+- "Easy Apply" buttons that make applications meaningless
+- AI tools that flood inboxes with low-effort spam
+- ATS black holes that swallow applications without a trace
+- The "numbers game" advice that treats job seeking as a lottery
+
+## The People We Serve
+
+- The person applying at 11pm, wondering if anyone will see their work
+- The career changer who doesn't fit keyword filters
+- The employer who wants to hire humans, not process volume
+- Anyone who believes genuine effort should be visible
+
+## Core Beliefs
+
+1. **Process proves intent.** We can't detect AI, but we can verify that someone took deliberate, costly action.
+
+2. **Observable actions over content analysis.** We don't verify *what* was written. We verify *that someone went through a process*.
+
+3. **Both sides need trust.** Applicants need to know they'll be seen. Employers need to know who's real.
+
+4. **Open standards beat proprietary moats.** HAP is open because trust infrastructure shouldn't be owned by any single company.
+
+5. **Verification does not equal identity.** We verify effort, not who you are or whether your credentials are real.
+
+---
+
+## The Problem
+
 Job searching is broken. On both sides.
 
 ## The Applicant's Reality

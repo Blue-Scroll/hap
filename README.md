@@ -17,13 +17,14 @@ Job searching is broken:
 HAP introduces **Verification Authorities (VAs)** that attest to human effort. When someone takes deliberate, costly action to apply for a job, a VA can cryptographically sign that claim.
 
 Employers who see a HAP verification know:
+
 - A real human made a real effort
 - The effort was costly enough to deter spam
 - The claim can be independently verified
 
 ## How It Works
 
-```
+```text
 1. Applicant applies through a VA (e.g., sends physical mail via Ballista)
 2. VA creates a signed verification claim
 3. Verification is embedded in the application (QR code, header, etc.)
@@ -41,17 +42,27 @@ curl https://ballista.app/api/v1/verify/hap_abc123xyz
 ```
 
 Response:
+
 ```json
 {
   "valid": true,
+  "id": "hap_abc123xyz",
   "claims": {
+    "v": "0.1",
+    "id": "hap_abc123xyz",
     "type": "human_effort",
     "method": "physical_mail",
     "tier": "standard",
-    "to": { "company": "Acme Corp" },
-    "at": "2026-01-19T06:00:00Z"
+    "to": {
+      "company": "Acme Corp",
+      "domain": "acme.com"
+    },
+    "at": "2026-01-19T06:00:00Z",
+    "iss": "ballista.app"
   },
-  "issuer": "ballista.app"
+  "jws": "eyJhbGciOiJFZERTQSIsImtpZCI6ImJhX2tleV8wMDEifQ...",
+  "issuer": "ballista.app",
+  "verifyUrl": "https://ballista.app/v/hap_abc123xyz"
 }
 ```
 
@@ -63,10 +74,126 @@ Use a HAP-compatible service like [Ballista](https://ballista.app) to send verif
 
 See [SPEC.md](./SPEC.md) for the complete technical specification.
 
+## SDKs
+
+Official HAP SDKs are available for 7 languages:
+
+### JavaScript/TypeScript
+
+```bash
+npm install @bluescroll/hap
+```
+
+```typescript
+import { verifyHapClaim, isClaimExpired } from "@bluescroll/hap";
+
+const claim = await verifyHapClaim("hap_abc123xyz456", "ballista.app");
+if (claim && !isClaimExpired(claim)) {
+  console.log(`Verified application to ${claim.to.company}`);
+}
+```
+
+### Python
+
+```bash
+pip install bluescroll-hap
+```
+
+```python
+from hap import verify_hap_claim, is_claim_expired
+
+claim = await verify_hap_claim("hap_abc123xyz456", "ballista.app")
+if claim and not is_claim_expired(claim):
+    print(f"Verified application to {claim['to']['company']}")
+```
+
+### Go
+
+```bash
+go get github.com/BlueScroll/hap/packages/hap-go
+```
+
+```go
+import hap "github.com/BlueScroll/hap/packages/hap-go"
+
+claim, _ := hap.VerifyHapClaim(ctx, "hap_abc123xyz456", "ballista.app")
+if claim != nil && !hap.IsClaimExpired(claim) {
+    fmt.Printf("Verified application to %s\n", claim.To.Company)
+}
+```
+
+### Java
+
+```xml
+<dependency>
+    <groupId>com.bluescroll</groupId>
+    <artifactId>hap</artifactId>
+    <version>0.1.0</version>
+</dependency>
+```
+
+```java
+import com.bluescroll.hap.*;
+
+HumanEffortClaim claim = Hap.verifyHapClaim("hap_abc123xyz456", "ballista.app");
+if (claim != null && !Hap.isClaimExpired(claim)) {
+    System.out.println("Verified application to " + claim.getTo().getCompany());
+}
+```
+
+### Ruby
+
+```bash
+gem install bluescroll-hap
+```
+
+```ruby
+require 'hap'
+
+claim = Hap.verify_hap_claim("hap_abc123xyz456", "ballista.app")
+if claim && !Hap.claim_expired?(claim)
+  puts "Verified application to #{claim[:to][:company]}"
+end
+```
+
+### PHP
+
+```bash
+composer require bluescroll/hap
+```
+
+```php
+use BlueScroll\Hap\Verify;
+
+$verifier = new Verify();
+$claim = $verifier->verifyHapClaim('hap_abc123xyz456', 'ballista.app');
+if ($claim && !Verify::isClaimExpired($claim)) {
+    echo "Verified application to " . $claim['to']['company'];
+}
+```
+
+### C#/.NET
+
+```bash
+dotnet add package BlueScroll.Hap
+```
+
+```csharp
+using BlueScroll.Hap;
+
+using var verifier = new HapVerifier();
+var claim = await verifier.VerifyHapClaimAsync("hap_abc123xyz456", "ballista.app");
+if (claim != null && !HapVerifier.IsClaimExpired(claim)) {
+    Console.WriteLine($"Verified application to {claim.To.Company}");
+}
+```
+
+See individual SDK READMEs in [`packages/`](./packages/) for complete documentation.
+
 ## Verification Authorities
 
-| VA | Method | Website |
-|----|--------|---------|
+| VA       | Method        | Website                              |
+| -------- | ------------- | ------------------------------------ |
 | Ballista | Physical mail | [ballista.app](https://ballista.app) |
 
 Want to become a VA? See [docs/for-vas.md](./docs/for-vas.md).

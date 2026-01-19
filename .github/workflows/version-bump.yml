@@ -1,0 +1,93 @@
+name: Version Bump
+
+on:
+  workflow_dispatch:
+    inputs:
+      bump_type:
+        description: 'Type of version bump'
+        required: true
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  bump:
+    name: Bump Version
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Get current version
+        id: current
+        run: |
+          CURRENT=$(cat VERSION)
+          echo "version=$CURRENT" >> $GITHUB_OUTPUT
+          echo "Current version: $CURRENT"
+
+      - name: Calculate new version
+        id: new
+        run: |
+          CURRENT="${{ steps.current.outputs.version }}"
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$CURRENT"
+
+          case "${{ inputs.bump_type }}" in
+            major)
+              MAJOR=$((MAJOR + 1))
+              MINOR=0
+              PATCH=0
+              ;;
+            minor)
+              MINOR=$((MINOR + 1))
+              PATCH=0
+              ;;
+            patch)
+              PATCH=$((PATCH + 1))
+              ;;
+          esac
+
+          NEW_VERSION="$MAJOR.$MINOR.$PATCH"
+          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "New version: $NEW_VERSION"
+
+      - name: Sync versions
+        run: ./scripts/sync-versions.sh ${{ steps.new.outputs.version }}
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore: bump version to ${{ steps.new.outputs.version }}"
+          title: "chore: bump version to ${{ steps.new.outputs.version }}"
+          body: |
+            ## Version Bump
+
+            This PR bumps the version from `${{ steps.current.outputs.version }}` to `${{ steps.new.outputs.version }}` (${{ inputs.bump_type }}).
+
+            ### Changes
+
+            - Updated `VERSION` file
+            - Updated all SDK package versions:
+              - `packages/hap-js/package.json`
+              - `packages/hap-python/pyproject.toml`
+              - `packages/hap-java/pom.xml`
+              - `packages/hap-ruby/hap.gemspec`
+              - `packages/hap-ruby/lib/hap/version.rb`
+              - `packages/hap-php/composer.json`
+              - `packages/hap-csharp/BlueScroll.Hap.csproj`
+
+            ### Next Steps
+
+            After merging this PR, run the **Release** workflow with version `${{ steps.new.outputs.version }}` to publish all packages.
+          branch: version-bump-${{ steps.new.outputs.version }}
+          delete-branch: true
+          labels: |
+            version
+            automated

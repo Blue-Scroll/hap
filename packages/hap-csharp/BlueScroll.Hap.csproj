@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <Version>0.1.0</Version>
+    <Authors>BlueScroll Inc.</Authors>
+    <Company>BlueScroll</Company>
+    <Description>Official HAP (Human Application Protocol) SDK for .NET</Description>
+    <Copyright>Copyright (c) BlueScroll Inc.</Copyright>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/BlueScroll/hap</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/BlueScroll/hap.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>hap;human-application-protocol;verification;job-applications;ed25519;jws</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="7.2.0" />
+    <PackageReference Include="NSec.Cryptography" Version="24.4.0" />
+    <PackageReference Include="System.Text.Json" Version="8.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+</Project>
