@@ -249,7 +249,7 @@ jobs:
             **Java (Maven):**
             ```xml
             <dependency>
-                <groupId>com.bluescroll</groupId>
+                <groupId>io.bluescroll</groupId>
                 <artifactId>hap</artifactId>
                 <version>${{ needs.validate.outputs.version }}</version>
             </dependency>

@@ -56,6 +56,48 @@ If the answer is no, or "maybe for enterprise features," reconsider.
 3. Include tests
 4. Update the README if adding new functionality
 
+## Releasing (Maintainers)
+
+### Version Bump
+
+**Option A: Automated (Recommended)**
+
+1. Go to **Actions** → **Version Bump** workflow
+2. Click "Run workflow"
+3. Select bump type: `patch`, `minor`, or `major`
+4. This creates a PR with version changes across all SDKs
+5. Review and merge the PR
+
+**Option B: Manual**
+
+```bash
+./scripts/sync-versions.sh 0.2.0
+git add .
+git commit -m "chore: bump version to 0.2.0"
+git push
+```
+
+### Publishing a Release
+
+1. Go to **Actions** → **Release** workflow
+2. Click "Run workflow"
+3. Enter the version number (e.g., `0.2.0`)
+4. The workflow will:
+   - Sync versions across all SDK packages
+   - Commit and create a git tag (`v0.2.0`)
+   - Publish to all package registries (npm, PyPI, Maven Central, RubyGems, Packagist, NuGet)
+   - Create a GitHub Release
+
+**Required Secrets** (configured in repo settings):
+
+- `NPM_ACCESS_TOKEN` - npm publishing
+- `PYPI_API_KEY` - PyPI publishing
+- `MAVEN_CENTRAL_USERNAME` / `MAVEN_CENTRAL_PASSWORD` - Maven Central
+- `GPG_PRIVATE_KEY` / `GPG_PASSPHRASE` - Maven artifact signing
+- `RUBYGEMS_API_KEY` - RubyGems publishing
+- `PACKAGIST_API_TOKEN` - Packagist webhook
+- `NUGET_API_KEY` - NuGet publishing
+
 ### For New Verification Authorities
 
 See [docs/for-vas.md](./docs/for-vas.md) for requirements. To be listed in the official directory:
