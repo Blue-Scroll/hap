@@ -137,32 +137,32 @@ var jws = HapSigner.SignClaim(claim, privateKey, "my_key_001");
 
 ### HapVerifier Class
 
-| Method | Description |
-|--------|-------------|
-| `VerifyHapClaimAsync(hapId, issuer)` | Fetch and verify a claim, returns claim or null |
-| `FetchClaimAsync(hapId, issuer)` | Fetch raw verification response from VA |
-| `VerifySignatureAsync(jws, issuer)` | Verify JWS signature against VA's public keys |
-| `FetchPublicKeysAsync(issuer)` | Fetch VA's public keys from well-known endpoint |
-| `ExtractHapIdFromUrl(url)` | Extract HAP ID from verification URL (static) |
-| `IsClaimExpired(claim)` | Check if claim has passed expiration (static) |
-| `IsClaimForCompany(claim, domain)` | Check if claim targets specific company (static) |
+| Method                               | Description                                      |
+| ------------------------------------ | ------------------------------------------------ |
+| `VerifyHapClaimAsync(hapId, issuer)` | Fetch and verify a claim, returns claim or null  |
+| `FetchClaimAsync(hapId, issuer)`     | Fetch raw verification response from VA          |
+| `VerifySignatureAsync(jws, issuer)`  | Verify JWS signature against VA's public keys    |
+| `FetchPublicKeysAsync(issuer)`       | Fetch VA's public keys from well-known endpoint  |
+| `ExtractHapIdFromUrl(url)`           | Extract HAP ID from verification URL (static)    |
+| `IsClaimExpired(claim)`              | Check if claim has passed expiration (static)    |
+| `IsClaimForCompany(claim, domain)`   | Check if claim targets specific company (static) |
 
 ### Hap Class (Static Utilities)
 
-| Method | Description |
-|--------|-------------|
-| `Hap.IsValidHapId(id)` | Check if string matches HAP ID format |
-| `Hap.GenerateHapId()` | Generate cryptographically secure HAP ID |
+| Method                 | Description                              |
+| ---------------------- | ---------------------------------------- |
+| `Hap.IsValidHapId(id)` | Check if string matches HAP ID format    |
+| `Hap.GenerateHapId()`  | Generate cryptographically secure HAP ID |
 
 ### HapSigner Class
 
-| Method | Description |
-|--------|-------------|
-| `GenerateKeyPair()` | Generate Ed25519 key pair |
-| `ExportPublicKeyJwk(key, kid)` | Export public key as JWK |
-| `SignClaim(claim, privateKey, kid)` | Sign a claim, returns JWS |
-| `CreateHumanEffortClaim(...)` | Create human_effort claim with defaults |
-| `CreateEmployerCommitmentClaim(...)` | Create employer_commitment claim |
+| Method                               | Description                             |
+| ------------------------------------ | --------------------------------------- |
+| `GenerateKeyPair()`                  | Generate Ed25519 key pair               |
+| `ExportPublicKeyJwk(key, kid)`       | Export public key as JWK                |
+| `SignClaim(claim, privateKey, kid)`  | Sign a claim, returns JWS               |
+| `CreateHumanEffortClaim(...)`        | Create human_effort claim with defaults |
+| `CreateEmployerCommitmentClaim(...)` | Create employer_commitment claim        |
 
 ### Constants
 

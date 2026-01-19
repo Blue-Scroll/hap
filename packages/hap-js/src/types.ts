@@ -19,7 +19,9 @@ export type CoreVerificationMethod =
 export type CustomVerificationMethod = `x-${string}`;
 
 /** All verification methods */
-export type VerificationMethod = CoreVerificationMethod | CustomVerificationMethod;
+export type VerificationMethod =
+  | CoreVerificationMethod
+  | CustomVerificationMethod;
 
 /** Claim types */
 export type ClaimType = "human_effort" | "employer_commitment";

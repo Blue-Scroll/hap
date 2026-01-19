@@ -30,7 +30,7 @@ export function isValidHapId(id: string): boolean {
  */
 export async function fetchPublicKeys(
   issuerDomain: string,
-  options: VerifyOptions = {}
+  options: VerifyOptions = {},
 ): Promise<HapWellKnown> {
   const fetchFn = options.fetch ?? fetch;
   const timeout = options.timeout ?? 10000;
@@ -67,7 +67,7 @@ export async function fetchPublicKeys(
 export async function fetchClaim(
   hapId: string,
   issuerDomain: string,
-  options: VerifyOptions = {}
+  options: VerifyOptions = {},
 ): Promise<VerificationResponse> {
   if (!isValidHapId(hapId)) {
     return { valid: false, error: "invalid_format" };
@@ -104,7 +104,7 @@ export async function fetchClaim(
 export async function verifySignature(
   jws: string,
   issuerDomain: string,
-  options: VerifyOptions = {}
+  options: VerifyOptions = {},
 ): Promise<SignatureVerificationResult> {
   try {
     // Fetch public keys from the VA
@@ -158,7 +158,7 @@ export async function verifySignature(
 export async function verifyHapClaim(
   hapId: string,
   issuerDomain: string,
-  options: VerifyOptions & { verifySignature?: boolean } = {}
+  options: VerifyOptions & { verifySignature?: boolean } = {},
 ): Promise<HapClaim | null> {
   // Fetch the claim from the VA
   const response = await fetchClaim(hapId, issuerDomain, options);
@@ -170,7 +170,11 @@ export async function verifyHapClaim(
 
   // Optionally verify the signature (recommended for high-security use cases)
   if (options.verifySignature !== false && "jws" in response) {
-    const sigResult = await verifySignature(response.jws, issuerDomain, options);
+    const sigResult = await verifySignature(
+      response.jws,
+      issuerDomain,
+      options,
+    );
     if (!sigResult.valid) {
       return null;
     }
@@ -222,7 +226,7 @@ export function isClaimExpired(claim: HapClaim): boolean {
  */
 export function isClaimForCompany(
   claim: HapClaim,
-  companyDomain: string
+  companyDomain: string,
 ): boolean {
   if (claim.type === "human_effort") {
     return claim.to.domain === companyDomain;

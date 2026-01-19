@@ -125,27 +125,27 @@ jws = sign_claim(claim, private_key, kid="my_key_001")
 
 ### Verification Functions
 
-| Function | Description |
-|----------|-------------|
-| `verify_hap_claim(hap_id, issuer)` | Fetch and verify a claim, returns claim or None |
-| `fetch_claim(hap_id, issuer)` | Fetch raw verification response from VA |
-| `verify_signature(jws, issuer)` | Verify JWS signature against VA's public keys |
-| `fetch_public_keys(issuer)` | Fetch VA's public keys from well-known endpoint |
-| `is_valid_hap_id(id)` | Check if string matches HAP ID format |
-| `extract_hap_id_from_url(url)` | Extract HAP ID from verification URL |
-| `is_claim_expired(claim)` | Check if claim has passed expiration |
-| `is_claim_for_company(claim, domain)` | Check if claim targets specific company |
+| Function                              | Description                                     |
+| ------------------------------------- | ----------------------------------------------- |
+| `verify_hap_claim(hap_id, issuer)`    | Fetch and verify a claim, returns claim or None |
+| `fetch_claim(hap_id, issuer)`         | Fetch raw verification response from VA         |
+| `verify_signature(jws, issuer)`       | Verify JWS signature against VA's public keys   |
+| `fetch_public_keys(issuer)`           | Fetch VA's public keys from well-known endpoint |
+| `is_valid_hap_id(id)`                 | Check if string matches HAP ID format           |
+| `extract_hap_id_from_url(url)`        | Extract HAP ID from verification URL            |
+| `is_claim_expired(claim)`             | Check if claim has passed expiration            |
+| `is_claim_for_company(claim, domain)` | Check if claim targets specific company         |
 
 ### Signing Functions (For VAs)
 
-| Function | Description |
-|----------|-------------|
-| `generate_key_pair()` | Generate Ed25519 key pair |
-| `export_public_key_jwk(key, kid)` | Export public key as JWK |
-| `sign_claim(claim, private_key, kid)` | Sign a claim, returns JWS |
-| `generate_hap_id()` | Generate cryptographically secure HAP ID |
-| `create_human_effort_claim(...)` | Create human_effort claim with defaults |
-| `create_employer_commitment_claim(...)` | Create employer_commitment claim |
+| Function                                | Description                              |
+| --------------------------------------- | ---------------------------------------- |
+| `generate_key_pair()`                   | Generate Ed25519 key pair                |
+| `export_public_key_jwk(key, kid)`       | Export public key as JWK                 |
+| `sign_claim(claim, private_key, kid)`   | Sign a claim, returns JWS                |
+| `generate_hap_id()`                     | Generate cryptographically secure HAP ID |
+| `create_human_effort_claim(...)`        | Create human_effort claim with defaults  |
+| `create_employer_commitment_claim(...)` | Create employer_commitment claim         |
 
 ### Types
 

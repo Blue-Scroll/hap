@@ -90,11 +90,11 @@ The `employer_commitment` type allows VAs to certify that an employer has commit
 }
 ```
 
-| Commitment Level     | Description                                     |
-| -------------------- | ----------------------------------------------- |
-| `review_verified`    | Will review all HAP-verified applications       |
-| `prioritize_verified`| HAP applications receive priority review        |
-| `respond_verified`   | Commits to responding to HAP applications       |
+| Commitment Level      | Description                               |
+| --------------------- | ----------------------------------------- |
+| `review_verified`     | Will review all HAP-verified applications |
+| `prioritize_verified` | HAP applications receive priority review  |
+| `respond_verified`    | Commits to responding to HAP applications |
 
 VAs MAY define additional commitment levels with an `x-` prefix.
 
@@ -102,22 +102,22 @@ VAs MAY define additional commitment levels with an `x-` prefix.
 
 #### Core Methods
 
-| Method            | Description                                   |
-| ----------------- | --------------------------------------------- |
-| `physical_mail`   | Application sent via physical mail            |
-| `video_interview` | Live video interview with a human             |
-| `paid_assessment` | Completed a paid skills assessment            |
-| `referral`        | Referred by a verified professional           |
+| Method            | Description                         |
+| ----------------- | ----------------------------------- |
+| `physical_mail`   | Application sent via physical mail  |
+| `video_interview` | Live video interview with a human   |
+| `paid_assessment` | Completed a paid skills assessment  |
+| `referral`        | Referred by a verified professional |
 
 #### Custom Methods
 
 VAs MAY define custom verification methods using an `x-` prefix:
 
-| Example              | Description                     |
-| -------------------- | ------------------------------- |
-| `x-live-coding`      | Live coding assessment          |
-| `x-portfolio-review` | Manual portfolio review         |
-| `x-in-person`        | In-person verification          |
+| Example              | Description             |
+| -------------------- | ----------------------- |
+| `x-live-coding`      | Live coding assessment  |
+| `x-portfolio-review` | Manual portfolio review |
+| `x-in-person`        | In-person verification  |
 
 Custom methods that gain adoption MAY be promoted to core methods in future spec versions.
 
@@ -215,11 +215,11 @@ Returns the verification claim with its signature.
 
 #### HTTP Status Codes
 
-| Status | Condition                  |
-| ------ | -------------------------- |
+| Status | Condition                      |
+| ------ | ------------------------------ |
 | 200    | Claim found (valid or revoked) |
-| 400    | Invalid HAP ID format      |
-| 404    | Claim not found            |
+| 400    | Invalid HAP ID format          |
+| 404    | Claim not found                |
 
 #### Response (valid claim)
 
@@ -278,10 +278,10 @@ Returns the verification claim with its signature.
 
 #### Error Codes
 
-| Error            | HTTP Status | Description                |
-| ---------------- | ----------- | -------------------------- |
-| `not_found`      | 404         | HAP ID does not exist      |
-| `invalid_format` | 400         | HAP ID format is invalid   |
+| Error            | HTTP Status | Description              |
+| ---------------- | ----------- | ------------------------ |
+| `not_found`      | 404         | HAP ID does not exist    |
+| `invalid_format` | 400         | HAP ID format is invalid |
 
 ### 5.3 Human-Readable Verification Page
 
@@ -371,12 +371,12 @@ The 12-character suffix should be generated using a cryptographically secure ran
 
 VAs MAY revoke claims under specific circumstances:
 
-| Reason         | When to Use                                    |
-| -------------- | ---------------------------------------------- |
-| `fraud`        | Claim was issued based on fraudulent activity  |
-| `error`        | Claim contains incorrect information           |
-| `legal`        | Legal requirement (court order, etc.)          |
-| `user_request` | Applicant requests removal (GDPR, etc.)        |
+| Reason         | When to Use                                   |
+| -------------- | --------------------------------------------- |
+| `fraud`        | Claim was issued based on fraudulent activity |
+| `error`        | Claim contains incorrect information          |
+| `legal`        | Legal requirement (court order, etc.)         |
+| `user_request` | Applicant requests removal (GDPR, etc.)       |
 
 Revocation requirements:
 

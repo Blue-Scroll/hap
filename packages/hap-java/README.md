@@ -135,27 +135,27 @@ String jws = HapSigner.signClaim(claim, keyPair.getPrivate(), "my_key_001");
 
 ### Verification Functions (Hap class)
 
-| Method | Description |
-|--------|-------------|
-| `verifyHapClaim(hapId, issuer)` | Fetch and verify a claim, returns claim or null |
-| `fetchClaim(hapId, issuer)` | Fetch raw verification response from VA |
-| `verifySignature(jws, issuer)` | Verify JWS signature against VA's public keys |
-| `fetchPublicKeys(issuer)` | Fetch VA's public keys from well-known endpoint |
-| `isValidHapId(id)` | Check if string matches HAP ID format |
-| `extractHapIdFromUrl(url)` | Extract HAP ID from verification URL |
-| `isClaimExpired(claim)` | Check if claim has passed expiration |
-| `isClaimForCompany(claim, domain)` | Check if claim targets specific company |
-| `generateHapId()` | Generate cryptographically secure HAP ID |
+| Method                             | Description                                     |
+| ---------------------------------- | ----------------------------------------------- |
+| `verifyHapClaim(hapId, issuer)`    | Fetch and verify a claim, returns claim or null |
+| `fetchClaim(hapId, issuer)`        | Fetch raw verification response from VA         |
+| `verifySignature(jws, issuer)`     | Verify JWS signature against VA's public keys   |
+| `fetchPublicKeys(issuer)`          | Fetch VA's public keys from well-known endpoint |
+| `isValidHapId(id)`                 | Check if string matches HAP ID format           |
+| `extractHapIdFromUrl(url)`         | Extract HAP ID from verification URL            |
+| `isClaimExpired(claim)`            | Check if claim has passed expiration            |
+| `isClaimForCompany(claim, domain)` | Check if claim targets specific company         |
+| `generateHapId()`                  | Generate cryptographically secure HAP ID        |
 
 ### Signing Functions (HapSigner class)
 
-| Method | Description |
-|--------|-------------|
-| `generateKeyPair()` | Generate Ed25519 key pair |
-| `exportPublicKeyJwk(key, kid)` | Export public key as JWK |
-| `signClaim(claim, privateKey, kid)` | Sign a claim, returns JWS |
-| `createHumanEffortClaim(...)` | Create human_effort claim with defaults |
-| `createEmployerCommitmentClaim(...)` | Create employer_commitment claim |
+| Method                               | Description                             |
+| ------------------------------------ | --------------------------------------- |
+| `generateKeyPair()`                  | Generate Ed25519 key pair               |
+| `exportPublicKeyJwk(key, kid)`       | Export public key as JWK                |
+| `signClaim(claim, privateKey, kid)`  | Sign a claim, returns JWS               |
+| `createHumanEffortClaim(...)`        | Create human_effort claim with defaults |
+| `createEmployerCommitmentClaim(...)` | Create employer_commitment claim        |
 
 ### Types
 

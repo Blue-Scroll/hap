@@ -26,7 +26,7 @@ Job seekers submit into black holes. They're reduced to keywords. They wonder if
 
 1. **Process proves intent.** We can't detect AI, but we can verify that someone took deliberate, costly action.
 
-2. **Observable actions over content analysis.** We don't verify *what* was written. We verify *that someone went through a process*.
+2. **Observable actions over content analysis.** We don't verify _what_ was written. We verify _that someone went through a process_.
 
 3. **Both sides need trust.** Applicants need to know they'll be seen. Employers need to know who's real.
 
@@ -108,4 +108,4 @@ That signal has value.
 
 ---
 
-*Built for people who refuse to be ignored.*
+_Built for people who refuse to be ignored._

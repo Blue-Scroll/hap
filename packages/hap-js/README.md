@@ -15,7 +15,11 @@ npm install @bluescroll/hap
 ### Verifying a Claim (For Employers)
 
 ```typescript
-import { verifyHapClaim, isClaimExpired, isClaimForCompany } from "@bluescroll/hap";
+import {
+  verifyHapClaim,
+  isClaimExpired,
+  isClaimForCompany,
+} from "@bluescroll/hap";
 
 // Verify a claim from a HAP ID
 const claim = await verifyHapClaim("hap_abc123xyz456", "ballista.io");
@@ -123,27 +127,27 @@ const jws = await signClaim(claim, privateKey, { kid: "my_key_001" });
 
 ### Verification Functions
 
-| Function | Description |
-|----------|-------------|
-| `verifyHapClaim(hapId, issuer)` | Fetch and verify a claim, returns claim or null |
-| `fetchClaim(hapId, issuer)` | Fetch raw verification response from VA |
-| `verifySignature(jws, issuer)` | Verify JWS signature against VA's public keys |
-| `fetchPublicKeys(issuer)` | Fetch VA's public keys from well-known endpoint |
-| `isValidHapId(id)` | Check if string matches HAP ID format |
-| `extractHapIdFromUrl(url)` | Extract HAP ID from verification URL |
-| `isClaimExpired(claim)` | Check if claim has passed expiration |
-| `isClaimForCompany(claim, domain)` | Check if claim targets specific company |
+| Function                           | Description                                     |
+| ---------------------------------- | ----------------------------------------------- |
+| `verifyHapClaim(hapId, issuer)`    | Fetch and verify a claim, returns claim or null |
+| `fetchClaim(hapId, issuer)`        | Fetch raw verification response from VA         |
+| `verifySignature(jws, issuer)`     | Verify JWS signature against VA's public keys   |
+| `fetchPublicKeys(issuer)`          | Fetch VA's public keys from well-known endpoint |
+| `isValidHapId(id)`                 | Check if string matches HAP ID format           |
+| `extractHapIdFromUrl(url)`         | Extract HAP ID from verification URL            |
+| `isClaimExpired(claim)`            | Check if claim has passed expiration            |
+| `isClaimForCompany(claim, domain)` | Check if claim targets specific company         |
 
 ### Signing Functions (For VAs)
 
-| Function | Description |
-|----------|-------------|
-| `generateKeyPair()` | Generate Ed25519 key pair |
-| `exportPublicKeyJwk(key, kid)` | Export public key as JWK |
-| `signClaim(claim, privateKey, options)` | Sign a claim, returns JWS |
-| `generateHapId()` | Generate cryptographically secure HAP ID |
-| `createHumanEffortClaim(params)` | Create human_effort claim with defaults |
-| `createEmployerCommitmentClaim(params)` | Create employer_commitment claim |
+| Function                                | Description                              |
+| --------------------------------------- | ---------------------------------------- |
+| `generateKeyPair()`                     | Generate Ed25519 key pair                |
+| `exportPublicKeyJwk(key, kid)`          | Export public key as JWK                 |
+| `signClaim(claim, privateKey, options)` | Sign a claim, returns JWS                |
+| `generateHapId()`                       | Generate cryptographically secure HAP ID |
+| `createHumanEffortClaim(params)`        | Create human_effort claim with defaults  |
+| `createEmployerCommitmentClaim(params)` | Create employer_commitment claim         |
 
 ### Types
 

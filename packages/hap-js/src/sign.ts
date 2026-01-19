@@ -6,7 +6,8 @@ import * as jose from "jose";
 import { HAP_VERSION, HapClaim, SignOptions } from "./types";
 
 /** Characters used for HAP ID generation */
-const HAP_ID_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+const HAP_ID_CHARS =
+  "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
 /**
  * Generates a cryptographically secure random HAP ID
@@ -46,7 +47,7 @@ export async function generateKeyPair(): Promise<{
  */
 export async function exportPublicKeyJwk(
   publicKey: CryptoKey,
-  kid: string
+  kid: string,
 ): Promise<jose.JWK> {
   const jwk = await jose.exportJWK(publicKey);
   return {
@@ -67,7 +68,7 @@ export async function exportPublicKeyJwk(
 export async function signClaim(
   claim: HapClaim,
   privateKey: CryptoKey,
-  options: SignOptions
+  options: SignOptions,
 ): Promise<string> {
   // Ensure version is set
   const claimWithVersion = {
@@ -76,7 +77,7 @@ export async function signClaim(
   };
 
   const jws = await new jose.CompactSign(
-    new TextEncoder().encode(JSON.stringify(claimWithVersion))
+    new TextEncoder().encode(JSON.stringify(claimWithVersion)),
   )
     .setProtectedHeader({
       alg: "EdDSA",
@@ -148,7 +149,9 @@ export function createEmployerCommitmentClaim(params: {
       name: params.employerName,
       ...(params.employerDomain && { domain: params.employerDomain }),
     },
-    commitment: params.commitment as HapClaim extends { commitment: infer C } ? C : never,
+    commitment: params.commitment as HapClaim extends { commitment: infer C }
+      ? C
+      : never,
     at: now.toISOString(),
     iss: params.issuer,
   };

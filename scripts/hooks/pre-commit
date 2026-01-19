@@ -1,0 +1,10 @@
+#!/bin/sh
+# Run prettier on the codebase before committing
+
+echo "Running prettier..."
+npx prettier --write .
+
+# Add any files that were modified by prettier
+git add -u
+
+echo "Prettier complete."

@@ -192,8 +192,8 @@ See individual SDK READMEs in [`packages/`](./packages/) for complete documentat
 
 ## Verification Authorities
 
-| VA       | Method        | Website                              |
-| -------- | ------------- | ------------------------------------ |
+| VA       | Method        | Website                            |
+| -------- | ------------- | ---------------------------------- |
 | Ballista | Physical mail | [ballista.io](https://ballista.io) |
 
 Want to become a VA? See [docs/for-vas.md](./docs/for-vas.md).

@@ -122,27 +122,27 @@ jws = Hap.sign_claim(claim, private_key, kid: "my_key_001")
 
 ### Verification Functions
 
-| Method | Description |
-|--------|-------------|
-| `Hap.verify_hap_claim(hap_id, issuer)` | Fetch and verify a claim, returns claim or nil |
-| `Hap.fetch_claim(hap_id, issuer)` | Fetch raw verification response from VA |
-| `Hap.verify_signature(jws, issuer)` | Verify JWS signature against VA's public keys |
-| `Hap.fetch_public_keys(issuer)` | Fetch VA's public keys from well-known endpoint |
-| `Hap.valid_hap_id?(id)` | Check if string matches HAP ID format |
-| `Hap.extract_hap_id_from_url(url)` | Extract HAP ID from verification URL |
-| `Hap.claim_expired?(claim)` | Check if claim has passed expiration |
-| `Hap.claim_for_company?(claim, domain)` | Check if claim targets specific company |
+| Method                                  | Description                                     |
+| --------------------------------------- | ----------------------------------------------- |
+| `Hap.verify_hap_claim(hap_id, issuer)`  | Fetch and verify a claim, returns claim or nil  |
+| `Hap.fetch_claim(hap_id, issuer)`       | Fetch raw verification response from VA         |
+| `Hap.verify_signature(jws, issuer)`     | Verify JWS signature against VA's public keys   |
+| `Hap.fetch_public_keys(issuer)`         | Fetch VA's public keys from well-known endpoint |
+| `Hap.valid_hap_id?(id)`                 | Check if string matches HAP ID format           |
+| `Hap.extract_hap_id_from_url(url)`      | Extract HAP ID from verification URL            |
+| `Hap.claim_expired?(claim)`             | Check if claim has passed expiration            |
+| `Hap.claim_for_company?(claim, domain)` | Check if claim targets specific company         |
 
 ### Signing Functions (For VAs)
 
-| Method | Description |
-|--------|-------------|
-| `Hap.generate_key_pair` | Generate Ed25519 key pair |
-| `Hap.export_public_key_jwk(key, kid)` | Export public key as JWK |
-| `Hap.sign_claim(claim, private_key, kid:)` | Sign a claim, returns JWS |
-| `Hap.generate_hap_id` | Generate cryptographically secure HAP ID |
-| `Hap.create_human_effort_claim(...)` | Create human_effort claim with defaults |
-| `Hap.create_employer_commitment_claim(...)` | Create employer_commitment claim |
+| Method                                      | Description                              |
+| ------------------------------------------- | ---------------------------------------- |
+| `Hap.generate_key_pair`                     | Generate Ed25519 key pair                |
+| `Hap.export_public_key_jwk(key, kid)`       | Export public key as JWK                 |
+| `Hap.sign_claim(claim, private_key, kid:)`  | Sign a claim, returns JWS                |
+| `Hap.generate_hap_id`                       | Generate cryptographically secure HAP ID |
+| `Hap.create_human_effort_claim(...)`        | Create human_effort claim with defaults  |
+| `Hap.create_employer_commitment_claim(...)` | Create employer_commitment claim         |
 
 ### Constants
 

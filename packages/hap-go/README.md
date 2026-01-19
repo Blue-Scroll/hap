@@ -160,27 +160,27 @@ jws, err := hap.SignClaim(claim, privateKey, "my_key_001")
 
 ### Verification Functions
 
-| Function | Description |
-|----------|-------------|
-| `VerifyHapClaim(ctx, hapID, issuer)` | Fetch and verify a claim, returns claim or nil |
-| `FetchClaim(ctx, hapID, issuer, opts)` | Fetch raw verification response from VA |
-| `VerifySignature(ctx, jws, issuer, opts)` | Verify JWS signature against VA's public keys |
-| `FetchPublicKeys(ctx, issuer, opts)` | Fetch VA's public keys from well-known endpoint |
-| `IsValidHapID(id)` | Check if string matches HAP ID format |
-| `ExtractHapIDFromURL(url)` | Extract HAP ID from verification URL |
-| `IsClaimExpired(claim)` | Check if claim has passed expiration |
-| `IsClaimForCompany(claim, domain)` | Check if claim targets specific company |
+| Function                                  | Description                                     |
+| ----------------------------------------- | ----------------------------------------------- |
+| `VerifyHapClaim(ctx, hapID, issuer)`      | Fetch and verify a claim, returns claim or nil  |
+| `FetchClaim(ctx, hapID, issuer, opts)`    | Fetch raw verification response from VA         |
+| `VerifySignature(ctx, jws, issuer, opts)` | Verify JWS signature against VA's public keys   |
+| `FetchPublicKeys(ctx, issuer, opts)`      | Fetch VA's public keys from well-known endpoint |
+| `IsValidHapID(id)`                        | Check if string matches HAP ID format           |
+| `ExtractHapIDFromURL(url)`                | Extract HAP ID from verification URL            |
+| `IsClaimExpired(claim)`                   | Check if claim has passed expiration            |
+| `IsClaimForCompany(claim, domain)`        | Check if claim targets specific company         |
 
 ### Signing Functions (For VAs)
 
-| Function | Description |
-|----------|-------------|
-| `GenerateKeyPair()` | Generate Ed25519 key pair |
-| `ExportPublicKeyJWK(key, kid)` | Export public key as JWK |
-| `SignClaim(claim, privateKey, kid)` | Sign a claim, returns JWS |
-| `GenerateHapID()` | Generate cryptographically secure HAP ID |
-| `CreateHumanEffortClaim(params)` | Create human_effort claim with defaults |
-| `CreateEmployerCommitmentClaim(params)` | Create employer_commitment claim |
+| Function                                | Description                              |
+| --------------------------------------- | ---------------------------------------- |
+| `GenerateKeyPair()`                     | Generate Ed25519 key pair                |
+| `ExportPublicKeyJWK(key, kid)`          | Export public key as JWK                 |
+| `SignClaim(claim, privateKey, kid)`     | Sign a claim, returns JWS                |
+| `GenerateHapID()`                       | Generate cryptographically secure HAP ID |
+| `CreateHumanEffortClaim(params)`        | Create human_effort claim with defaults  |
+| `CreateEmployerCommitmentClaim(params)` | Create employer_commitment claim         |
 
 ### Types
 

@@ -139,32 +139,32 @@ $jws = Sign::signClaim($claim, $privateKey, 'my_key_001');
 
 ### Hap Class (Static Utilities)
 
-| Method | Description |
-|--------|-------------|
-| `Hap::isValidHapId($id)` | Check if string matches HAP ID format |
-| `Hap::generateHapId()` | Generate cryptographically secure HAP ID |
+| Method                   | Description                              |
+| ------------------------ | ---------------------------------------- |
+| `Hap::isValidHapId($id)` | Check if string matches HAP ID format    |
+| `Hap::generateHapId()`   | Generate cryptographically secure HAP ID |
 
 ### Verify Class
 
-| Method | Description |
-|--------|-------------|
-| `verifyHapClaim($hapId, $issuer)` | Fetch and verify a claim, returns claim or null |
-| `fetchClaim($hapId, $issuer)` | Fetch raw verification response from VA |
-| `verifySignature($jws, $issuer)` | Verify JWS signature against VA's public keys |
-| `fetchPublicKeys($issuer)` | Fetch VA's public keys from well-known endpoint |
-| `Verify::extractHapIdFromUrl($url)` | Extract HAP ID from verification URL |
-| `Verify::isClaimExpired($claim)` | Check if claim has passed expiration |
-| `Verify::isClaimForCompany($claim, $domain)` | Check if claim targets specific company |
+| Method                                       | Description                                     |
+| -------------------------------------------- | ----------------------------------------------- |
+| `verifyHapClaim($hapId, $issuer)`            | Fetch and verify a claim, returns claim or null |
+| `fetchClaim($hapId, $issuer)`                | Fetch raw verification response from VA         |
+| `verifySignature($jws, $issuer)`             | Verify JWS signature against VA's public keys   |
+| `fetchPublicKeys($issuer)`                   | Fetch VA's public keys from well-known endpoint |
+| `Verify::extractHapIdFromUrl($url)`          | Extract HAP ID from verification URL            |
+| `Verify::isClaimExpired($claim)`             | Check if claim has passed expiration            |
+| `Verify::isClaimForCompany($claim, $domain)` | Check if claim targets specific company         |
 
 ### Sign Class
 
-| Method | Description |
-|--------|-------------|
-| `Sign::generateKeyPair()` | Generate Ed25519 key pair |
-| `Sign::exportPublicKeyJwk($key, $kid)` | Export public key as JWK |
-| `Sign::signClaim($claim, $privateKey, $kid)` | Sign a claim, returns JWS |
-| `Sign::createHumanEffortClaim(...)` | Create human_effort claim with defaults |
-| `Sign::createEmployerCommitmentClaim(...)` | Create employer_commitment claim |
+| Method                                       | Description                             |
+| -------------------------------------------- | --------------------------------------- |
+| `Sign::generateKeyPair()`                    | Generate Ed25519 key pair               |
+| `Sign::exportPublicKeyJwk($key, $kid)`       | Export public key as JWK                |
+| `Sign::signClaim($claim, $privateKey, $kid)` | Sign a claim, returns JWS               |
+| `Sign::createHumanEffortClaim(...)`          | Create human_effort claim with defaults |
+| `Sign::createEmployerCommitmentClaim(...)`   | Create employer_commitment claim        |
 
 ### Constants
 
