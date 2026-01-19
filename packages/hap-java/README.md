@@ -89,16 +89,16 @@ if (response.isValid() && response.getJws() != null) {
 
 ```java
 import io.bluescroll.hap.*;
-import java.security.KeyPair;
+import com.nimbusds.jose.jwk.OctetKeyPair;
 import java.util.Map;
 
 public class SignExample {
     public static void main(String[] args) throws Exception {
         // Generate a key pair (do this once, store securely)
-        KeyPair keyPair = HapSigner.generateKeyPair();
+        OctetKeyPair keyPair = HapSigner.generateKeyPair();
 
         // Export public key for /.well-known/hap.json
-        Map<String, String> jwk = HapSigner.exportPublicKeyJwk(keyPair.getPublic(), "my_key_001");
+        Map<String, String> jwk = HapSigner.exportPublicKeyJwk(keyPair, "my_key_001");
         System.out.println("JWK: " + jwk);
 
         // Create and sign a claim
@@ -111,7 +111,7 @@ public class SignExample {
                 730                // expires in 2 years
         );
 
-        String jws = HapSigner.signClaim(claim, keyPair.getPrivate(), "my_key_001");
+        String jws = HapSigner.signClaim(claim, keyPair, "my_key_001");
         System.out.println("Signed JWS: " + jws);
     }
 }
@@ -128,7 +128,7 @@ EmployerCommitmentClaim claim = HapSigner.createEmployerCommitmentClaim(
         365                  // expires in 1 year
 );
 
-String jws = HapSigner.signClaim(claim, keyPair.getPrivate(), "my_key_001");
+String jws = HapSigner.signClaim(claim, keyPair, "my_key_001");
 ```
 
 ## API Reference
@@ -149,13 +149,13 @@ String jws = HapSigner.signClaim(claim, keyPair.getPrivate(), "my_key_001");
 
 ### Signing Functions (HapSigner class)
 
-| Method                               | Description                             |
-| ------------------------------------ | --------------------------------------- |
-| `generateKeyPair()`                  | Generate Ed25519 key pair               |
-| `exportPublicKeyJwk(key, kid)`       | Export public key as JWK                |
-| `signClaim(claim, privateKey, kid)`  | Sign a claim, returns JWS               |
-| `createHumanEffortClaim(...)`        | Create human_effort claim with defaults |
-| `createEmployerCommitmentClaim(...)` | Create employer_commitment claim        |
+| Method                               | Description                              |
+| ------------------------------------ | ---------------------------------------- |
+| `generateKeyPair()`                  | Generate Ed25519 key pair (OctetKeyPair) |
+| `exportPublicKeyJwk(keyPair, kid)`   | Export public key as JWK                 |
+| `signClaim(claim, keyPair, kid)`     | Sign a claim, returns JWS                |
+| `createHumanEffortClaim(...)`        | Create human_effort claim with defaults  |
+| `createEmployerCommitmentClaim(...)` | Create employer_commitment claim         |
 
 ### Types
 

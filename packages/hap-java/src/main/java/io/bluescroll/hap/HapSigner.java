@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.*;
 import com.nimbusds.jose.jwk.*;
+import com.nimbusds.jose.jwk.gen.OctetKeyPairGenerator;
 
-import java.security.*;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
@@ -15,10 +15,10 @@ import java.util.*;
  *
  * <p>Example:
  * <pre>{@code
- * KeyPair keyPair = HapSigner.generateKeyPair();
+ * OctetKeyPair keyPair = HapSigner.generateKeyPair();
  * HumanEffortClaim claim = HapSigner.createHumanEffortClaim(
  *     "physical_mail", "Acme Corp", "acme.com", "standard", "my-va.com", 730);
- * String jws = HapSigner.signClaim(claim, keyPair.getPrivate(), "my_key_001");
+ * String jws = HapSigner.signClaim(claim, keyPair, "my_key_001");
  * }</pre>
  */
 public class HapSigner {
@@ -29,47 +29,44 @@ public class HapSigner {
     /**
      * Generates a new Ed25519 key pair for signing HAP claims.
      *
-     * @return A KeyPair containing the private and public keys
-     * @throws NoSuchAlgorithmException if Ed25519 is not available
+     * @return An OctetKeyPair containing the private and public keys
+     * @throws JOSEException if key generation fails
      */
-    public static KeyPair generateKeyPair() throws NoSuchAlgorithmException {
-        KeyPairGenerator keyGen = KeyPairGenerator.getInstance("Ed25519");
-        return keyGen.generateKeyPair();
+    public static OctetKeyPair generateKeyPair() throws JOSEException {
+        return new OctetKeyPairGenerator(Curve.Ed25519).generate();
     }
 
     /**
      * Exports a public key to JWK format suitable for /.well-known/hap.json.
      *
-     * @param publicKey The public key to export
+     * @param keyPair The key pair to export the public key from
      * @param kid The key ID to assign
      * @return A map representing the JWK
      */
-    public static Map<String, String> exportPublicKeyJwk(PublicKey publicKey, String kid) {
-        OctetKeyPair okp = OctetKeyPair.parse(publicKey, null).toPublicJWK();
+    public static Map<String, String> exportPublicKeyJwk(OctetKeyPair keyPair, String kid) {
+        OctetKeyPair publicKey = keyPair.toPublicJWK();
 
         Map<String, String> jwk = new LinkedHashMap<>();
         jwk.put("kid", kid);
         jwk.put("kty", "OKP");
         jwk.put("crv", "Ed25519");
-        jwk.put("x", okp.getX().toString());
+        jwk.put("x", publicKey.getX().toString());
         return jwk;
     }
 
     /**
-     * Signs a HAP claim with an Ed25519 private key.
+     * Signs a HAP claim with an Ed25519 key pair.
      *
      * @param claim The claim to sign
-     * @param privateKey The Ed25519 private key
+     * @param keyPair The Ed25519 key pair (must contain private key)
      * @param kid Key ID to include in JWS header
      * @return JWS compact serialization string
      * @throws Exception if signing fails
      */
-    public static String signClaim(HapClaim claim, PrivateKey privateKey, String kid) throws Exception {
+    public static String signClaim(HapClaim claim, OctetKeyPair keyPair, String kid) throws Exception {
         String payload = objectMapper.writeValueAsString(claim);
 
-        OctetKeyPair okp = OctetKeyPair.parse(privateKey, null);
-
-        JWSSigner signer = new Ed25519Signer(okp);
+        JWSSigner signer = new Ed25519Signer(keyPair);
 
         JWSHeader header = new JWSHeader.Builder(JWSAlgorithm.EdDSA)
                 .keyID(kid)
