@@ -32,7 +32,7 @@ Scan with your phone's camera. You'll see a verification page showing:
 ### Option 2: Call the API
 
 ```bash
-curl https://ballista.app/api/v1/verify/hap_abc123xyz456
+curl https://ballista.io/api/v1/verify/hap_abc123xyz456
 ```
 
 Response (valid claim):
@@ -52,11 +52,11 @@ Response (valid claim):
       "domain": "yourcompany.com"
     },
     "at": "2026-01-19T06:00:00Z",
-    "iss": "ballista.app"
+    "iss": "ballista.io"
   },
   "jws": "eyJhbGciOiJFZERTQSIsImtpZCI6ImJhX2tleV8wMDEifQ...",
-  "issuer": "ballista.app",
-  "verifyUrl": "https://ballista.app/v/hap_abc123xyz456"
+  "issuer": "ballista.io",
+  "verifyUrl": "https://ballista.io/v/hap_abc123xyz456"
 }
 ```
 
@@ -115,4 +115,4 @@ Ballista is a service that helps job seekers send physical mail applications. Th
 
 The HAP specification is open source: [github.com/BlueScroll/hap](https://github.com/BlueScroll/hap)
 
-For Ballista-specific questions: [ballista.app](https://ballista.app)
+For Ballista-specific questions: [ballista.io](https://ballista.io)

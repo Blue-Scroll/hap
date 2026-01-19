@@ -6,7 +6,7 @@
 //
 // Example - Verifying a claim (for employers):
 //
-//	claim, err := hap.VerifyHapClaim(ctx, "hap_abc123xyz456", "ballista.app")
+//	claim, err := hap.VerifyHapClaim(ctx, "hap_abc123xyz456", "ballista.io")
 //	if err != nil {
 //	    log.Fatal(err)
 //	}

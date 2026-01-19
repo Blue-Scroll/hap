@@ -10,7 +10,7 @@ Example - Verifying a claim (for employers):
     >>> from hap import verify_hap_claim, is_claim_expired
     >>>
     >>> async def main():
-    ...     claim = await verify_hap_claim("hap_abc123xyz456", "ballista.app")
+    ...     claim = await verify_hap_claim("hap_abc123xyz456", "ballista.io")
     ...     if claim and not is_claim_expired(claim):
     ...         print(f"Verified application to {claim['to']['company']}")
     >>>

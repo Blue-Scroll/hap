@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
  *
  * <p>Example - Verifying a claim (for employers):
  * <pre>{@code
- * HumanEffortClaim claim = Hap.verifyHapClaim("hap_abc123xyz456", "ballista.app");
+ * HumanEffortClaim claim = Hap.verifyHapClaim("hap_abc123xyz456", "ballista.io");
  * if (claim != null && !Hap.isClaimExpired(claim)) {
  *     System.out.println("Verified application to " + claim.getTo().getCompany());
  * }
@@ -73,7 +73,7 @@ public class Hap {
     /**
      * Fetches the public keys from a VA's well-known endpoint.
      *
-     * @param issuerDomain The VA's domain (e.g., "ballista.app")
+     * @param issuerDomain The VA's domain (e.g., "ballista.io")
      * @return The VA's public key configuration
      * @throws IOException if the request fails
      */
@@ -96,7 +96,7 @@ public class Hap {
      * Fetches and verifies a HAP claim from a VA.
      *
      * @param hapId The HAP ID to verify
-     * @param issuerDomain The VA's domain (e.g., "ballista.app")
+     * @param issuerDomain The VA's domain (e.g., "ballista.io")
      * @return The verification response from the VA
      * @throws IOException if the request fails
      */
@@ -219,7 +219,7 @@ public class Hap {
     /**
      * Extracts the HAP ID from a verification URL.
      *
-     * @param url The verification URL (e.g., "https://ballista.app/v/hap_abc123xyz456")
+     * @param url The verification URL (e.g., "https://ballista.io/v/hap_abc123xyz456")
      * @return The HAP ID or null if not found
      */
     public static String extractHapIdFromUrl(String url) {

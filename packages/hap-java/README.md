@@ -32,7 +32,7 @@ import com.bluescroll.hap.*;
 public class VerifyExample {
     public static void main(String[] args) throws Exception {
         // Verify a claim from a HAP ID
-        HumanEffortClaim claim = Hap.verifyHapClaim("hap_abc123xyz456", "ballista.app");
+        HumanEffortClaim claim = Hap.verifyHapClaim("hap_abc123xyz456", "ballista.io");
 
         if (claim != null) {
             // Check if not expired
@@ -58,11 +58,11 @@ public class VerifyExample {
 
 ```java
 // Extract HAP ID from a verification URL
-String url = "https://ballista.app/v/hap_abc123xyz456";
+String url = "https://ballista.io/v/hap_abc123xyz456";
 String hapId = Hap.extractHapIdFromUrl(url);
 
 if (hapId != null) {
-    HumanEffortClaim claim = Hap.verifyHapClaim(hapId, "ballista.app");
+    HumanEffortClaim claim = Hap.verifyHapClaim(hapId, "ballista.io");
     // ... handle claim
 }
 ```
@@ -71,11 +71,11 @@ if (hapId != null) {
 
 ```java
 // Fetch the claim
-VerificationResponse response = Hap.fetchClaim("hap_abc123xyz456", "ballista.app");
+VerificationResponse response = Hap.fetchClaim("hap_abc123xyz456", "ballista.io");
 
 if (response.isValid() && response.getJws() != null) {
     // Verify the cryptographic signature
-    Hap.SignatureVerificationResult result = Hap.verifySignature(response.getJws(), "ballista.app");
+    Hap.SignatureVerificationResult result = Hap.verifySignature(response.getJws(), "ballista.io");
 
     if (result.isValid()) {
         System.out.println("Signature verified! Claim: " + result.getClaim());

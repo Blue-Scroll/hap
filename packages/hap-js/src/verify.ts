@@ -24,7 +24,7 @@ export function isValidHapId(id: string): boolean {
 
 /**
  * Fetches the public keys from a VA's well-known endpoint
- * @param issuerDomain - The VA's domain (e.g., "ballista.app")
+ * @param issuerDomain - The VA's domain (e.g., "ballista.io")
  * @param options - Optional configuration
  * @returns The VA's public key configuration
  */
@@ -60,7 +60,7 @@ export async function fetchPublicKeys(
 /**
  * Fetches and verifies a HAP claim from a VA
  * @param hapId - The HAP ID to verify
- * @param issuerDomain - The VA's domain (e.g., "ballista.app")
+ * @param issuerDomain - The VA's domain (e.g., "ballista.io")
  * @param options - Optional configuration
  * @returns The verification response from the VA
  */
@@ -181,7 +181,7 @@ export async function verifyHapClaim(
 
 /**
  * Extracts the HAP ID from a verification URL
- * @param url - The verification URL (e.g., "https://ballista.app/v/hap_abc123xyz456")
+ * @param url - The verification URL (e.g., "https://ballista.io/v/hap_abc123xyz456")
  * @returns The HAP ID or null if not found
  */
 export function extractHapIdFromUrl(url: string): string | null {

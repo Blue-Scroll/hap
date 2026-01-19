@@ -4,7 +4,7 @@ Gem::Specification.new do |spec|
   spec.name = "bluescroll-hap"
   spec.version = "0.1.0"
   spec.authors = ["BlueScroll Inc."]
-  spec.email = ["support@bluescroll.com"]
+  spec.email = ["support@bluescroll.io"]
 
   spec.summary = "Official HAP (Human Application Protocol) SDK for Ruby"
   spec.description = "HAP is an open standard for verified job applications. This SDK provides tools for verifying and signing HAP claims."

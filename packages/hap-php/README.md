@@ -27,7 +27,7 @@ use BlueScroll\Hap\Verify;
 $verifier = new Verify();
 
 // Verify a claim from a HAP ID
-$claim = $verifier->verifyHapClaim('hap_abc123xyz456', 'ballista.app');
+$claim = $verifier->verifyHapClaim('hap_abc123xyz456', 'ballista.io');
 
 if ($claim) {
     // Check if not expired
@@ -52,12 +52,12 @@ if ($claim) {
 use BlueScroll\Hap\Verify;
 
 // Extract HAP ID from a verification URL
-$url = 'https://ballista.app/v/hap_abc123xyz456';
+$url = 'https://ballista.io/v/hap_abc123xyz456';
 $hapId = Verify::extractHapIdFromUrl($url);
 
 if ($hapId) {
     $verifier = new Verify();
-    $claim = $verifier->verifyHapClaim($hapId, 'ballista.app');
+    $claim = $verifier->verifyHapClaim($hapId, 'ballista.io');
     // ... handle claim
 }
 ```
@@ -70,11 +70,11 @@ use BlueScroll\Hap\Verify;
 $verifier = new Verify();
 
 // Fetch the claim
-$response = $verifier->fetchClaim('hap_abc123xyz456', 'ballista.app');
+$response = $verifier->fetchClaim('hap_abc123xyz456', 'ballista.io');
 
 if ($response['valid'] && isset($response['jws'])) {
     // Verify the cryptographic signature
-    $result = $verifier->verifySignature($response['jws'], 'ballista.app');
+    $result = $verifier->verifySignature($response['jws'], 'ballista.io');
 
     if ($result['valid']) {
         echo "Signature verified! Claim: " . print_r($result['claim'], true);

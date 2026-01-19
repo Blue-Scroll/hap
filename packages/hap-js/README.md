@@ -18,7 +18,7 @@ npm install @bluescroll/hap
 import { verifyHapClaim, isClaimExpired, isClaimForCompany } from "@bluescroll/hap";
 
 // Verify a claim from a HAP ID
-const claim = await verifyHapClaim("hap_abc123xyz456", "ballista.app");
+const claim = await verifyHapClaim("hap_abc123xyz456", "ballista.io");
 
 if (claim) {
   // Check if not expired
@@ -43,11 +43,11 @@ if (claim) {
 import { extractHapIdFromUrl, verifyHapClaim } from "@bluescroll/hap";
 
 // Extract HAP ID from a verification URL
-const url = "https://ballista.app/v/hap_abc123xyz456";
+const url = "https://ballista.io/v/hap_abc123xyz456";
 const hapId = extractHapIdFromUrl(url);
 
 if (hapId) {
-  const claim = await verifyHapClaim(hapId, "ballista.app");
+  const claim = await verifyHapClaim(hapId, "ballista.io");
   // ... verify claim
 }
 ```
@@ -58,11 +58,11 @@ if (hapId) {
 import { fetchClaim, verifySignature } from "@bluescroll/hap";
 
 // Fetch the claim
-const response = await fetchClaim("hap_abc123xyz456", "ballista.app");
+const response = await fetchClaim("hap_abc123xyz456", "ballista.io");
 
 if (response.valid && "jws" in response) {
   // Verify the cryptographic signature
-  const result = await verifySignature(response.jws, "ballista.app");
+  const result = await verifySignature(response.jws, "ballista.io");
 
   if (result.valid) {
     console.log("Signature verified!", result.claim);

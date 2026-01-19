@@ -42,7 +42,7 @@ HAP is a **specification**, not infrastructure. Each VA hosts their own endpoint
   },
   "at": "2026-01-19T06:00:00Z",
   "exp": "2028-01-19T06:00:00Z",
-  "iss": "ballista.app"
+  "iss": "ballista.io"
 }
 ```
 
@@ -86,7 +86,7 @@ The `employer_commitment` type allows VAs to certify that an employer has commit
   "commitment": "review_verified",
   "at": "2026-01-19T06:00:00Z",
   "exp": "2027-01-19T06:00:00Z",
-  "iss": "ballista.app"
+  "iss": "ballista.io"
 }
 ```
 
@@ -184,7 +184,7 @@ Returns the VA's public keys in JWK format.
 
 ```json
 {
-  "issuer": "ballista.app",
+  "issuer": "ballista.io",
   "keys": [
     {
       "kid": "ba_key_001",
@@ -239,11 +239,11 @@ Returns the verification claim with its signature.
     },
     "at": "2026-01-19T06:00:00Z",
     "exp": "2028-01-19T06:00:00Z",
-    "iss": "ballista.app"
+    "iss": "ballista.io"
   },
   "jws": "eyJhbGciOiJFZERTQSIsImtpZCI6ImJhX2tleV8wMDEifQ...",
-  "issuer": "ballista.app",
-  "verifyUrl": "https://ballista.app/v/hap_abc123xyz456"
+  "issuer": "ballista.io",
+  "verifyUrl": "https://ballista.io/v/hap_abc123xyz456"
 }
 ```
 
@@ -256,7 +256,7 @@ Returns the verification claim with its signature.
   "revoked": true,
   "revocationReason": "user_request",
   "revokedAt": "2026-02-01T12:00:00Z",
-  "issuer": "ballista.app"
+  "issuer": "ballista.io"
 }
 ```
 
@@ -322,10 +322,10 @@ The 12-character suffix should be generated using a cryptographically secure ran
 ### 7.1 For Employers (Verifiers)
 
 1. Receive application with HAP verification (QR code or URL)
-2. Extract HAP ID from URL: `https://ballista.app/v/hap_abc123xyz456`
-3. Fetch claim: `GET https://ballista.app/api/v1/verify/hap_abc123xyz456`
+2. Extract HAP ID from URL: `https://ballista.io/v/hap_abc123xyz456`
+3. Fetch claim: `GET https://ballista.io/api/v1/verify/hap_abc123xyz456`
 4. Optionally verify signature:
-   a. Fetch public key: `GET https://ballista.app/.well-known/hap.json`
+   a. Fetch public key: `GET https://ballista.io/.well-known/hap.json`
    b. Verify JWS signature against the claim payload
 
 ### 7.2 For VAs (Issuers)

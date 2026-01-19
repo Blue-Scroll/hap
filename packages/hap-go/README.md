@@ -29,7 +29,7 @@ func main() {
     ctx := context.Background()
 
     // Verify a claim from a HAP ID
-    claim, err := hap.VerifyHapClaim(ctx, "hap_abc123xyz456", "ballista.app")
+    claim, err := hap.VerifyHapClaim(ctx, "hap_abc123xyz456", "ballista.io")
     if err != nil {
         log.Fatal(err)
     }
@@ -56,11 +56,11 @@ func main() {
 
 ```go
 // Extract HAP ID from a verification URL
-url := "https://ballista.app/v/hap_abc123xyz456"
+url := "https://ballista.io/v/hap_abc123xyz456"
 hapID := hap.ExtractHapIDFromURL(url)
 
 if hapID != "" {
-    claim, err := hap.VerifyHapClaim(ctx, hapID, "ballista.app")
+    claim, err := hap.VerifyHapClaim(ctx, hapID, "ballista.io")
     // ... handle claim
 }
 ```
@@ -69,14 +69,14 @@ if hapID != "" {
 
 ```go
 // Fetch the claim
-resp, err := hap.FetchClaim(ctx, "hap_abc123xyz456", "ballista.app", hap.DefaultVerifyOptions())
+resp, err := hap.FetchClaim(ctx, "hap_abc123xyz456", "ballista.io", hap.DefaultVerifyOptions())
 if err != nil {
     log.Fatal(err)
 }
 
 if resp.Valid && resp.JWS != "" {
     // Verify the cryptographic signature
-    result, err := hap.VerifySignature(ctx, resp.JWS, "ballista.app", hap.DefaultVerifyOptions())
+    result, err := hap.VerifySignature(ctx, resp.JWS, "ballista.io", hap.DefaultVerifyOptions())
     if err != nil {
         log.Fatal(err)
     }

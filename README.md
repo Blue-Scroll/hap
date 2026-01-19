@@ -38,7 +38,7 @@ Employers who see a HAP verification know:
 Scan any QR code from a HAP-verified application, or hit the verification URL:
 
 ```bash
-curl https://ballista.app/api/v1/verify/hap_abc123xyz
+curl https://ballista.io/api/v1/verify/hap_abc123xyz
 ```
 
 Response:
@@ -58,17 +58,17 @@ Response:
       "domain": "acme.com"
     },
     "at": "2026-01-19T06:00:00Z",
-    "iss": "ballista.app"
+    "iss": "ballista.io"
   },
   "jws": "eyJhbGciOiJFZERTQSIsImtpZCI6ImJhX2tleV8wMDEifQ...",
-  "issuer": "ballista.app",
-  "verifyUrl": "https://ballista.app/v/hap_abc123xyz"
+  "issuer": "ballista.io",
+  "verifyUrl": "https://ballista.io/v/hap_abc123xyz"
 }
 ```
 
 ### For Applicants
 
-Use a HAP-compatible service like [Ballista](https://ballista.app) to send verified applications. Your packets automatically include verification that proves your genuine effort.
+Use a HAP-compatible service like [Ballista](https://ballista.io) to send verified applications. Your packets automatically include verification that proves your genuine effort.
 
 ### For Developers
 
@@ -87,7 +87,7 @@ npm install @bluescroll/hap
 ```typescript
 import { verifyHapClaim, isClaimExpired } from "@bluescroll/hap";
 
-const claim = await verifyHapClaim("hap_abc123xyz456", "ballista.app");
+const claim = await verifyHapClaim("hap_abc123xyz456", "ballista.io");
 if (claim && !isClaimExpired(claim)) {
   console.log(`Verified application to ${claim.to.company}`);
 }
@@ -102,7 +102,7 @@ pip install bluescroll-hap
 ```python
 from hap import verify_hap_claim, is_claim_expired
 
-claim = await verify_hap_claim("hap_abc123xyz456", "ballista.app")
+claim = await verify_hap_claim("hap_abc123xyz456", "ballista.io")
 if claim and not is_claim_expired(claim):
     print(f"Verified application to {claim['to']['company']}")
 ```
@@ -116,7 +116,7 @@ go get github.com/BlueScroll/hap/packages/hap-go
 ```go
 import hap "github.com/BlueScroll/hap/packages/hap-go"
 
-claim, _ := hap.VerifyHapClaim(ctx, "hap_abc123xyz456", "ballista.app")
+claim, _ := hap.VerifyHapClaim(ctx, "hap_abc123xyz456", "ballista.io")
 if claim != nil && !hap.IsClaimExpired(claim) {
     fmt.Printf("Verified application to %s\n", claim.To.Company)
 }
@@ -135,7 +135,7 @@ if claim != nil && !hap.IsClaimExpired(claim) {
 ```java
 import com.bluescroll.hap.*;
 
-HumanEffortClaim claim = Hap.verifyHapClaim("hap_abc123xyz456", "ballista.app");
+HumanEffortClaim claim = Hap.verifyHapClaim("hap_abc123xyz456", "ballista.io");
 if (claim != null && !Hap.isClaimExpired(claim)) {
     System.out.println("Verified application to " + claim.getTo().getCompany());
 }
@@ -150,7 +150,7 @@ gem install bluescroll-hap
 ```ruby
 require 'hap'
 
-claim = Hap.verify_hap_claim("hap_abc123xyz456", "ballista.app")
+claim = Hap.verify_hap_claim("hap_abc123xyz456", "ballista.io")
 if claim && !Hap.claim_expired?(claim)
   puts "Verified application to #{claim[:to][:company]}"
 end
@@ -166,7 +166,7 @@ composer require bluescroll/hap
 use BlueScroll\Hap\Verify;
 
 $verifier = new Verify();
-$claim = $verifier->verifyHapClaim('hap_abc123xyz456', 'ballista.app');
+$claim = $verifier->verifyHapClaim('hap_abc123xyz456', 'ballista.io');
 if ($claim && !Verify::isClaimExpired($claim)) {
     echo "Verified application to " . $claim['to']['company'];
 }
@@ -182,7 +182,7 @@ dotnet add package BlueScroll.Hap
 using BlueScroll.Hap;
 
 using var verifier = new HapVerifier();
-var claim = await verifier.VerifyHapClaimAsync("hap_abc123xyz456", "ballista.app");
+var claim = await verifier.VerifyHapClaimAsync("hap_abc123xyz456", "ballista.io");
 if (claim != null && !HapVerifier.IsClaimExpired(claim)) {
     Console.WriteLine($"Verified application to {claim.To.Company}");
 }
@@ -194,7 +194,7 @@ See individual SDK READMEs in [`packages/`](./packages/) for complete documentat
 
 | VA       | Method        | Website                              |
 | -------- | ------------- | ------------------------------------ |
-| Ballista | Physical mail | [ballista.app](https://ballista.app) |
+| Ballista | Physical mail | [ballista.io](https://ballista.io) |
 
 Want to become a VA? See [docs/for-vas.md](./docs/for-vas.md).
 

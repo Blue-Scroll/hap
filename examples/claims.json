@@ -14,7 +14,7 @@
           "domain": "acme.com"
         },
         "at": "2026-01-19T06:00:00Z",
-        "iss": "ballista.app"
+        "iss": "ballista.io"
       }
     },
     {
@@ -31,7 +31,7 @@
         },
         "at": "2026-01-19T12:30:00Z",
         "exp": "2028-01-19T12:30:00Z",
-        "iss": "ballista.app"
+        "iss": "ballista.io"
       }
     },
     {
@@ -64,11 +64,11 @@
         "domain": "acme.com"
       },
       "at": "2026-01-19T06:00:00Z",
-      "iss": "ballista.app"
+      "iss": "ballista.io"
     },
     "jws": "eyJhbGciOiJFZERTQSIsImtpZCI6ImJhX2tleV8wMDEifQ.eyJ2IjoiMC4xIiwiaWQiOiJoYXBfYWJjMTIzeHl6NDU2IiwidHlwZSI6Imh1bWFuX2VmZm9ydCIsIm1ldGhvZCI6InBoeXNpY2FsX21haWwiLCJ0aWVyIjoic3RhbmRhcmQiLCJ0byI6eyJjb21wYW55IjoiQWNtZSBDb3JwIiwiZG9tYWluIjoiYWNtZS5jb20ifSwiYXQiOiIyMDI2LTAxLTE5VDA2OjAwOjAwWiIsImlzcyI6ImJhbGxpc3RhLmFwcCJ9.EXAMPLE_SIGNATURE",
-    "issuer": "ballista.app",
-    "verifyUrl": "https://ballista.app/v/hap_abc123xyz456"
+    "issuer": "ballista.io",
+    "verifyUrl": "https://ballista.io/v/hap_abc123xyz456"
   },
   "revoked_response": {
     "valid": false,
@@ -76,14 +76,14 @@
     "revoked": true,
     "revocationReason": "user_request",
     "revokedAt": "2026-02-01T12:00:00Z",
-    "issuer": "ballista.app"
+    "issuer": "ballista.io"
   },
   "not_found_response": {
     "valid": false,
     "error": "not_found"
   },
   "public_key_response": {
-    "issuer": "ballista.app",
+    "issuer": "ballista.io",
     "keys": [
       {
         "kid": "ba_key_001",

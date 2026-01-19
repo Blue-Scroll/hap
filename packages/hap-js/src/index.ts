@@ -9,7 +9,7 @@
  * ```typescript
  * import { verifyHapClaim, isClaimExpired } from "@bluescroll/hap";
  *
- * const claim = await verifyHapClaim("hap_abc123xyz456", "ballista.app");
+ * const claim = await verifyHapClaim("hap_abc123xyz456", "ballista.io");
  * if (claim && !isClaimExpired(claim)) {
  *   console.log(`Verified application to ${claim.to.company}`);
  * }

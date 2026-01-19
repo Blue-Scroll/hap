@@ -28,7 +28,7 @@ final class Verify
     /**
      * Fetches the public keys from a VA's well-known endpoint.
      *
-     * @param string $issuerDomain The VA's domain (e.g., "ballista.app")
+     * @param string $issuerDomain The VA's domain (e.g., "ballista.io")
      * @return array The VA's public key configuration
      * @throws VerificationException If the request fails
      */
