@@ -3,6 +3,7 @@
  */
 
 import * as jose from "jose";
+import type { KeyLike } from "jose";
 import { HAP_VERSION, HapClaim, SignOptions } from "./types";
 
 /** Characters used for HAP ID generation */
@@ -29,8 +30,8 @@ export function generateHapId(): string {
  * @returns Object containing the public and private keys
  */
 export async function generateKeyPair(): Promise<{
-  publicKey: CryptoKey;
-  privateKey: CryptoKey;
+  publicKey: KeyLike;
+  privateKey: KeyLike;
 }> {
   const { publicKey, privateKey } = await jose.generateKeyPair("EdDSA", {
     crv: "Ed25519",
@@ -46,7 +47,7 @@ export async function generateKeyPair(): Promise<{
  * @returns JWK object
  */
 export async function exportPublicKeyJwk(
-  publicKey: CryptoKey,
+  publicKey: KeyLike,
   kid: string,
 ): Promise<jose.JWK> {
   const jwk = await jose.exportJWK(publicKey);
@@ -67,7 +68,7 @@ export async function exportPublicKeyJwk(
  */
 export async function signClaim(
   claim: HapClaim,
-  privateKey: CryptoKey,
+  privateKey: KeyLike,
   options: SignOptions,
 ): Promise<string> {
   // Ensure version is set
