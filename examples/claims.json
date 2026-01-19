@@ -1,0 +1,65 @@
+{
+  "description": "Example HAP verification claims",
+  "examples": [
+    {
+      "name": "Standard physical mail claim",
+      "claim": {
+        "v": "0.1",
+        "id": "hap_abc123xyz456",
+        "type": "human_effort",
+        "method": "physical_mail",
+        "tier": "standard",
+        "to": {
+          "company": "Acme Corp"
+        },
+        "at": "2026-01-19T06:00:00Z",
+        "iss": "ballista.app"
+      }
+    },
+    {
+      "name": "Premium tier claim",
+      "claim": {
+        "v": "0.1",
+        "id": "hap_pRm789QrS012",
+        "type": "human_effort",
+        "method": "physical_mail",
+        "tier": "premium",
+        "to": {
+          "company": "TechStartup Inc"
+        },
+        "at": "2026-01-19T12:30:00Z",
+        "iss": "ballista.app"
+      }
+    }
+  ],
+  "verification_response": {
+    "valid": true,
+    "id": "hap_abc123xyz456",
+    "claims": {
+      "v": "0.1",
+      "id": "hap_abc123xyz456",
+      "type": "human_effort",
+      "method": "physical_mail",
+      "tier": "standard",
+      "to": {
+        "company": "Acme Corp"
+      },
+      "at": "2026-01-19T06:00:00Z",
+      "iss": "ballista.app"
+    },
+    "jws": "eyJhbGciOiJFZERTQSIsImtpZCI6ImJhX2tleV8wMDEifQ.eyJ2IjoiMC4xIiwiaWQiOiJoYXBfYWJjMTIzeHl6NDU2IiwidHlwZSI6Imh1bWFuX2VmZm9ydCIsIm1ldGhvZCI6InBoeXNpY2FsX21haWwiLCJ0aWVyIjoic3RhbmRhcmQiLCJ0byI6eyJjb21wYW55IjoiQWNtZSBDb3JwIn0sImF0IjoiMjAyNi0wMS0xOVQwNjowMDowMFoiLCJpc3MiOiJiYWxsaXN0YS5hcHAifQ.EXAMPLE_SIGNATURE",
+    "issuer": "ballista.app",
+    "verifyUrl": "https://ballista.app/v/hap_abc123xyz456"
+  },
+  "public_key_response": {
+    "issuer": "ballista.app",
+    "keys": [
+      {
+        "kid": "ba_key_001",
+        "kty": "OKP",
+        "crv": "Ed25519",
+        "x": "EXAMPLE_BASE64URL_PUBLIC_KEY"
+      }
+    ]
+  }
+}
