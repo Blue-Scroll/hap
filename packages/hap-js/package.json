@@ -1,6 +1,6 @@
 {
   "name": "@bluescroll/hap",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Official HAP (Human Application Protocol) SDK for JavaScript/TypeScript",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
