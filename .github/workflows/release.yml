@@ -49,9 +49,15 @@ jobs:
       - name: Commit and tag
         run: |
           git add .
-          git commit -m "chore: release v${{ needs.validate.outputs.version }}"
+          # Only commit if there are changes
+          if ! git diff --staged --quiet; then
+            git commit -m "chore: release v${{ needs.validate.outputs.version }}"
+            git push
+          else
+            echo "No version changes needed"
+          fi
+          # Create and push tag
           git tag v${{ needs.validate.outputs.version }}
-          git push
           git push origin v${{ needs.validate.outputs.version }}
 
   publish-npm:
