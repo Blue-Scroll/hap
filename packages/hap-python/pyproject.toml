@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "bluescroll-hap"
-version = "0.1.1"
+version = "0.1.2"
 description = "Official HAP (Human Application Protocol) SDK for Python"
 readme = "README.md"
 license = "Apache-2.0"
