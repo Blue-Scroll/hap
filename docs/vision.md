@@ -90,6 +90,31 @@ Long term: A ecosystem where "Verified Application" becomes a meaningful signal.
 - A walled garden (the protocol is open; anyone can implement)
 - A replacement for qualifications (effort != competence)
 
+## Why a Protocol, Not Just an API?
+
+Every verification service today is a walled garden. If you verify through Service A, only employers integrated with Service A can check your proof. Your verification history doesn't follow you between services. Employers must build separate integrations for each service they want to support.
+
+This creates problems:
+
+- **Vendor lock-in**: Employers can't easily switch or add verification services
+- **No portability**: Applicants can't take their verification history with them
+- **Fragmented ecosystem**: Each service is an island, limiting network effects
+- **API dependency**: Verification requires live API calls, creating downtime risk
+
+**A protocol changes everything.**
+
+When verification claims follow a standard format with cryptographic signatures, they become self-verifying. An employer with a VA's public keys can verify a claim offline, without calling any API. The claim is the proof.
+
+This is the same shift that happened with email. Early email required both parties to use the same service. SMTP changed that—now any email server can talk to any other. The protocol created an ecosystem.
+
+HAP aims to do the same for human verification:
+
+- **Portability**: Verified applications work everywhere, not just where one vendor has integrations
+- **Interoperability**: Employers verify claims from any VA using the same code
+- **Choice**: Applicants pick the VA that fits their needs; employers don't need to care which one
+- **Offline verification**: Claims can be verified without network calls once you have the public keys
+- **Non-repudiation**: A signed claim is proof—it can't be disputed or revoked silently
+
 ## Why Open?
 
 We could keep the verification proprietary. But an open standard is more defensible long-term.
@@ -97,6 +122,22 @@ We could keep the verification proprietary. But an open standard is more defensi
 Think SSL/TLS: the protocol is open, but Certificate Authorities (Verisign, Let's Encrypt) are trusted entities. Anyone can verify a signature, but only certain parties can issue one.
 
 HAP works the same way. The spec is open. Verification is decentralized. But Verification Authorities (starting with Ballista) earn trust by maintaining standards.
+
+## Trust Without a Trust Authority
+
+A critical design decision: **HAP does not dictate who to trust.**
+
+The VA directory in this repository is for discovery, not endorsement. Being listed means a VA has published a valid `/.well-known/hap.json` endpoint and follows the protocol. It doesn't mean we vouch for their verification quality.
+
+Trust decisions belong to the verifier (the employer). They evaluate:
+
+- What verification methods does this VA use?
+- What's their reputation?
+- Do I trust their attestations for my use case?
+
+This mirrors how the web works. HTTPS proves you're talking to `example.com`, but doesn't tell you whether to trust what `example.com` says. HAP proves a claim came from `ballista.io`, but whether you trust Ballista's verification methods is your call.
+
+The protocol provides the infrastructure. You provide the judgment.
 
 ## The Bet
 

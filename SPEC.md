@@ -205,6 +205,40 @@ Returns the VA's public keys in JWK format.
 | `keys[].crv` | Curve, always "Ed25519"                     |
 | `keys[].x`   | Base64url-encoded public key (32 bytes)     |
 
+#### VA Self-Description Extension
+
+VAs MAY include an optional `va` object to provide additional metadata about their service:
+
+```json
+{
+  "issuer": "ballista.io",
+  "keys": [...],
+  "va": {
+    "name": "Ballista",
+    "methods": ["physical_mail"],
+    "status": "active",
+    "description": "Physical mail verification for job applications"
+  }
+}
+```
+
+| Field            | Type     | Required | Description                           |
+| ---------------- | -------- | -------- | ------------------------------------- |
+| `va.name`        | string   | Yes      | Human-readable VA name                |
+| `va.methods`     | string[] | Yes      | Array of verification methods offered |
+| `va.status`      | string   | Yes      | Operational status (see below)        |
+| `va.description` | string   | No       | Brief description of the VA's service |
+
+**Status values:**
+
+| Status       | Description                             |
+| ------------ | --------------------------------------- |
+| `active`     | VA is operational and issuing claims    |
+| `deprecated` | VA will cease operations; no new claims |
+| `suspended`  | Temporarily not issuing claims          |
+
+This extension allows VAs to self-describe their capabilities without requiring central directory updates.
+
 ### 5.2 Verification API Endpoint
 
 ```
@@ -426,38 +460,87 @@ async function verifyHapClaim(
 
 ---
 
-## 10. Governance
+## 10. VA Directory
 
-### 10.1 Verification Authority Recognition
+### 10.1 Purpose
 
-HAP is an open protocol. Anyone can implement it technically. Recognition in official directories follows a tiered model:
+The official HAP repository maintains a machine-readable directory of Verification Authorities at `directory/vas.json`. This directory serves as a **discovery mechanism**, not a trust authority.
 
-#### Tier 1: Self-Declared VAs
+**The directory answers:** "What VAs exist that implement HAP?"
 
-- Anyone can implement HAP and sign claims
-- No approval needed for technical implementation
-- May be listed in community directories
+**The directory does NOT answer:** "Which VAs should I trust?"
 
-#### Tier 2: Recognized VAs
+Trust decisions remain with verifiers (employers), who must evaluate each VA's verification methods and reputation for their specific use case.
 
-Listed in the official HAP VA directory (README.md). Requirements:
+### 10.2 Directory Schema
 
-- Working technical implementation
-- Documented verification method
-- Published privacy policy
-- Review by HAP maintainers
+```json
+{
+  "$schema": "https://hap.dev/schemas/directory-v1.json",
+  "version": "1.0",
+  "description": "HAP Verification Authority Directory",
+  "updated": "2026-01-20T00:00:00Z",
+  "vas": [
+    {
+      "domain": "ballista.io",
+      "addedAt": "2026-01-15",
+      "lastVerifiedAt": "2026-01-20"
+    }
+  ]
+}
+```
 
-To apply: Open a PR to [github.com/BlueScroll/hap](https://github.com/BlueScroll/hap) with evidence of your implementation.
+| Field                  | Type   | Description                                         |
+| ---------------------- | ------ | --------------------------------------------------- |
+| `$schema`              | string | JSON Schema reference for validation                |
+| `version`              | string | Directory format version                            |
+| `description`          | string | Human-readable description                          |
+| `updated`              | string | ISO 8601 timestamp of last directory update         |
+| `vas`                  | array  | Array of VA entries                                 |
+| `vas[].domain`         | string | VA's domain (also their issuer identifier)          |
+| `vas[].addedAt`        | string | Date the VA was added to the directory (YYYY-MM-DD) |
+| `vas[].lastVerifiedAt` | string | Date endpoint was last verified (YYYY-MM-DD)        |
 
-#### Tier 3: Founding VAs (Future)
+### 10.3 Listing Criteria
 
-Reserved for VAs with established track records. May include:
+A VA may be listed in the directory if:
 
-- Third-party security audits
-- Demonstrated operational history
-- Higher trust signals for employers
+1. They have published a valid `/.well-known/hap.json` endpoint
+2. The endpoint returns properly formatted public keys
+3. They follow the HAP protocol specification
 
-### 10.2 Platform Compatibility
+Listing does **not** imply endorsement, audit, or trust recommendation.
+
+### 10.4 Removal
+
+VAs may be removed from the directory if:
+
+- Their `/.well-known/hap.json` endpoint stops responding
+- Their endpoint returns invalid or malformed data
+- They request removal
+
+Removal from the directory does not invalidate previously signed claims—those remain cryptographically verifiable as long as the public keys are known.
+
+---
+
+## 11. Governance
+
+### 11.1 Open Protocol
+
+HAP is an open protocol. Anyone can implement it technically without permission or approval. The protocol defines the format; trust decisions belong to verifiers.
+
+### 11.2 Verification Authority Independence
+
+VAs operate independently. They:
+
+- Choose their own verification methods
+- Set their own pricing and terms
+- Build their own reputation
+- Are responsible for their own security and operations
+
+HAP provides the common language. VAs compete on service quality.
+
+### 11.3 Platform Compatibility
 
 Job platforms (ATS, job boards) may claim "HAP Compatible" status if they:
 
@@ -467,18 +550,19 @@ Job platforms (ATS, job boards) may claim "HAP Compatible" status if they:
 
 This is a self-declared technical capability. No approval process required.
 
-### 10.3 Directory Management
+### 11.4 Protocol Evolution
 
-The HAP maintainers (currently BlueScroll Inc.) manage the official VA directory. VAs may be removed for:
+The HAP specification is maintained by BlueScroll Inc. Changes follow semantic versioning:
 
-- Signing claims without actual verification
-- Ceasing operations
-- Significant security incidents
-- Repeated protocol violations
+- **Patch versions** (0.1.x): Clarifications, typo fixes
+- **Minor versions** (0.x.0): Backward-compatible additions
+- **Major versions** (x.0.0): Breaking changes (rare)
+
+VAs and verifiers should implement based on the `v` field in claims.
 
 ---
 
-## 11. Version History
+## 12. Version History
 
 | Version | Date         | Changes       |
 | ------- | ------------ | ------------- |
@@ -486,10 +570,10 @@ The HAP maintainers (currently BlueScroll Inc.) manage the official VA directory
 
 ---
 
-## 12. Authors
+## 13. Authors
 
 - BlueScroll Inc.
 
-## 13. License
+## 14. License
 
 This specification is licensed under Apache 2.0.
