@@ -1,226 +1,117 @@
 # HAP - Human Application Protocol
 
-**An open standard for verified job applications.**
+**The open standard for verified job applications.**
 
-In a world flooded with AI-generated spam, HAP lets applicants prove they're real humans who made real effort. It's the technical foundation for **Human-First Hiring**.
+HAP enables Verification Authorities to cryptographically attest that an applicant took deliberate, costly action when applying for a job. Employers can verify these claims independently, without vendor lock-in.
 
-## The Problem
+## Why a Protocol?
 
-Job searching is broken:
+Today, every verification service is a walled garden. If you verify through Service A, only employers integrated with Service A can check your proof. Switch services, and your verification history doesn't follow you. Employers must integrate with every service they want to support.
 
-- **Applicants** submit into black holes, reduced to keywords, wondering if anyone saw their name
-- **Employers** are flooded with low-effort applications, unable to identify genuine interest
-- **AI tools** have accelerated a race to the bottom where authentic effort is indistinguishable from spam
+**HAP changes this.** By defining a standard format for verification claims, HAP turns human verification from a product into an ecosystem:
 
-## The Solution
+- **Portability**: Your verified applications work everywhere, not just where one vendor has integrations
+- **Interoperability**: Employers verify claims from any VA using the same code
+- **Choice**: Pick the Verification Authority that fits your needs; employers don't need to care which one you used
+- **Cryptographic proof**: Claims are signed with Ed25519 keys and can be verified offline, without calling any API
 
-HAP introduces **Verification Authorities (VAs)** that attest to human effort. When someone takes deliberate, costly action to apply for a job, a VA can cryptographically sign that claim.
+The shift is fundamental: instead of "trust this company's API response," it's "verify this cryptographic signature." HAP is infrastructure that enables an ecosystem of Verification Authorities, all speaking the same language.
 
-Employers who see a HAP verification know:
-
-- A real human made a real effort
-- The effort was costly enough to deter spam
-- The claim can be independently verified
+_For the full philosophy, see [docs/vision.md](docs/vision.md)._
 
 ## How It Works
 
-```text
-1. Applicant applies through a VA (e.g., sends physical mail via Ballista)
-2. VA creates a signed verification claim
-3. Verification is embedded in the application (QR code, header, etc.)
-4. Employer scans/clicks to verify authenticity
 ```
+1. Applicant applies through a VA (e.g., sends physical mail via Ballista)
+2. VA creates a cryptographically signed verification claim (JWS)
+3. Claim is embedded in the application (QR code, URL, or header)
+4. Employer verifies the signature against the VA's public keys
+```
+
+The signature verification can happen entirely offline once you have the VA's public keys from their `/.well-known/hap.json` endpoint.
 
 ## Quick Start
 
-### For Employers
+### Verifying a Claim (TypeScript)
 
-Scan any QR code from a HAP-verified application, or hit the verification URL:
+```typescript
+import {
+  verifyHapClaim,
+  isClaimExpired,
+  isClaimForCompany,
+} from "@bluescroll/hap";
 
-```bash
-curl https://ballista.io/api/v1/verify/hap_abc123xyz
-```
-
-Response:
-
-```json
-{
-  "valid": true,
-  "id": "hap_abc123xyz",
-  "claims": {
-    "v": "0.1",
-    "id": "hap_abc123xyz",
-    "type": "human_effort",
-    "method": "physical_mail",
-    "tier": "standard",
-    "to": {
-      "company": "Acme Corp",
-      "domain": "acme.com"
-    },
-    "at": "2026-01-19T06:00:00Z",
-    "iss": "ballista.io"
-  },
-  "jws": "eyJhbGciOiJFZERTQSIsImtpZCI6ImJhX2tleV8wMDEifQ...",
-  "issuer": "ballista.io",
-  "verifyUrl": "https://ballista.io/v/hap_abc123xyz"
+const claim = await verifyHapClaim("hap_abc123xyz456", "ballista.io");
+if (
+  claim &&
+  !isClaimExpired(claim) &&
+  isClaimForCompany(claim, "yourcompany.com")
+) {
+  console.log(`Verified ${claim.method} application to ${claim.to.company}`);
 }
 ```
 
-### For Applicants
+### Manual Verification
 
-Use a HAP-compatible service like [Ballista](https://ballista.io) to send verified applications. Your packets automatically include verification that proves your genuine effort.
+```bash
+# Fetch claim from VA
+curl https://ballista.io/api/v1/verify/hap_abc123xyz
 
-### For Developers
+# Fetch VA's public keys
+curl https://ballista.io/.well-known/hap.json
 
-See [SPEC.md](./SPEC.md) for the complete technical specification.
+# Verify JWS signature locally using the public keys
+```
 
 ## SDKs
 
-Official HAP SDKs are available for 7 languages:
+Official SDKs handle key fetching, signature verification, and claim validation:
 
-### JavaScript/TypeScript
+| Language   | Install                                            | Package                                                                      |
+| ---------- | -------------------------------------------------- | ---------------------------------------------------------------------------- |
+| TypeScript | `npm install @bluescroll/hap`                      | [@bluescroll/hap](https://www.npmjs.com/package/@bluescroll/hap)             |
+| Python     | `pip install bluescroll-hap`                       | [bluescroll-hap](https://pypi.org/project/bluescroll-hap/)                   |
+| Go         | `go get github.com/BlueScroll/hap/packages/hap-go` | [hap-go](https://pkg.go.dev/github.com/BlueScroll/hap/packages/hap-go)       |
+| Java       | Maven/Gradle                                       | [io.bluescroll:hap](https://central.sonatype.com/artifact/io.bluescroll/hap) |
+| Ruby       | `gem install bluescroll-hap`                       | [bluescroll-hap](https://rubygems.org/gems/bluescroll-hap)                   |
+| PHP        | `composer require bluescroll/hap`                  | [bluescroll/hap](https://packagist.org/packages/bluescroll/hap)              |
+| C#         | `dotnet add package BlueScroll.Hap`                | [BlueScroll.Hap](https://www.nuget.org/packages/BlueScroll.Hap)              |
 
-```bash
-npm install @bluescroll/hap
-```
-
-```typescript
-import { verifyHapClaim, isClaimExpired } from "@bluescroll/hap";
-
-const claim = await verifyHapClaim("hap_abc123xyz456", "ballista.io");
-if (claim && !isClaimExpired(claim)) {
-  console.log(`Verified application to ${claim.to.company}`);
-}
-```
-
-### Python
-
-```bash
-pip install bluescroll-hap
-```
-
-```python
-from hap import verify_hap_claim, is_claim_expired
-
-claim = await verify_hap_claim("hap_abc123xyz456", "ballista.io")
-if claim and not is_claim_expired(claim):
-    print(f"Verified application to {claim['to']['company']}")
-```
-
-### Go
-
-```bash
-go get github.com/BlueScroll/hap/packages/hap-go
-```
-
-```go
-import hap "github.com/BlueScroll/hap/packages/hap-go"
-
-claim, _ := hap.VerifyHapClaim(ctx, "hap_abc123xyz456", "ballista.io")
-if claim != nil && !hap.IsClaimExpired(claim) {
-    fmt.Printf("Verified application to %s\n", claim.To.Company)
-}
-```
-
-### Java
-
-```xml
-<dependency>
-    <groupId>io.bluescroll</groupId>
-    <artifactId>hap</artifactId>
-    <version>0.1.0</version>
-</dependency>
-```
-
-```java
-import io.bluescroll.hap.*;
-
-HumanEffortClaim claim = Hap.verifyHapClaim("hap_abc123xyz456", "ballista.io");
-if (claim != null && !Hap.isClaimExpired(claim)) {
-    System.out.println("Verified application to " + claim.getTo().getCompany());
-}
-```
-
-### Ruby
-
-```bash
-gem install bluescroll-hap
-```
-
-```ruby
-require 'hap'
-
-claim = Hap.verify_hap_claim("hap_abc123xyz456", "ballista.io")
-if claim && !Hap.claim_expired?(claim)
-  puts "Verified application to #{claim[:to][:company]}"
-end
-```
-
-### PHP
-
-```bash
-composer require bluescroll/hap
-```
-
-```php
-use BlueScroll\Hap\Verify;
-
-$verifier = new Verify();
-$claim = $verifier->verifyHapClaim('hap_abc123xyz456', 'ballista.io');
-if ($claim && !Verify::isClaimExpired($claim)) {
-    echo "Verified application to " . $claim['to']['company'];
-}
-```
-
-### C#/.NET
-
-```bash
-dotnet add package BlueScroll.Hap
-```
-
-```csharp
-using BlueScroll.Hap;
-
-using var verifier = new HapVerifier();
-var claim = await verifier.VerifyHapClaimAsync("hap_abc123xyz456", "ballista.io");
-if (claim != null && !HapVerifier.IsClaimExpired(claim)) {
-    Console.WriteLine($"Verified application to {claim.To.Company}");
-}
-```
-
-See individual SDK READMEs in [`packages/`](./packages/) for complete documentation.
+See [`packages/`](./packages/) for complete SDK documentation.
 
 ## Verification Authorities
 
-| VA       | Method        | Website                            |
+Verification Authorities (VAs) are services that verify human effort and sign HAP claims. The directory lists VAs that have published valid `/.well-known/hap.json` endpoints.
+
+| VA       | Methods       | Domain                             |
 | -------- | ------------- | ---------------------------------- |
 | Ballista | Physical mail | [ballista.io](https://ballista.io) |
 
-Want to become a VA? See [docs/for-vas.md](./docs/for-vas.md).
+See [directory/](directory/) for the machine-readable list and listing criteria.
 
-## What VAs Attest To
+**Note:** Listing in the directory means a VA has published a valid HAP endpoint. Trust decisions remain with you—evaluate each VA's verification methods and reputation for your use case.
 
-- A human took deliberate, costly action
-- Real effort was expended (not automated spray-and-pray)
-- Timestamp of verification
+## What Claims Attest To
 
-## What VAs Do NOT Attest To
+HAP claims verify that a human took deliberate, costly action:
 
-- Applicant identity (no government ID verification)
-- Content authenticity (whether AI helped write it)
-- Credential validity (degrees, experience claims)
+- A real person made a real effort to apply
+- The effort was costly enough to deter spray-and-pray spam
+- The timestamp of verification
+- The target company
 
-## Philosophy
+HAP claims do **not** verify identity, credential validity, or whether AI assisted with content creation.
 
-1. **Process proves intent.** We can't detect AI, but we can verify costly action.
-2. **Physical anchors digital trust.** Real-world actions are hard to fake at scale.
-3. **Open standards beat proprietary moats.** Anyone can implement HAP.
-4. **Both sides need trust.** Applicants need visibility. Employers need signal.
+## Learn More
+
+- **[Full Specification](SPEC.md)** — Technical details, claim formats, cryptographic requirements
+- **[Vision & Philosophy](docs/vision.md)** — Why HAP exists and where it's going
+- **[For Verification Authorities](docs/for-vas.md)** — How to implement HAP and join the directory
 
 ## License
 
-Apache 2.0 - See [LICENSE](./LICENSE)
+Apache 2.0 — See [LICENSE](./LICENSE)
 
 ---
 
-Built for people who refuse to be ignored.
+_Built for people who refuse to be ignored._

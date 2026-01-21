@@ -1,6 +1,6 @@
 # Becoming a Verification Authority
 
-HAP is an open protocol. Anyone can implement it. But being recognized as a trusted Verification Authority (VA) requires meeting certain standards.
+HAP is an open protocol. Anyone can implement it without permission or approval. This guide covers the technical requirements and operational standards for running a Verification Authority (VA).
 
 ## What VAs Do
 
@@ -43,6 +43,23 @@ Keep the private key secure. Never expose it.
   ]
 }
 ```
+
+You MAY include an optional `va` object to self-describe your service:
+
+```json
+{
+  "issuer": "your-domain.com",
+  "keys": [...],
+  "va": {
+    "name": "Your VA Name",
+    "methods": ["physical_mail"],
+    "status": "active",
+    "description": "Brief description of your verification service"
+  }
+}
+```
+
+This allows verifiers to discover your capabilities without querying a central directory.
 
 **`GET /api/v1/verify/{hapId}`** - Verification API
 
@@ -159,14 +176,28 @@ When a claim is revoked, return a revoked response (see SPEC.md Section 5.2) rat
 
 ## Listing in the Directory
 
-To be listed in the official HAP VA directory:
+The HAP repository maintains a [VA directory](../directory/) for discovery purposes. Being listed means you've published a valid HAP endpoint—it does **not** imply endorsement or trust recommendation.
 
-1. Implement all technical requirements
-2. Document your verification method
-3. Open a PR to [github.com/BlueScroll/hap](https://github.com/BlueScroll/hap)
-4. Include evidence of your verification process
+### To be listed:
 
-We'll review and either approve or provide feedback.
+1. Implement all technical requirements above
+2. Publish your `/.well-known/hap.json` endpoint
+3. Open a PR to [github.com/BlueScroll/hap](https://github.com/BlueScroll/hap) adding your domain to `directory/vas.json`
+4. We'll verify your endpoint responds correctly
+
+### What listing means:
+
+- Your domain appears in `directory/vas.json`
+- Verifiers can discover you exist
+- You follow the HAP protocol
+
+### What listing does NOT mean:
+
+- We endorse your verification methods
+- We recommend trusting your claims
+- We have audited your operations
+
+Trust decisions belong to verifiers (employers), who should evaluate your verification methods, reputation, and operational practices for their specific use case.
 
 ## Example VAs
 
