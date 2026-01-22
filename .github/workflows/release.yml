@@ -209,6 +209,10 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
+          # Remove the credential helper that actions/checkout sets up
+          # This prevents it from overriding our PAT with the default GITHUB_TOKEN
+          git config --unset-all http.https://github.com/.extraheader || true
+
           # Create split branch with only packages/hap-php contents
           SHA=$(splitsh-lite --prefix=packages/hap-php)
 
