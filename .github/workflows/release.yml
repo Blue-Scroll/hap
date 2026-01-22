@@ -59,9 +59,6 @@ jobs:
           # Create and push main tag
           git tag v${{ needs.validate.outputs.version }}
           git push origin v${{ needs.validate.outputs.version }}
-          # Create and push Go module tag (required for subdirectory modules)
-          git tag packages/hap-go/v${{ needs.validate.outputs.version }}
-          git push origin packages/hap-go/v${{ needs.validate.outputs.version }}
 
   publish-npm:
     name: Publish to npm
@@ -257,6 +254,23 @@ jobs:
       - name: Publish to NuGet
         run: dotnet nuget push ./nupkg/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
 
+  publish-go:
+    name: Publish Go Module
+    needs: [validate, sync-and-tag]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: v${{ needs.validate.outputs.version }}
+
+      - name: Create and push Go module tag
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          # Go modules in subdirectories require path-prefixed tags
+          git tag packages/hap-go/v${{ needs.validate.outputs.version }}
+          git push origin packages/hap-go/v${{ needs.validate.outputs.version }}
+
   create-release:
     name: Create GitHub Release
     needs:
@@ -268,6 +282,7 @@ jobs:
         publish-rubygems,
         publish-packagist,
         publish-nuget,
+        publish-go,
       ]
     runs-on: ubuntu-latest
     steps:
