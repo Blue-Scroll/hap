@@ -75,13 +75,13 @@ jobs:
 
             - Updated `VERSION` file
             - Updated all SDK package versions:
-              - `packages/hap-js/package.json`
-              - `packages/hap-python/pyproject.toml`
-              - `packages/hap-java/pom.xml`
-              - `packages/hap-ruby/hap.gemspec`
-              - `packages/hap-ruby/lib/hap/version.rb`
-              - `packages/hap-php/composer.json`
-              - `packages/hap-csharp/BlueScroll.Hap.csproj`
+              - `packages/js/package.json`
+              - `packages/python/pyproject.toml`
+              - `packages/java/pom.xml`
+              - `packages/ruby/human_attestation.gemspec`
+              - `packages/ruby/lib/human_attestation/version.rb`
+              - `packages/php/composer.json`
+              - `packages/csharp/HumanAttestation.csproj`
 
             ### Next Steps
 

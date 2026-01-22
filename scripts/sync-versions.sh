@@ -31,84 +31,84 @@ cd "$REPO_ROOT"
 echo "$VERSION" > VERSION
 echo "✓ Updated VERSION file"
 
-# TypeScript (packages/hap-js/package.json)
-if [ -f "packages/hap-js/package.json" ]; then
+# TypeScript (packages/js/package.json)
+if [ -f "packages/js/package.json" ]; then
     if [[ "$OSTYPE" == "darwin"* ]]; then
-        sed -i '' "s/\"version\": \"[^\"]*\"/\"version\": \"$VERSION\"/" packages/hap-js/package.json
+        sed -i '' "s/\"version\": \"[^\"]*\"/\"version\": \"$VERSION\"/" packages/js/package.json
     else
-        sed -i "s/\"version\": \"[^\"]*\"/\"version\": \"$VERSION\"/" packages/hap-js/package.json
+        sed -i "s/\"version\": \"[^\"]*\"/\"version\": \"$VERSION\"/" packages/js/package.json
     fi
-    echo "✓ Updated packages/hap-js/package.json"
+    echo "✓ Updated packages/js/package.json"
 fi
 
-# Python (packages/hap-python/pyproject.toml)
-if [ -f "packages/hap-python/pyproject.toml" ]; then
+# Python (packages/python/pyproject.toml)
+if [ -f "packages/python/pyproject.toml" ]; then
     if [[ "$OSTYPE" == "darwin"* ]]; then
-        sed -i '' "s/^version = \"[^\"]*\"/version = \"$VERSION\"/" packages/hap-python/pyproject.toml
+        sed -i '' "s/^version = \"[^\"]*\"/version = \"$VERSION\"/" packages/python/pyproject.toml
     else
-        sed -i "s/^version = \"[^\"]*\"/version = \"$VERSION\"/" packages/hap-python/pyproject.toml
+        sed -i "s/^version = \"[^\"]*\"/version = \"$VERSION\"/" packages/python/pyproject.toml
     fi
-    echo "✓ Updated packages/hap-python/pyproject.toml"
+    echo "✓ Updated packages/python/pyproject.toml"
 fi
 
 # Python __init__.py version
-if [ -f "packages/hap-python/hap/__init__.py" ]; then
+if [ -f "packages/python/human_attestation/__init__.py" ]; then
     if [[ "$OSTYPE" == "darwin"* ]]; then
-        sed -i '' "s/__version__ = \"[^\"]*\"/__version__ = \"$VERSION\"/" packages/hap-python/hap/__init__.py
+        sed -i '' "s/__version__ = \"[^\"]*\"/__version__ = \"$VERSION\"/" packages/python/human_attestation/__init__.py
     else
-        sed -i "s/__version__ = \"[^\"]*\"/__version__ = \"$VERSION\"/" packages/hap-python/hap/__init__.py
+        sed -i "s/__version__ = \"[^\"]*\"/__version__ = \"$VERSION\"/" packages/python/human_attestation/__init__.py
     fi
-    echo "✓ Updated packages/hap-python/hap/__init__.py"
+    echo "✓ Updated packages/python/human_attestation/__init__.py"
 fi
 
-# Java (packages/hap-java/pom.xml) - only the project version, not dependencies
-if [ -f "packages/hap-java/pom.xml" ]; then
+# Java (packages/java/pom.xml) - only the project version, not dependencies
+if [ -f "packages/java/pom.xml" ]; then
     if [[ "$OSTYPE" == "darwin"* ]]; then
-        sed -i '' "0,/<version>[^<]*<\/version>/s/<version>[^<]*<\/version>/<version>$VERSION<\/version>/" packages/hap-java/pom.xml
+        sed -i '' "0,/<version>[^<]*<\/version>/s/<version>[^<]*<\/version>/<version>$VERSION<\/version>/" packages/java/pom.xml
     else
-        sed -i "0,/<version>[^<]*<\/version>/s/<version>[^<]*<\/version>/<version>$VERSION<\/version>/" packages/hap-java/pom.xml
+        sed -i "0,/<version>[^<]*<\/version>/s/<version>[^<]*<\/version>/<version>$VERSION<\/version>/" packages/java/pom.xml
     fi
-    echo "✓ Updated packages/hap-java/pom.xml"
+    echo "✓ Updated packages/java/pom.xml"
 fi
 
-# Ruby gemspec (packages/hap-ruby/hap.gemspec)
-if [ -f "packages/hap-ruby/hap.gemspec" ]; then
+# Ruby gemspec (packages/ruby/human_attestation.gemspec)
+if [ -f "packages/ruby/human_attestation.gemspec" ]; then
     if [[ "$OSTYPE" == "darwin"* ]]; then
-        sed -i '' "s/spec.version = \"[^\"]*\"/spec.version = \"$VERSION\"/" packages/hap-ruby/hap.gemspec
+        sed -i '' "s/spec.version = \"[^\"]*\"/spec.version = \"$VERSION\"/" packages/ruby/human_attestation.gemspec
     else
-        sed -i "s/spec.version = \"[^\"]*\"/spec.version = \"$VERSION\"/" packages/hap-ruby/hap.gemspec
+        sed -i "s/spec.version = \"[^\"]*\"/spec.version = \"$VERSION\"/" packages/ruby/human_attestation.gemspec
     fi
-    echo "✓ Updated packages/hap-ruby/hap.gemspec"
+    echo "✓ Updated packages/ruby/human_attestation.gemspec"
 fi
 
-# Ruby version.rb (packages/hap-ruby/lib/hap/version.rb)
-if [ -f "packages/hap-ruby/lib/hap/version.rb" ]; then
+# Ruby version.rb (packages/ruby/lib/human_attestation/version.rb)
+if [ -f "packages/ruby/lib/human_attestation/version.rb" ]; then
     if [[ "$OSTYPE" == "darwin"* ]]; then
-        sed -i '' "s/VERSION = \"[^\"]*\"/VERSION = \"$VERSION\"/" packages/hap-ruby/lib/hap/version.rb
+        sed -i '' "s/VERSION = \"[^\"]*\"/VERSION = \"$VERSION\"/" packages/ruby/lib/human_attestation/version.rb
     else
-        sed -i "s/VERSION = \"[^\"]*\"/VERSION = \"$VERSION\"/" packages/hap-ruby/lib/hap/version.rb
+        sed -i "s/VERSION = \"[^\"]*\"/VERSION = \"$VERSION\"/" packages/ruby/lib/human_attestation/version.rb
     fi
-    echo "✓ Updated packages/hap-ruby/lib/hap/version.rb"
+    echo "✓ Updated packages/ruby/lib/human_attestation/version.rb"
 fi
 
-# PHP (packages/hap-php/composer.json)
-if [ -f "packages/hap-php/composer.json" ]; then
+# PHP (packages/php/composer.json)
+if [ -f "packages/php/composer.json" ]; then
     if [[ "$OSTYPE" == "darwin"* ]]; then
-        sed -i '' "s/\"version\": \"[^\"]*\"/\"version\": \"$VERSION\"/" packages/hap-php/composer.json
+        sed -i '' "s/\"version\": \"[^\"]*\"/\"version\": \"$VERSION\"/" packages/php/composer.json
     else
-        sed -i "s/\"version\": \"[^\"]*\"/\"version\": \"$VERSION\"/" packages/hap-php/composer.json
+        sed -i "s/\"version\": \"[^\"]*\"/\"version\": \"$VERSION\"/" packages/php/composer.json
     fi
-    echo "✓ Updated packages/hap-php/composer.json"
+    echo "✓ Updated packages/php/composer.json"
 fi
 
-# C# (packages/hap-csharp/BlueScroll.Hap.csproj)
-if [ -f "packages/hap-csharp/BlueScroll.Hap.csproj" ]; then
+# C# (packages/csharp/HumanAttestation.csproj)
+if [ -f "packages/csharp/HumanAttestation.csproj" ]; then
     if [[ "$OSTYPE" == "darwin"* ]]; then
-        sed -i '' "s/<Version>[^<]*<\/Version>/<Version>$VERSION<\/Version>/" packages/hap-csharp/BlueScroll.Hap.csproj
+        sed -i '' "s/<Version>[^<]*<\/Version>/<Version>$VERSION<\/Version>/" packages/csharp/HumanAttestation.csproj
     else
-        sed -i "s/<Version>[^<]*<\/Version>/<Version>$VERSION<\/Version>/" packages/hap-csharp/BlueScroll.Hap.csproj
+        sed -i "s/<Version>[^<]*<\/Version>/<Version>$VERSION<\/Version>/" packages/csharp/HumanAttestation.csproj
     fi
-    echo "✓ Updated packages/hap-csharp/BlueScroll.Hap.csproj"
+    echo "✓ Updated packages/csharp/HumanAttestation.csproj"
 fi
 
 echo ""

@@ -66,7 +66,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: packages/hap-js
+        working-directory: packages/js
     steps:
       - uses: actions/checkout@v4
         with:
@@ -95,7 +95,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: packages/hap-python
+        working-directory: packages/python
     steps:
       - uses: actions/checkout@v4
         with:
@@ -124,7 +124,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: packages/hap-java
+        working-directory: packages/java
     steps:
       - uses: actions/checkout@v4
         with:
@@ -155,7 +155,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: packages/hap-ruby
+        working-directory: packages/ruby
     steps:
       - uses: actions/checkout@v4
         with:
@@ -165,10 +165,10 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: "3.2"
-          working-directory: packages/hap-ruby
+          working-directory: packages/ruby
 
       - name: Build gem
-        run: gem build hap.gemspec
+        run: gem build human_attestation.gemspec
 
       - name: Publish to RubyGems
         run: |
@@ -182,7 +182,7 @@ jobs:
     needs: [validate, sync-and-tag]
     runs-on: ubuntu-latest
     # Packagist requires composer.json at repo root, so we use subtree split
-    # to push packages/hap-php to a mirror repo (Blue-Scroll/human-attestation-php)
+    # to push packages/php to a mirror repo (Blue-Scroll/human-attestation-php)
     steps:
       - uses: actions/checkout@v4
         with:
@@ -213,8 +213,8 @@ jobs:
           # This prevents it from overriding our PAT with the default GITHUB_TOKEN
           git config --unset-all http.https://github.com/.extraheader || true
 
-          # Create split branch with only packages/hap-php contents
-          SHA=$(splitsh-lite --prefix=packages/hap-php)
+          # Create split branch with only packages/php contents
+          SHA=$(splitsh-lite --prefix=packages/php)
 
           # Push to mirror repo
           git remote add mirror https://x-access-token:${MIRROR_PUSH_TOKEN}@github.com/Blue-Scroll/human-attestation-php.git || true
@@ -245,7 +245,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: packages/hap-csharp
+        working-directory: packages/csharp
     steps:
       - uses: actions/checkout@v4
         with:
@@ -282,8 +282,8 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           # Go modules in subdirectories require path-prefixed tags
-          git tag packages/hap-go/v${{ needs.validate.outputs.version }}
-          git push origin packages/hap-go/v${{ needs.validate.outputs.version }}
+          git tag packages/go/v${{ needs.validate.outputs.version }}
+          git push origin packages/go/v${{ needs.validate.outputs.version }}
 
   create-release:
     name: Create GitHub Release
@@ -326,7 +326,7 @@ jobs:
 
             **Go:**
             ```bash
-            go get github.com/Blue-Scroll/hap/packages/hap-go@v${{ needs.validate.outputs.version }}
+            go get github.com/Blue-Scroll/hap/packages/go@v${{ needs.validate.outputs.version }}
             ```
 
             **Java (Maven):**
