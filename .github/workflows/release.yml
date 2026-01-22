@@ -219,6 +219,9 @@ jobs:
           # Push to mirror repo
           git remote add mirror https://x-access-token:${MIRROR_PUSH_TOKEN}@github.com/Blue-Scroll/human-attestation-php.git || true
           git push mirror ${SHA}:refs/heads/main --force
+
+          # Create tag on the split commit (PHP package only, excludes root .github/workflows)
+          git tag -f v${{ needs.validate.outputs.version }} ${SHA}
           git push mirror v${{ needs.validate.outputs.version }} --force
 
       - name: Trigger Packagist update
