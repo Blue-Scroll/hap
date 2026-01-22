@@ -1,4 +1,4 @@
-# BlueScroll.Hap
+# human-attestation
 
 Official HAP (Human Attestation Protocol) SDK for .NET.
 
@@ -7,18 +7,18 @@ HAP is an open standard for verified human effort. It enables Verification Autho
 ## Installation
 
 ```bash
-dotnet add package BlueScroll.Hap
+dotnet add package HumanAttestation
 ```
 
 Or via Package Manager:
 
 ```powershell
-Install-Package BlueScroll.Hap
+Install-Package HumanAttestation
 ```
 
 ## Quick Start
 
-### Verifying a Claim (For Employers)
+### Verifying a Claim (For Recipients)
 
 ```csharp
 using BlueScroll.Hap;
@@ -37,14 +37,14 @@ if (claim != null)
         return;
     }
 
-    // Verify it's for your company
-    if (!HapVerifier.IsClaimForCompany(claim, "yourcompany.com"))
+    // Verify it's for your organization
+    if (!HapVerifier.IsClaimForRecipient(claim, "yourcompany.com"))
     {
-        Console.WriteLine("Claim is for a different company");
+        Console.WriteLine("Claim is for a different recipient");
         return;
     }
 
-    Console.WriteLine($"Verified {claim.Method} application to {claim.To.Company}");
+    Console.WriteLine($"Verified {claim.Method} application to {claim.To.Name}");
 }
 ```
 
@@ -108,7 +108,7 @@ Console.WriteLine(JsonSerializer.Serialize(wellKnown, new JsonSerializerOptions 
 // Create and sign a claim
 var claim = HapSigner.CreateHumanEffortClaim(
     method: "physical_mail",
-    company: "Acme Corp",
+    recipientName: "Acme Corp",
     issuer: "my-va.com",
     domain: "acme.com",
     tier: "standard",
@@ -119,14 +119,14 @@ var jws = HapSigner.SignClaim(claim, privateKey, "my_key_001");
 Console.WriteLine($"Signed JWS: {jws}");
 ```
 
-### Creating Employer Commitment Claims
+### Creating Recipient Commitment Claims
 
 ```csharp
-var claim = HapSigner.CreateEmployerCommitmentClaim(
-    employerName: "Acme Corp",
+var claim = HapSigner.CreateRecipientCommitmentClaim(
+    recipientName: "Acme Corp",
     commitment: "review_verified",
     issuer: "my-va.com",
-    employerDomain: "acme.com",
+    recipientDomain: "acme.com",
     expiresInDays: 365
 );
 
@@ -145,7 +145,7 @@ var jws = HapSigner.SignClaim(claim, privateKey, "my_key_001");
 | `FetchPublicKeysAsync(issuer)`       | Fetch VA's public keys from well-known endpoint  |
 | `ExtractHapIdFromUrl(url)`           | Extract HAP ID from verification URL (static)    |
 | `IsClaimExpired(claim)`              | Check if claim has passed expiration (static)    |
-| `IsClaimForCompany(claim, domain)`   | Check if claim targets specific company (static) |
+| `IsClaimForRecipient(claim, domain)`   | Check if claim targets specific recipient (static) |
 
 ### Hap Class (Static Utilities)
 
@@ -162,14 +162,14 @@ var jws = HapSigner.SignClaim(claim, privateKey, "my_key_001");
 | `ExportPublicKeyJwk(key, kid)`       | Export public key as JWK                |
 | `SignClaim(claim, privateKey, kid)`  | Sign a claim, returns JWS               |
 | `CreateHumanEffortClaim(...)`        | Create human_effort claim with defaults |
-| `CreateEmployerCommitmentClaim(...)` | Create employer_commitment claim        |
+| `CreateRecipientCommitmentClaim(...)` | Create recipient_commitment claim        |
 
 ### Constants
 
 ```csharp
 // Claim types
-Hap.ClaimTypes.HumanEffort        // "human_effort"
-Hap.ClaimTypes.EmployerCommitment // "employer_commitment"
+Hap.ClaimTypes.HumanEffort         // "human_effort"
+Hap.ClaimTypes.RecipientCommitment // "recipient_commitment"
 
 // Verification methods
 Hap.Methods.PhysicalMail   // "physical_mail"

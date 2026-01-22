@@ -82,8 +82,8 @@ public class HapSigner {
      * Creates a complete human effort claim with all required fields.
      *
      * @param method Verification method (e.g., "physical_mail")
-     * @param company Target company name
-     * @param domain Target company domain (optional, can be null)
+     * @param recipientName Recipient name
+     * @param domain Recipient domain (optional, can be null)
      * @param tier Service tier (optional, can be null)
      * @param issuer VA's domain
      * @param expiresInDays Days until expiration (0 for no expiration)
@@ -91,13 +91,13 @@ public class HapSigner {
      */
     public static HumanEffortClaim createHumanEffortClaim(
             String method,
-            String company,
+            String recipientName,
             String domain,
             String tier,
             String issuer,
             int expiresInDays) {
 
-        HumanEffortClaim claim = new HumanEffortClaim(method, company, domain, tier, issuer);
+        HumanEffortClaim claim = new HumanEffortClaim(method, recipientName, domain, tier, issuer);
 
         if (expiresInDays > 0) {
             Instant exp = Instant.now().plus(expiresInDays, ChronoUnit.DAYS);
@@ -108,24 +108,24 @@ public class HapSigner {
     }
 
     /**
-     * Creates a complete employer commitment claim with all required fields.
+     * Creates a complete recipient commitment claim with all required fields.
      *
-     * @param employerName Employer's name
-     * @param employerDomain Employer's domain (optional, can be null)
+     * @param recipientName Recipient's name
+     * @param recipientDomain Recipient's domain (optional, can be null)
      * @param commitment Commitment level (e.g., "review_verified")
      * @param issuer VA's domain
      * @param expiresInDays Days until expiration (0 for no expiration)
-     * @return A complete EmployerCommitmentClaim object
+     * @return A complete RecipientCommitmentClaim object
      */
-    public static EmployerCommitmentClaim createEmployerCommitmentClaim(
-            String employerName,
-            String employerDomain,
+    public static RecipientCommitmentClaim createRecipientCommitmentClaim(
+            String recipientName,
+            String recipientDomain,
             String commitment,
             String issuer,
             int expiresInDays) {
 
-        EmployerCommitmentClaim claim = new EmployerCommitmentClaim(
-                employerName, employerDomain, commitment, issuer);
+        RecipientCommitmentClaim claim = new RecipientCommitmentClaim(
+                recipientName, recipientDomain, commitment, issuer);
 
         if (expiresInDays > 0) {
             Instant exp = Instant.now().plus(expiresInDays, ChronoUnit.DAYS);

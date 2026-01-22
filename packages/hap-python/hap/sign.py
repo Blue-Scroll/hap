@@ -15,7 +15,7 @@ from cryptography.hazmat.primitives.asymmetric.ed25519 import (
     Ed25519PublicKey,
 )
 
-from hap.types import HAP_VERSION, EmployerCommitmentClaim, HapClaim, HumanEffortClaim
+from hap.types import HAP_VERSION, RecipientCommitmentClaim, HapClaim, HumanEffortClaim
 
 # Characters used for HAP ID generation
 HAP_ID_CHARS = string.ascii_letters + string.digits
@@ -99,7 +99,7 @@ def sign_claim(claim: HapClaim, private_key: Ed25519PrivateKey, kid: str) -> str
 
 def create_human_effort_claim(
     method: str,
-    company: str,
+    recipient_name: str,
     issuer: str,
     domain: Optional[str] = None,
     tier: Optional[str] = None,
@@ -110,9 +110,9 @@ def create_human_effort_claim(
 
     Args:
         method: Verification method (e.g., "physical_mail")
-        company: Target company name
+        recipient_name: Recipient name
         issuer: VA's domain
-        domain: Target company domain (optional)
+        domain: Recipient domain (optional)
         tier: Service tier (optional)
         expires_in_days: Days until expiration (optional)
 
@@ -126,7 +126,7 @@ def create_human_effort_claim(
         "id": generate_hap_id(),
         "type": "human_effort",
         "method": method,
-        "to": {"company": company},
+        "to": {"name": recipient_name},
         "at": now.isoformat().replace("+00:00", "Z"),
         "iss": issuer,
     }
@@ -144,40 +144,40 @@ def create_human_effort_claim(
     return claim
 
 
-def create_employer_commitment_claim(
-    employer_name: str,
+def create_recipient_commitment_claim(
+    recipient_name: str,
     commitment: str,
     issuer: str,
-    employer_domain: Optional[str] = None,
+    recipient_domain: Optional[str] = None,
     expires_in_days: Optional[int] = None,
-) -> EmployerCommitmentClaim:
+) -> RecipientCommitmentClaim:
     """
-    Creates a complete employer commitment claim with all required fields.
+    Creates a complete recipient commitment claim with all required fields.
 
     Args:
-        employer_name: Employer's name
+        recipient_name: Recipient's name
         commitment: Commitment level (e.g., "review_verified")
         issuer: VA's domain
-        employer_domain: Employer's domain (optional)
+        recipient_domain: Recipient's domain (optional)
         expires_in_days: Days until expiration (optional)
 
     Returns:
-        A complete EmployerCommitmentClaim dict
+        A complete RecipientCommitmentClaim dict
     """
     now = datetime.now(timezone.utc)
 
-    claim: EmployerCommitmentClaim = {
+    claim: RecipientCommitmentClaim = {
         "v": HAP_VERSION,
         "id": generate_hap_id(),
-        "type": "employer_commitment",
-        "employer": {"name": employer_name},
+        "type": "recipient_commitment",
+        "recipient": {"name": recipient_name},
         "commitment": commitment,
         "at": now.isoformat().replace("+00:00", "Z"),
         "iss": issuer,
     }
 
-    if employer_domain:
-        claim["employer"]["domain"] = employer_domain
+    if recipient_domain:
+        claim["recipient"]["domain"] = recipient_domain
 
     if expires_in_days:
         exp = now + timedelta(days=expires_in_days)

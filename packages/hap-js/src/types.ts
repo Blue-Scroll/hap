@@ -24,28 +24,28 @@ export type VerificationMethod =
   | CustomVerificationMethod;
 
 /** Claim types */
-export type ClaimType = "human_effort" | "employer_commitment";
+export type ClaimType = "human_effort" | "recipient_commitment";
 
-/** Employer commitment levels */
+/** Recipient commitment levels */
 export type CommitmentLevel =
   | "review_verified"
   | "prioritize_verified"
   | "respond_verified"
   | `x-${string}`;
 
-/** Target company information */
+/** Target recipient information */
 export interface ClaimTarget {
-  /** Company name */
-  company: string;
-  /** Company domain for unambiguous identification */
+  /** Recipient name */
+  name: string;
+  /** Recipient domain for unambiguous identification */
   domain?: string;
 }
 
-/** Employer information for employer_commitment claims */
-export interface EmployerInfo {
-  /** Employer name */
+/** Recipient information for recipient_commitment claims */
+export interface RecipientInfo {
+  /** Recipient name */
   name: string;
-  /** Employer domain */
+  /** Recipient domain */
   domain?: string;
 }
 
@@ -72,21 +72,21 @@ export interface HumanEffortClaim extends BaseHapClaim {
   method: VerificationMethod;
   /** Service tier (VA-specific) */
   tier?: string;
-  /** Target company */
+  /** Target recipient */
   to: ClaimTarget;
 }
 
-/** Employer commitment claim */
-export interface EmployerCommitmentClaim extends BaseHapClaim {
-  type: "employer_commitment";
-  /** Employer information */
-  employer: EmployerInfo;
+/** Recipient commitment claim */
+export interface RecipientCommitmentClaim extends BaseHapClaim {
+  type: "recipient_commitment";
+  /** Recipient information */
+  recipient: RecipientInfo;
   /** Commitment level */
   commitment: CommitmentLevel;
 }
 
 /** Union of all HAP claim types */
-export type HapClaim = HumanEffortClaim | EmployerCommitmentClaim;
+export type HapClaim = HumanEffortClaim | RecipientCommitmentClaim;
 
 /** Revocation reason codes */
 export type RevocationReason = "fraud" | "error" | "legal" | "user_request";

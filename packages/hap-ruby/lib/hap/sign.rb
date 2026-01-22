@@ -74,13 +74,13 @@ module Hap
     # Creates a complete human effort claim with all required fields
     #
     # @param method [String] Verification method (e.g., "physical_mail")
-    # @param company [String] Target company name
+    # @param recipient_name [String] Recipient name
     # @param issuer [String] VA's domain
-    # @param domain [String, nil] Target company domain (optional)
+    # @param domain [String, nil] Recipient domain (optional)
     # @param tier [String, nil] Service tier (optional)
     # @param expires_in_days [Integer, nil] Days until expiration (optional)
     # @return [Hash] A complete human effort claim
-    def create_human_effort_claim(method:, company:, issuer:, domain: nil, tier: nil, expires_in_days: nil)
+    def create_human_effort_claim(method:, recipient_name:, issuer:, domain: nil, tier: nil, expires_in_days: nil)
       now = Time.now.utc
 
       claim = {
@@ -88,7 +88,7 @@ module Hap
         id: generate_hap_id,
         type: CLAIM_TYPE_HUMAN_EFFORT,
         method: method,
-        to: { company: company },
+        to: { name: recipient_name },
         at: now.iso8601,
         iss: issuer
       }
@@ -104,28 +104,28 @@ module Hap
       claim
     end
 
-    # Creates a complete employer commitment claim with all required fields
+    # Creates a complete recipient commitment claim with all required fields
     #
-    # @param employer_name [String] Employer's name
+    # @param recipient_name [String] Recipient's name
     # @param commitment [String] Commitment level (e.g., "review_verified")
     # @param issuer [String] VA's domain
-    # @param employer_domain [String, nil] Employer's domain (optional)
+    # @param recipient_domain [String, nil] Recipient's domain (optional)
     # @param expires_in_days [Integer, nil] Days until expiration (optional)
-    # @return [Hash] A complete employer commitment claim
-    def create_employer_commitment_claim(employer_name:, commitment:, issuer:, employer_domain: nil, expires_in_days: nil)
+    # @return [Hash] A complete recipient commitment claim
+    def create_recipient_commitment_claim(recipient_name:, commitment:, issuer:, recipient_domain: nil, expires_in_days: nil)
       now = Time.now.utc
 
       claim = {
         v: VERSION_PROTOCOL,
         id: generate_hap_id,
-        type: CLAIM_TYPE_EMPLOYER_COMMITMENT,
-        employer: { name: employer_name },
+        type: CLAIM_TYPE_RECIPIENT_COMMITMENT,
+        recipient: { name: recipient_name },
         commitment: commitment,
         at: now.iso8601,
         iss: issuer
       }
 
-      claim[:employer][:domain] = employer_domain if employer_domain
+      claim[:recipient][:domain] = recipient_domain if recipient_domain
 
       if expires_in_days
         exp = now + (expires_in_days * 24 * 60 * 60)

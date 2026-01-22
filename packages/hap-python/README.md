@@ -1,4 +1,4 @@
-# bluescroll-hap
+# human-attestation
 
 Official HAP (Human Attestation Protocol) SDK for Python.
 
@@ -7,16 +7,16 @@ HAP is an open standard for verified human effort. It enables Verification Autho
 ## Installation
 
 ```bash
-pip install bluescroll-hap
+pip install human-attestation
 ```
 
 ## Quick Start
 
-### Verifying a Claim (For Employers)
+### Verifying a Claim (For Recipients)
 
 ```python
 import asyncio
-from hap import verify_hap_claim, is_claim_expired, is_claim_for_company
+from hap import verify_hap_claim, is_claim_expired, is_claim_for_recipient
 
 async def main():
     # Verify a claim from a HAP ID
@@ -28,12 +28,12 @@ async def main():
             print("Claim has expired")
             return
 
-        # Verify it's for your company
-        if not is_claim_for_company(claim, "yourcompany.com"):
-            print("Claim is for a different company")
+        # Verify it's for your organization
+        if not is_claim_for_recipient(claim, "yourcompany.com"):
+            print("Claim is for a different recipient")
             return
 
-        print(f"Verified {claim['method']} application to {claim['to']['company']}")
+        print(f"Verified {claim['method']} application to {claim['to']['name']}")
 
 asyncio.run(main())
 ```
@@ -94,7 +94,7 @@ print(json.dumps(well_known, indent=2))
 # Create and sign a claim
 claim = create_human_effort_claim(
     method="physical_mail",
-    company="Acme Corp",
+    recipient_name="Acme Corp",
     domain="acme.com",
     tier="standard",
     issuer="my-va.com",
@@ -105,14 +105,14 @@ jws = sign_claim(claim, private_key, kid="my_key_001")
 print("Signed JWS:", jws)
 ```
 
-### Creating Employer Commitment Claims
+### Creating Recipient Commitment Claims
 
 ```python
-from hap import create_employer_commitment_claim, sign_claim
+from hap import create_recipient_commitment_claim, sign_claim
 
-claim = create_employer_commitment_claim(
-    employer_name="Acme Corp",
-    employer_domain="acme.com",
+claim = create_recipient_commitment_claim(
+    recipient_name="Acme Corp",
+    recipient_domain="acme.com",
     commitment="review_verified",
     issuer="my-va.com",
     expires_in_days=365,
@@ -134,7 +134,7 @@ jws = sign_claim(claim, private_key, kid="my_key_001")
 | `is_valid_hap_id(id)`                 | Check if string matches HAP ID format           |
 | `extract_hap_id_from_url(url)`        | Extract HAP ID from verification URL            |
 | `is_claim_expired(claim)`             | Check if claim has passed expiration            |
-| `is_claim_for_company(claim, domain)` | Check if claim targets specific company         |
+| `is_claim_for_recipient(claim, domain)` | Check if claim targets specific recipient         |
 
 ### Signing Functions (For VAs)
 
@@ -145,7 +145,7 @@ jws = sign_claim(claim, private_key, kid="my_key_001")
 | `sign_claim(claim, private_key, kid)`   | Sign a claim, returns JWS                |
 | `generate_hap_id()`                     | Generate cryptographically secure HAP ID |
 | `create_human_effort_claim(...)`        | Create human_effort claim with defaults  |
-| `create_employer_commitment_claim(...)` | Create employer_commitment claim         |
+| `create_recipient_commitment_claim(...)` | Create recipient_commitment claim         |
 
 ### Types
 
@@ -153,7 +153,7 @@ jws = sign_claim(claim, private_key, kid="my_key_001")
 from hap import (
     HapClaim,
     HumanEffortClaim,
-    EmployerCommitmentClaim,
+    RecipientCommitmentClaim,
     VerificationResponse,
     HapWellKnown,
     HapJwk,

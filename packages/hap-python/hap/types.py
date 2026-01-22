@@ -12,20 +12,20 @@ HAP_VERSION = "0.1"
 HAP_ID_REGEX = re.compile(r"^hap_[a-zA-Z0-9]{12}$")
 
 # Type aliases
-ClaimType = Literal["human_effort", "employer_commitment"]
+ClaimType = Literal["human_effort", "recipient_commitment"]
 VerificationMethod = Literal["physical_mail", "video_interview", "paid_assessment", "referral"]
 CommitmentLevel = Literal["review_verified", "prioritize_verified", "respond_verified"]
 RevocationReason = Literal["fraud", "error", "legal", "user_request"]
 
 
 class ClaimTarget(TypedDict, total=False):
-    """Target company information"""
-    company: str
+    """Target recipient information"""
+    name: str
     domain: str
 
 
-class EmployerInfo(TypedDict, total=False):
-    """Employer information for employer_commitment claims"""
+class RecipientInfo(TypedDict, total=False):
+    """Recipient information for recipient_commitment claims"""
     name: str
     domain: str
 
@@ -43,12 +43,12 @@ class HumanEffortClaim(TypedDict, total=False):
     iss: str
 
 
-class EmployerCommitmentClaim(TypedDict, total=False):
-    """Employer commitment claim"""
+class RecipientCommitmentClaim(TypedDict, total=False):
+    """Recipient commitment claim"""
     v: str
     id: str
-    type: Literal["employer_commitment"]
-    employer: EmployerInfo
+    type: Literal["recipient_commitment"]
+    recipient: RecipientInfo
     commitment: str
     at: str
     exp: str
@@ -56,7 +56,7 @@ class EmployerCommitmentClaim(TypedDict, total=False):
 
 
 # Union of all claim types
-HapClaim = Union[HumanEffortClaim, EmployerCommitmentClaim]
+HapClaim = Union[HumanEffortClaim, RecipientCommitmentClaim]
 
 
 class HapJwk(TypedDict):

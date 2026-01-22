@@ -187,7 +187,7 @@ jobs:
           curl -XPOST \
             -H "Content-Type: application/json" \
             "https://packagist.org/api/update-package?username=bluescroll&apiToken=${{ secrets.PACKAGIST_API_TOKEN }}" \
-            -d '{"repository":{"url":"https://github.com/BlueScroll/hap"}}'
+            -d '{"repository":{"url":"https://github.com/Blue-Scroll/hap"}}'
 
   publish-nuget:
     name: Publish to NuGet
@@ -258,7 +258,7 @@ jobs:
 
             **Go:**
             ```bash
-            go get github.com/BlueScroll/hap/packages/hap-go@v${{ needs.validate.outputs.version }}
+            go get github.com/Blue-Scroll/hap/packages/hap-go@v${{ needs.validate.outputs.version }}
             ```
 
             **Java (Maven):**

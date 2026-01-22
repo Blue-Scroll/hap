@@ -1,28 +1,28 @@
 /**
- * @bluescroll/hap - Official HAP (Human Attestation Protocol) SDK
+ * human-attestation - Official HAP (Human Attestation Protocol) SDK
  *
  * HAP is an open standard for verified human effort. This SDK provides
  * tools for both verifying HAP claims (for recipients) and signing claims
  * (for Verification Authorities).
  *
- * @example Verifying a claim (for employers)
+ * @example Verifying a claim (for recipients)
  * ```typescript
- * import { verifyHapClaim, isClaimExpired } from "@bluescroll/hap";
+ * import { verifyHapClaim, isClaimExpired } from "human-attestation";
  *
  * const claim = await verifyHapClaim("hap_abc123xyz456", "ballista.jobs");
  * if (claim && !isClaimExpired(claim)) {
- *   console.log(`Verified application to ${claim.to.company}`);
+ *   console.log(`Verified application to ${claim.to.name}`);
  * }
  * ```
  *
  * @example Signing a claim (for VAs)
  * ```typescript
- * import { generateKeyPair, signClaim, createHumanEffortClaim } from "@bluescroll/hap";
+ * import { generateKeyPair, signClaim, createHumanEffortClaim } from "human-attestation";
  *
  * const { privateKey } = await generateKeyPair();
  * const claim = createHumanEffortClaim({
  *   method: "physical_mail",
- *   company: "Acme Corp",
+ *   recipientName: "Acme Corp",
  *   domain: "acme.com",
  *   issuer: "my-va.com",
  * });
@@ -40,8 +40,8 @@ export type {
   CommitmentLevel,
   CoreVerificationMethod,
   CustomVerificationMethod,
-  EmployerCommitmentClaim,
-  EmployerInfo,
+  RecipientCommitmentClaim,
+  RecipientInfo,
   HapClaim,
   HapJwk,
   HapWellKnown,
@@ -60,13 +60,13 @@ export type {
 
 export { HAP_ID_REGEX, HAP_VERSION } from "./types";
 
-// Verification functions (for employers)
+// Verification functions (for recipients)
 export {
   extractHapIdFromUrl,
   fetchClaim,
   fetchPublicKeys,
   isClaimExpired,
-  isClaimForCompany,
+  isClaimForRecipient,
   isValidHapId,
   verifyHapClaim,
   verifySignature,
@@ -74,7 +74,7 @@ export {
 
 // Signing functions (for VAs)
 export {
-  createEmployerCommitmentClaim,
+  createRecipientCommitmentClaim,
   createHumanEffortClaim,
   exportPublicKeyJwk,
   generateHapId,

@@ -11,13 +11,13 @@ namespace BlueScroll\Hap;
  * Authorities (VAs) to cryptographically attest that a sender took deliberate,
  * costly action when communicating with a recipient.
  *
- * @example Verifying a claim (for employers)
+ * @example Verifying a claim (for recipients)
  * ```php
  * use BlueScroll\Hap\Hap;
  *
  * $claim = Hap::verifyHapClaim('hap_abc123xyz456', 'ballista.jobs');
  * if ($claim && !Hap::isClaimExpired($claim)) {
- *     echo "Verified application to " . $claim['to']['company'];
+ *     echo "Verified application to " . $claim['to']['name'];
  * }
  * ```
  */
@@ -34,7 +34,7 @@ final class Hap
 
     /** Claim types */
     public const CLAIM_TYPE_HUMAN_EFFORT = 'human_effort';
-    public const CLAIM_TYPE_EMPLOYER_COMMITMENT = 'employer_commitment';
+    public const CLAIM_TYPE_RECIPIENT_COMMITMENT = 'recipient_commitment';
 
     /** Verification methods */
     public const METHOD_PHYSICAL_MAIL = 'physical_mail';

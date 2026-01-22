@@ -219,20 +219,20 @@ export function isClaimExpired(claim: HapClaim): boolean {
 }
 
 /**
- * Checks if the claim target matches the expected company
+ * Checks if the claim target matches the expected recipient
  * @param claim - The HAP claim to check
- * @param companyDomain - The expected company domain
+ * @param recipientDomain - The expected recipient domain
  * @returns true if the claim's target domain matches
  */
-export function isClaimForCompany(
+export function isClaimForRecipient(
   claim: HapClaim,
-  companyDomain: string,
+  recipientDomain: string,
 ): boolean {
   if (claim.type === "human_effort") {
-    return claim.to.domain === companyDomain;
+    return claim.to.domain === recipientDomain;
   }
-  if (claim.type === "employer_commitment") {
-    return claim.employer.domain === companyDomain;
+  if (claim.type === "recipient_commitment") {
+    return claim.recipient.domain === recipientDomain;
   }
   return false;
 }

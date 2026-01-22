@@ -200,22 +200,22 @@ final class Verify
     }
 
     /**
-     * Checks if the claim target matches the expected company.
+     * Checks if the claim target matches the expected recipient.
      *
      * @param array $claim The HAP claim to check
-     * @param string $companyDomain The expected company domain
+     * @param string $recipientDomain The expected recipient domain
      * @return bool True if the claim's target domain matches
      */
-    public static function isClaimForCompany(array $claim, string $companyDomain): bool
+    public static function isClaimForRecipient(array $claim, string $recipientDomain): bool
     {
         $type = $claim['type'] ?? null;
 
         if ($type === Hap::CLAIM_TYPE_HUMAN_EFFORT) {
-            return ($claim['to']['domain'] ?? null) === $companyDomain;
+            return ($claim['to']['domain'] ?? null) === $recipientDomain;
         }
 
-        if ($type === Hap::CLAIM_TYPE_EMPLOYER_COMMITMENT) {
-            return ($claim['employer']['domain'] ?? null) === $companyDomain;
+        if ($type === Hap::CLAIM_TYPE_RECIPIENT_COMMITMENT) {
+            return ($claim['recipient']['domain'] ?? null) === $recipientDomain;
         }
 
         return false;

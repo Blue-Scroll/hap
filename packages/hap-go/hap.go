@@ -4,24 +4,24 @@
 // Authorities (VAs) to cryptographically attest that a sender took deliberate,
 // costly action when communicating with a recipient.
 //
-// Example - Verifying a claim (for employers):
+// Example - Verifying a claim (for recipients):
 //
 //	claim, err := hap.VerifyHapClaim(ctx, "hap_abc123xyz456", "ballista.jobs")
 //	if err != nil {
 //	    log.Fatal(err)
 //	}
 //	if claim != nil && !hap.IsClaimExpired(claim) {
-//	    fmt.Printf("Verified application to %s\n", claim.To.Company)
+//	    fmt.Printf("Verified application to %s\n", claim.To.Name)
 //	}
 //
 // Example - Signing a claim (for VAs):
 //
 //	privateKey, publicKey, _ := hap.GenerateKeyPair()
 //	claim := hap.CreateHumanEffortClaim(hap.HumanEffortClaimParams{
-//	    Method:  "physical_mail",
-//	    Company: "Acme Corp",
-//	    Domain:  "acme.com",
-//	    Issuer:  "my-va.com",
+//	    Method:        "physical_mail",
+//	    RecipientName: "Acme Corp",
+//	    Domain:        "acme.com",
+//	    Issuer:        "my-va.com",
 //	})
 //	jws, _ := hap.SignClaim(claim, privateKey, "key_001")
 package hap
@@ -40,8 +40,8 @@ var HAPIDRegex = regexp.MustCompile(`^hap_[a-zA-Z0-9]{12}$`)
 type ClaimType string
 
 const (
-	ClaimTypeHumanEffort        ClaimType = "human_effort"
-	ClaimTypeEmployerCommitment ClaimType = "employer_commitment"
+	ClaimTypeHumanEffort         ClaimType = "human_effort"
+	ClaimTypeRecipientCommitment ClaimType = "recipient_commitment"
 )
 
 // VerificationMethod represents core verification methods
@@ -54,7 +54,7 @@ const (
 	MethodReferral       VerificationMethod = "referral"
 )
 
-// CommitmentLevel represents employer commitment levels
+// CommitmentLevel represents recipient commitment levels
 type CommitmentLevel string
 
 const (
@@ -73,14 +73,14 @@ const (
 	RevocationUserRequest RevocationReason = "user_request"
 )
 
-// ClaimTarget represents the target company
+// ClaimTarget represents the target recipient
 type ClaimTarget struct {
-	Company string `json:"company"`
-	Domain  string `json:"domain,omitempty"`
+	Name   string `json:"name"`
+	Domain string `json:"domain,omitempty"`
 }
 
-// EmployerInfo represents employer information
-type EmployerInfo struct {
+// RecipientInfo represents recipient information
+type RecipientInfo struct {
 	Name   string `json:"name"`
 	Domain string `json:"domain,omitempty"`
 }
@@ -98,16 +98,16 @@ type HumanEffortClaim struct {
 	Iss    string      `json:"iss"`
 }
 
-// EmployerCommitmentClaim represents an employer commitment claim
-type EmployerCommitmentClaim struct {
-	V          string       `json:"v"`
-	ID         string       `json:"id"`
-	Type       ClaimType    `json:"type"`
-	Employer   EmployerInfo `json:"employer"`
-	Commitment string       `json:"commitment"`
-	At         string       `json:"at"`
-	Exp        string       `json:"exp,omitempty"`
-	Iss        string       `json:"iss"`
+// RecipientCommitmentClaim represents a recipient commitment claim
+type RecipientCommitmentClaim struct {
+	V          string        `json:"v"`
+	ID         string        `json:"id"`
+	Type       ClaimType     `json:"type"`
+	Recipient  RecipientInfo `json:"recipient"`
+	Commitment string        `json:"commitment"`
+	At         string        `json:"at"`
+	Exp        string        `json:"exp,omitempty"`
+	Iss        string        `json:"iss"`
 }
 
 // HapClaim is an interface for all HAP claim types
@@ -125,11 +125,11 @@ func (c *HumanEffortClaim) GetAt() string      { return c.At }
 func (c *HumanEffortClaim) GetExp() string     { return c.Exp }
 func (c *HumanEffortClaim) GetIss() string     { return c.Iss }
 
-func (c *EmployerCommitmentClaim) GetID() string      { return c.ID }
-func (c *EmployerCommitmentClaim) GetType() ClaimType { return c.Type }
-func (c *EmployerCommitmentClaim) GetAt() string      { return c.At }
-func (c *EmployerCommitmentClaim) GetExp() string     { return c.Exp }
-func (c *EmployerCommitmentClaim) GetIss() string     { return c.Iss }
+func (c *RecipientCommitmentClaim) GetID() string      { return c.ID }
+func (c *RecipientCommitmentClaim) GetType() ClaimType { return c.Type }
+func (c *RecipientCommitmentClaim) GetAt() string      { return c.At }
+func (c *RecipientCommitmentClaim) GetExp() string     { return c.Exp }
+func (c *RecipientCommitmentClaim) GetIss() string     { return c.Iss }
 
 // HapJWK represents a JWK public key for Ed25519
 type HapJWK struct {

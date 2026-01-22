@@ -1,4 +1,4 @@
-# hap-go
+# human-attestation (Go)
 
 Official HAP (Human Attestation Protocol) SDK for Go.
 
@@ -7,12 +7,12 @@ HAP is an open standard for verified human effort. It enables Verification Autho
 ## Installation
 
 ```bash
-go get github.com/BlueScroll/hap/packages/hap-go
+go get github.com/Blue-Scroll/hap/packages/hap-go
 ```
 
 ## Quick Start
 
-### Verifying a Claim (For Employers)
+### Verifying a Claim (For Recipients)
 
 ```go
 package main
@@ -22,7 +22,7 @@ import (
     "fmt"
     "log"
 
-    hap "github.com/BlueScroll/hap/packages/hap-go"
+    hap "github.com/Blue-Scroll/hap/packages/hap-go"
 )
 
 func main() {
@@ -41,13 +41,13 @@ func main() {
             return
         }
 
-        // Verify it's for your company
-        if !hap.IsClaimForCompany(claim, "yourcompany.com") {
-            fmt.Println("Claim is for a different company")
+        // Verify it's for your organization
+        if !hap.IsClaimForRecipient(claim, "yourcompany.com") {
+            fmt.Println("Claim is for a different recipient")
             return
         }
 
-        fmt.Printf("Verified %s application to %s\n", claim.Method, claim.To.Company)
+        fmt.Printf("Verified %s application to %s\n", claim.Method, claim.To.Name)
     }
 }
 ```
@@ -99,7 +99,7 @@ import (
     "fmt"
     "log"
 
-    hap "github.com/BlueScroll/hap/packages/hap-go"
+    hap "github.com/Blue-Scroll/hap/packages/hap-go"
 )
 
 func main() {
@@ -121,7 +121,7 @@ func main() {
     // Create and sign a claim
     claim, err := hap.CreateHumanEffortClaim(hap.HumanEffortClaimParams{
         Method:        "physical_mail",
-        Company:       "Acme Corp",
+        RecipientName: "Acme Corp",
         Domain:        "acme.com",
         Tier:          "standard",
         Issuer:        "my-va.com",
@@ -139,15 +139,15 @@ func main() {
 }
 ```
 
-### Creating Employer Commitment Claims
+### Creating Recipient Commitment Claims
 
 ```go
-claim, err := hap.CreateEmployerCommitmentClaim(hap.EmployerCommitmentClaimParams{
-    EmployerName:   "Acme Corp",
-    EmployerDomain: "acme.com",
-    Commitment:     "review_verified",
-    Issuer:         "my-va.com",
-    ExpiresInDays:  365,
+claim, err := hap.CreateRecipientCommitmentClaim(hap.RecipientCommitmentClaimParams{
+    RecipientName:   "Acme Corp",
+    RecipientDomain: "acme.com",
+    Commitment:      "review_verified",
+    Issuer:          "my-va.com",
+    ExpiresInDays:   365,
 })
 if err != nil {
     log.Fatal(err)
@@ -169,7 +169,7 @@ jws, err := hap.SignClaim(claim, privateKey, "my_key_001")
 | `IsValidHapID(id)`                        | Check if string matches HAP ID format           |
 | `ExtractHapIDFromURL(url)`                | Extract HAP ID from verification URL            |
 | `IsClaimExpired(claim)`                   | Check if claim has passed expiration            |
-| `IsClaimForCompany(claim, domain)`        | Check if claim targets specific company         |
+| `IsClaimForRecipient(claim, domain)`      | Check if claim targets specific recipient       |
 
 ### Signing Functions (For VAs)
 
@@ -180,16 +180,16 @@ jws, err := hap.SignClaim(claim, privateKey, "my_key_001")
 | `SignClaim(claim, privateKey, kid)`     | Sign a claim, returns JWS                |
 | `GenerateHapID()`                       | Generate cryptographically secure HAP ID |
 | `CreateHumanEffortClaim(params)`        | Create human_effort claim with defaults  |
-| `CreateEmployerCommitmentClaim(params)` | Create employer_commitment claim         |
+| `CreateRecipientCommitmentClaim(params)` | Create recipient_commitment claim         |
 
 ### Types
 
 ```go
-import hap "github.com/BlueScroll/hap/packages/hap-go"
+import hap "github.com/Blue-Scroll/hap/packages/hap-go"
 
 // Main claim types
 var _ hap.HumanEffortClaim
-var _ hap.EmployerCommitmentClaim
+var _ hap.RecipientCommitmentClaim
 
 // Response types
 var _ hap.VerificationResponse

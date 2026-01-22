@@ -3,9 +3,9 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "bluescroll-hap"
+name = "human-attestation"
 version = "0.2.0"
-description = "Official HAP (Human Attestation Protocol) SDK for Python"
+description = "Official SDK for HAP (Human Attestation Protocol) - cryptographic proof of verified human effort"
 readme = "README.md"
 license = "Apache-2.0"
 requires-python = ">=3.9"
@@ -15,10 +15,13 @@ authors = [
 keywords = [
     "hap",
     "human-attestation-protocol",
+    "attestation",
     "verification",
-    "job-applications",
+    "proof-of-effort",
+    "cryptographic",
     "ed25519",
-    "jws"
+    "jws",
+    "sender-verification"
 ]
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -46,9 +49,9 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/BlueScroll/hap"
-Repository = "https://github.com/BlueScroll/hap.git"
-Documentation = "https://github.com/BlueScroll/hap#readme"
+Homepage = "https://github.com/Blue-Scroll/hap"
+Repository = "https://github.com/Blue-Scroll/hap.git"
+Documentation = "https://github.com/Blue-Scroll/hap#readme"
 
 [tool.hatch.build.targets.wheel]
 packages = ["hap"]

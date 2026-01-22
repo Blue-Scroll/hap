@@ -21,11 +21,11 @@ import java.util.regex.Pattern;
  * Authorities (VAs) to cryptographically attest that a sender took deliberate,
  * costly action when communicating with a recipient.
  *
- * <p>Example - Verifying a claim (for employers):
+ * <p>Example - Verifying a claim (for recipients):
  * <pre>{@code
  * HumanEffortClaim claim = Hap.verifyHapClaim("hap_abc123xyz456", "ballista.jobs");
  * if (claim != null && !Hap.isClaimExpired(claim)) {
- *     System.out.println("Verified application to " + claim.getTo().getCompany());
+ *     System.out.println("Verified application to " + claim.getTo().getName());
  * }
  * }</pre>
  */
@@ -259,25 +259,25 @@ public class Hap {
     }
 
     /**
-     * Checks if the claim target matches the expected company.
+     * Checks if the claim target matches the expected recipient.
      *
      * @param claim The HAP claim to check
-     * @param companyDomain The expected company domain
+     * @param recipientDomain The expected recipient domain
      * @return true if the claim's target domain matches
      */
-    public static boolean isClaimForCompany(HumanEffortClaim claim, String companyDomain) {
-        return claim.getTo() != null && companyDomain.equals(claim.getTo().getDomain());
+    public static boolean isClaimForRecipient(HumanEffortClaim claim, String recipientDomain) {
+        return claim.getTo() != null && recipientDomain.equals(claim.getTo().getDomain());
     }
 
     /**
-     * Checks if an employer commitment claim matches the expected company.
+     * Checks if a recipient commitment claim matches the expected recipient.
      *
-     * @param claim The employer commitment claim to check
-     * @param companyDomain The expected company domain
-     * @return true if the claim's employer domain matches
+     * @param claim The recipient commitment claim to check
+     * @param recipientDomain The expected recipient domain
+     * @return true if the claim's recipient domain matches
      */
-    public static boolean isClaimForCompany(EmployerCommitmentClaim claim, String companyDomain) {
-        return claim.getEmployer() != null && companyDomain.equals(claim.getEmployer().getDomain());
+    public static boolean isClaimForRecipient(RecipientCommitmentClaim claim, String recipientDomain) {
+        return claim.getRecipient() != null && recipientDomain.equals(claim.getRecipient().getDomain());
     }
 
     /**

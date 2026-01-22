@@ -75,15 +75,15 @@ public static class HapSigner
     /// Creates a complete human effort claim with all required fields.
     /// </summary>
     /// <param name="method">Verification method (e.g., "physical_mail")</param>
-    /// <param name="company">Target company name</param>
+    /// <param name="recipientName">Recipient name</param>
     /// <param name="issuer">VA's domain</param>
-    /// <param name="domain">Target company domain (optional)</param>
+    /// <param name="domain">Recipient domain (optional)</param>
     /// <param name="tier">Service tier (optional)</param>
     /// <param name="expiresInDays">Days until expiration (optional)</param>
     /// <returns>A complete HumanEffortClaim object</returns>
     public static HumanEffortClaim CreateHumanEffortClaim(
         string method,
-        string company,
+        string recipientName,
         string issuer,
         string? domain = null,
         string? tier = null,
@@ -95,7 +95,7 @@ public static class HapSigner
             V = Hap.Version,
             Id = Hap.GenerateHapId(),
             Method = method,
-            To = new ClaimTarget { Company = company, Domain = domain },
+            To = new ClaimTarget { Name = recipientName, Domain = domain },
             Tier = tier,
             At = now.ToString("O"),
             Iss = issuer
@@ -110,27 +110,27 @@ public static class HapSigner
     }
 
     /// <summary>
-    /// Creates a complete employer commitment claim with all required fields.
+    /// Creates a complete recipient commitment claim with all required fields.
     /// </summary>
-    /// <param name="employerName">Employer's name</param>
+    /// <param name="recipientName">Recipient's name</param>
     /// <param name="commitment">Commitment level (e.g., "review_verified")</param>
     /// <param name="issuer">VA's domain</param>
-    /// <param name="employerDomain">Employer's domain (optional)</param>
+    /// <param name="recipientDomain">Recipient's domain (optional)</param>
     /// <param name="expiresInDays">Days until expiration (optional)</param>
-    /// <returns>A complete EmployerCommitmentClaim object</returns>
-    public static EmployerCommitmentClaim CreateEmployerCommitmentClaim(
-        string employerName,
+    /// <returns>A complete RecipientCommitmentClaim object</returns>
+    public static RecipientCommitmentClaim CreateRecipientCommitmentClaim(
+        string recipientName,
         string commitment,
         string issuer,
-        string? employerDomain = null,
+        string? recipientDomain = null,
         int? expiresInDays = null)
     {
         var now = DateTime.UtcNow;
-        var claim = new EmployerCommitmentClaim
+        var claim = new RecipientCommitmentClaim
         {
             V = Hap.Version,
             Id = Hap.GenerateHapId(),
-            Employer = new EmployerInfo { Name = employerName, Domain = employerDomain },
+            Recipient = new RecipientInfo { Name = recipientName, Domain = recipientDomain },
             Commitment = commitment,
             At = now.ToString("O"),
             Iss = issuer

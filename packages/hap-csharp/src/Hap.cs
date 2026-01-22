@@ -26,7 +26,7 @@ public static partial class Hap
     public static class ClaimTypes
     {
         public const string HumanEffort = "human_effort";
-        public const string EmployerCommitment = "employer_commitment";
+        public const string RecipientCommitment = "recipient_commitment";
     }
 
     /// <summary>Core verification methods</summary>

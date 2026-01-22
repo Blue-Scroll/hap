@@ -118,7 +118,7 @@ The following methods are documented in the HAP repository. Any VA may use them:
 
 | Method            | Description                         |
 | ----------------- | ----------------------------------- |
-| `physical_mail`   | Application sent via physical mail  |
+| `physical_mail`   | Message sent via physical mail      |
 | `video_interview` | Live video interview with a human   |
 | `paid_assessment` | Completed a paid skills assessment  |
 | `referral`        | Referred by a verified professional |
@@ -233,7 +233,7 @@ VAs MAY include an optional `va` object to provide additional metadata about the
     "name": "Ballista",
     "methods": ["physical_mail"],
     "status": "active",
-    "description": "Physical mail verification for job applications"
+    "description": "Physical mail verification service"
   }
 }
 ```
@@ -315,7 +315,7 @@ Returns the verification claim with its signature.
 | `fraud`           | Claim was issued fraudulently         |
 | `error`           | Claim contained incorrect information |
 | `legal`           | Revoked due to legal requirement      |
-| `user_request`    | Applicant requested removal           |
+| `user_request`    | Sender requested removal              |
 
 #### Response (not found)
 
@@ -341,7 +341,7 @@ GET /v/{hapId}
 
 A mobile-friendly HTML page showing verification details. This is where the VA's branding lives. The page should display:
 
-- Company name
+- Recipient name
 - Verification date
 - Verification method
 - VA identity

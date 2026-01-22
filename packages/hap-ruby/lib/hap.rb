@@ -11,17 +11,17 @@ require_relative "hap/sign"
 # Authorities (VAs) to cryptographically attest that a sender took deliberate,
 # costly action when communicating with a recipient.
 #
-# @example Verifying a claim (for employers)
+# @example Verifying a claim (for recipients)
 #   claim = Hap.verify_hap_claim("hap_abc123xyz456", "ballista.jobs")
 #   if claim && !Hap.claim_expired?(claim)
-#     puts "Verified application to #{claim[:to][:company]}"
+#     puts "Verified application to #{claim[:to][:name]}"
 #   end
 #
 # @example Signing a claim (for VAs)
 #   private_key, public_key = Hap.generate_key_pair
 #   claim = Hap.create_human_effort_claim(
 #     method: "physical_mail",
-#     company: "Acme Corp",
+#     recipient_name: "Acme Corp",
 #     domain: "acme.com",
 #     issuer: "my-va.com"
 #   )

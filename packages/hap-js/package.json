@@ -1,7 +1,7 @@
 {
-  "name": "@bluescroll/hap",
+  "name": "human-attestation",
   "version": "0.2.0",
-  "description": "Official HAP (Human Attestation Protocol) SDK for JavaScript/TypeScript",
+  "description": "Official SDK for HAP (Human Attestation Protocol) - cryptographic proof of verified human effort",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
@@ -26,21 +26,24 @@
   "keywords": [
     "hap",
     "human-attestation-protocol",
+    "attestation",
     "verification",
-    "job-applications",
+    "proof-of-effort",
+    "cryptographic",
     "ed25519",
-    "jws"
+    "jws",
+    "sender-verification"
   ],
   "author": "BlueScroll Inc.",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/BlueScroll/hap.git",
+    "url": "https://github.com/Blue-Scroll/hap.git",
     "directory": "packages/hap-js"
   },
-  "homepage": "https://github.com/BlueScroll/hap",
+  "homepage": "https://github.com/Blue-Scroll/hap",
   "bugs": {
-    "url": "https://github.com/BlueScroll/hap/issues"
+    "url": "https://github.com/Blue-Scroll/hap/issues"
   },
   "engines": {
     "node": ">=18.0.0"

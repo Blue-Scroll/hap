@@ -1,4 +1,4 @@
-# bluescroll-hap
+# human-attestation
 
 Official HAP (Human Attestation Protocol) SDK for Ruby.
 
@@ -9,18 +9,18 @@ HAP is an open standard for verified human effort. It enables Verification Autho
 Add to your Gemfile:
 
 ```ruby
-gem 'bluescroll-hap'
+gem 'human-attestation'
 ```
 
 Or install directly:
 
 ```bash
-gem install bluescroll-hap
+gem install human-attestation
 ```
 
 ## Quick Start
 
-### Verifying a Claim (For Employers)
+### Verifying a Claim (For Recipients)
 
 ```ruby
 require 'hap'
@@ -35,13 +35,13 @@ if claim
     return
   end
 
-  # Verify it's for your company
-  unless Hap.claim_for_company?(claim, "yourcompany.com")
-    puts "Claim is for a different company"
+  # Verify it's for your organization
+  unless Hap.claim_for_recipient?(claim, "yourcompany.com")
+    puts "Claim is for a different recipient"
     return
   end
 
-  puts "Verified #{claim[:method]} application to #{claim[:to][:company]}"
+  puts "Verified #{claim[:method]} application to #{claim[:to][:name]}"
 end
 ```
 
@@ -93,7 +93,7 @@ puts JSON.pretty_generate(well_known)
 # Create and sign a claim
 claim = Hap.create_human_effort_claim(
   method: "physical_mail",
-  company: "Acme Corp",
+  recipient_name: "Acme Corp",
   domain: "acme.com",
   tier: "standard",
   issuer: "my-va.com",
@@ -104,12 +104,12 @@ jws = Hap.sign_claim(claim, private_key, kid: "my_key_001")
 puts "Signed JWS: #{jws}"
 ```
 
-### Creating Employer Commitment Claims
+### Creating Recipient Commitment Claims
 
 ```ruby
-claim = Hap.create_employer_commitment_claim(
-  employer_name: "Acme Corp",
-  employer_domain: "acme.com",
+claim = Hap.create_recipient_commitment_claim(
+  recipient_name: "Acme Corp",
+  recipient_domain: "acme.com",
   commitment: "review_verified",
   issuer: "my-va.com",
   expires_in_days: 365
@@ -131,7 +131,7 @@ jws = Hap.sign_claim(claim, private_key, kid: "my_key_001")
 | `Hap.valid_hap_id?(id)`                 | Check if string matches HAP ID format           |
 | `Hap.extract_hap_id_from_url(url)`      | Extract HAP ID from verification URL            |
 | `Hap.claim_expired?(claim)`             | Check if claim has passed expiration            |
-| `Hap.claim_for_company?(claim, domain)` | Check if claim targets specific company         |
+| `Hap.claim_for_recipient?(claim, domain)` | Check if claim targets specific recipient         |
 
 ### Signing Functions (For VAs)
 
@@ -142,14 +142,14 @@ jws = Hap.sign_claim(claim, private_key, kid: "my_key_001")
 | `Hap.sign_claim(claim, private_key, kid:)`  | Sign a claim, returns JWS                |
 | `Hap.generate_hap_id`                       | Generate cryptographically secure HAP ID |
 | `Hap.create_human_effort_claim(...)`        | Create human_effort claim with defaults  |
-| `Hap.create_employer_commitment_claim(...)` | Create employer_commitment claim         |
+| `Hap.create_recipient_commitment_claim(...)` | Create recipient_commitment claim         |
 
 ### Constants
 
 ```ruby
 # Claim types
-Hap::CLAIM_TYPE_HUMAN_EFFORT        # "human_effort"
-Hap::CLAIM_TYPE_EMPLOYER_COMMITMENT # "employer_commitment"
+Hap::CLAIM_TYPE_HUMAN_EFFORT         # "human_effort"
+Hap::CLAIM_TYPE_RECIPIENT_COMMITMENT # "recipient_commitment"
 
 # Verification methods
 Hap::METHOD_PHYSICAL_MAIL   # "physical_mail"

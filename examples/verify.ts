@@ -21,7 +21,7 @@ interface HapClaim {
   method: string;
   tier?: string;
   to: {
-    company: string;
+    name: string;
     domain?: string;
   };
   at: string;
@@ -148,7 +148,7 @@ async function verifyHapClaim(
   }
 
   console.log("   Claim found!");
-  console.log(`   Company: ${response.claims?.to.company}`);
+  console.log(`   Company: ${response.claims?.to.name}`);
   if (response.claims?.to.domain) {
     console.log(`   Domain: ${response.claims.to.domain}`);
   }
@@ -185,7 +185,7 @@ async function verifyHapClaim(
     console.log("This is a valid HAP claim.");
     console.log("");
     console.log("Verified details:");
-    console.log(`  - Company: ${verifiedClaim.to.company}`);
+    console.log(`  - Company: ${verifiedClaim.to.name}`);
     if (verifiedClaim.to.domain) {
       console.log(`  - Domain: ${verifiedClaim.to.domain}`);
     }

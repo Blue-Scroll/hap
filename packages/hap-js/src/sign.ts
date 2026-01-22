@@ -96,7 +96,7 @@ export async function signClaim(
  */
 export function createHumanEffortClaim(params: {
   method: string;
-  company: string;
+  recipientName: string;
   domain?: string;
   tier?: string;
   issuer: string;
@@ -109,7 +109,7 @@ export function createHumanEffortClaim(params: {
     type: "human_effort",
     method: params.method as HapClaim extends { method: infer M } ? M : never,
     to: {
-      company: params.company,
+      name: params.recipientName,
       ...(params.domain && { domain: params.domain }),
     },
     at: now.toISOString(),
@@ -130,13 +130,13 @@ export function createHumanEffortClaim(params: {
 }
 
 /**
- * Creates a complete employer commitment claim with all required fields
+ * Creates a complete recipient commitment claim with all required fields
  * @param params - Claim parameters
- * @returns A complete EmployerCommitmentClaim object
+ * @returns A complete RecipientCommitmentClaim object
  */
-export function createEmployerCommitmentClaim(params: {
-  employerName: string;
-  employerDomain?: string;
+export function createRecipientCommitmentClaim(params: {
+  recipientName: string;
+  recipientDomain?: string;
   commitment: string;
   issuer: string;
   expiresInDays?: number;
@@ -145,10 +145,10 @@ export function createEmployerCommitmentClaim(params: {
   const claim: HapClaim = {
     v: HAP_VERSION,
     id: generateHapId(),
-    type: "employer_commitment",
-    employer: {
-      name: params.employerName,
-      ...(params.employerDomain && { domain: params.employerDomain }),
+    type: "recipient_commitment",
+    recipient: {
+      name: params.recipientName,
+      ...(params.recipientDomain && { domain: params.recipientDomain }),
     },
     commitment: params.commitment as HapClaim extends { commitment: infer C }
       ? C

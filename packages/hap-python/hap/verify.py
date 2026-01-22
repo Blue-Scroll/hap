@@ -248,13 +248,13 @@ def is_claim_expired(claim: HapClaim) -> bool:
     return exp_date < datetime.now(timezone.utc)
 
 
-def is_claim_for_company(claim: HapClaim, company_domain: str) -> bool:
+def is_claim_for_recipient(claim: HapClaim, recipient_domain: str) -> bool:
     """
-    Checks if the claim target matches the expected company.
+    Checks if the claim target matches the expected recipient.
 
     Args:
         claim: The HAP claim to check
-        company_domain: The expected company domain
+        recipient_domain: The expected recipient domain
 
     Returns:
         True if the claim's target domain matches
@@ -263,10 +263,10 @@ def is_claim_for_company(claim: HapClaim, company_domain: str) -> bool:
 
     if claim_type == "human_effort":
         to = claim.get("to", {})
-        return to.get("domain") == company_domain
+        return to.get("domain") == recipient_domain
 
-    if claim_type == "employer_commitment":
-        employer = claim.get("employer", {})
-        return employer.get("domain") == company_domain
+    if claim_type == "recipient_commitment":
+        recipient = claim.get("recipient", {})
+        return recipient.get("domain") == recipient_domain
 
     return False
