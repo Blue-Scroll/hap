@@ -134,4 +134,91 @@ public class HapSigner {
 
         return claim;
     }
+
+    /**
+     * Creates a physical delivery claim (attests physical scarcity).
+     *
+     * @param method Verification method (e.g., "physical_mail")
+     * @param recipientName Recipient name
+     * @param domain Recipient domain (optional, can be null)
+     * @param tier Service tier (optional, can be null)
+     * @param issuer VA's domain
+     * @param expiresInDays Days until expiration (0 for no expiration)
+     * @return A complete PhysicalDeliveryClaim object
+     */
+    public static PhysicalDeliveryClaim createPhysicalDeliveryClaim(
+            String method,
+            String recipientName,
+            String domain,
+            String tier,
+            String issuer,
+            int expiresInDays) {
+
+        PhysicalDeliveryClaim claim = new PhysicalDeliveryClaim(method, recipientName, domain, tier, issuer);
+
+        if (expiresInDays > 0) {
+            Instant exp = Instant.now().plus(expiresInDays, ChronoUnit.DAYS);
+            claim.setExp(exp.toString());
+        }
+
+        return claim;
+    }
+
+    /**
+     * Creates a financial commitment claim (attests monetary commitment).
+     *
+     * @param method Verification method (e.g., "payment")
+     * @param recipientName Recipient name
+     * @param domain Recipient domain (optional, can be null)
+     * @param tier Service tier (optional, can be null)
+     * @param issuer VA's domain
+     * @param expiresInDays Days until expiration (0 for no expiration)
+     * @return A complete FinancialCommitmentClaim object
+     */
+    public static FinancialCommitmentClaim createFinancialCommitmentClaim(
+            String method,
+            String recipientName,
+            String domain,
+            String tier,
+            String issuer,
+            int expiresInDays) {
+
+        FinancialCommitmentClaim claim = new FinancialCommitmentClaim(method, recipientName, domain, tier, issuer);
+
+        if (expiresInDays > 0) {
+            Instant exp = Instant.now().plus(expiresInDays, ChronoUnit.DAYS);
+            claim.setExp(exp.toString());
+        }
+
+        return claim;
+    }
+
+    /**
+     * Creates a content attestation claim (sender attests to content truthfulness).
+     *
+     * @param method Verification method (e.g., "truthfulness_confirmation")
+     * @param recipientName Recipient name
+     * @param domain Recipient domain (optional, can be null)
+     * @param tier Service tier (optional, can be null)
+     * @param issuer VA's domain
+     * @param expiresInDays Days until expiration (0 for no expiration)
+     * @return A complete ContentAttestationClaim object
+     */
+    public static ContentAttestationClaim createContentAttestationClaim(
+            String method,
+            String recipientName,
+            String domain,
+            String tier,
+            String issuer,
+            int expiresInDays) {
+
+        ContentAttestationClaim claim = new ContentAttestationClaim(method, recipientName, domain, tier, issuer);
+
+        if (expiresInDays > 0) {
+            Instant exp = Instant.now().plus(expiresInDays, ChronoUnit.DAYS);
+            claim.setExp(exp.toString());
+        }
+
+        return claim;
+    }
 }

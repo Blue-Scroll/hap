@@ -144,11 +144,142 @@ public static class HapSigner
         return claim;
     }
 
-    private static string Base64UrlEncode(byte[] data)
+    /// <summary>
+    /// Creates a physical delivery claim (attests physical scarcity).
+    /// </summary>
+    /// <param name="method">Verification method (e.g., "physical_mail")</param>
+    /// <param name="recipientName">Recipient name</param>
+    /// <param name="issuer">VA's domain</param>
+    /// <param name="domain">Recipient domain (optional)</param>
+    /// <param name="tier">Service tier (optional)</param>
+    /// <param name="expiresInDays">Days until expiration (optional)</param>
+    /// <returns>A complete PhysicalDeliveryClaim object</returns>
+    public static PhysicalDeliveryClaim CreatePhysicalDeliveryClaim(
+        string method,
+        string recipientName,
+        string issuer,
+        string? domain = null,
+        string? tier = null,
+        int? expiresInDays = null)
+    {
+        var now = DateTime.UtcNow;
+        var claim = new PhysicalDeliveryClaim
+        {
+            V = Hap.Version,
+            Id = Hap.GenerateHapId(),
+            Method = method,
+            To = new ClaimTarget { Name = recipientName, Domain = domain },
+            Tier = tier,
+            At = now.ToString("O"),
+            Iss = issuer
+        };
+
+        if (expiresInDays.HasValue)
+        {
+            claim.Exp = now.AddDays(expiresInDays.Value).ToString("O");
+        }
+
+        return claim;
+    }
+
+    /// <summary>
+    /// Creates a financial commitment claim (attests monetary commitment).
+    /// </summary>
+    /// <param name="method">Verification method (e.g., "payment")</param>
+    /// <param name="recipientName">Recipient name</param>
+    /// <param name="issuer">VA's domain</param>
+    /// <param name="domain">Recipient domain (optional)</param>
+    /// <param name="tier">Service tier (optional)</param>
+    /// <param name="expiresInDays">Days until expiration (optional)</param>
+    /// <returns>A complete FinancialCommitmentClaim object</returns>
+    public static FinancialCommitmentClaim CreateFinancialCommitmentClaim(
+        string method,
+        string recipientName,
+        string issuer,
+        string? domain = null,
+        string? tier = null,
+        int? expiresInDays = null)
+    {
+        var now = DateTime.UtcNow;
+        var claim = new FinancialCommitmentClaim
+        {
+            V = Hap.Version,
+            Id = Hap.GenerateHapId(),
+            Method = method,
+            To = new ClaimTarget { Name = recipientName, Domain = domain },
+            Tier = tier,
+            At = now.ToString("O"),
+            Iss = issuer
+        };
+
+        if (expiresInDays.HasValue)
+        {
+            claim.Exp = now.AddDays(expiresInDays.Value).ToString("O");
+        }
+
+        return claim;
+    }
+
+    /// <summary>
+    /// Creates a content attestation claim (sender attests to content truthfulness).
+    /// </summary>
+    /// <param name="method">Verification method (e.g., "truthfulness_confirmation")</param>
+    /// <param name="recipientName">Recipient name</param>
+    /// <param name="issuer">VA's domain</param>
+    /// <param name="domain">Recipient domain (optional)</param>
+    /// <param name="tier">Service tier (optional)</param>
+    /// <param name="expiresInDays">Days until expiration (optional)</param>
+    /// <returns>A complete ContentAttestationClaim object</returns>
+    public static ContentAttestationClaim CreateContentAttestationClaim(
+        string method,
+        string recipientName,
+        string issuer,
+        string? domain = null,
+        string? tier = null,
+        int? expiresInDays = null)
+    {
+        var now = DateTime.UtcNow;
+        var claim = new ContentAttestationClaim
+        {
+            V = Hap.Version,
+            Id = Hap.GenerateHapId(),
+            Method = method,
+            To = new ClaimTarget { Name = recipientName, Domain = domain },
+            Tier = tier,
+            At = now.ToString("O"),
+            Iss = issuer
+        };
+
+        if (expiresInDays.HasValue)
+        {
+            claim.Exp = now.AddDays(expiresInDays.Value).ToString("O");
+        }
+
+        return claim;
+    }
+
+    /// <summary>
+    /// Base64url encode bytes.
+    /// </summary>
+    public static string Base64UrlEncode(byte[] data)
     {
         return Convert.ToBase64String(data)
             .Replace('+', '-')
             .Replace('/', '_')
             .TrimEnd('=');
+    }
+
+    /// <summary>
+    /// Base64url decode string.
+    /// </summary>
+    public static byte[] Base64UrlDecode(string data)
+    {
+        var padded = data.Replace('-', '+').Replace('_', '/');
+        switch (padded.Length % 4)
+        {
+            case 2: padded += "=="; break;
+            case 3: padded += "="; break;
+        }
+        return Convert.FromBase64String(padded);
     }
 }

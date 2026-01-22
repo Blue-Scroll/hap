@@ -38,14 +38,19 @@ export type {
   ClaimTarget,
   ClaimType,
   CommitmentLevel,
+  CompactVerificationResult,
+  ContentAttestationClaim,
   CoreVerificationMethod,
   CustomVerificationMethod,
+  DecodedCompact,
+  FinancialCommitmentClaim,
   RecipientCommitmentClaim,
   RecipientInfo,
   HapClaim,
   HapJwk,
   HapWellKnown,
   HumanEffortClaim,
+  PhysicalDeliveryClaim,
   RevocationReason,
   SignatureVerificationResult,
   SignOptions,
@@ -58,7 +63,13 @@ export type {
   VerifyOptions,
 } from "./types";
 
-export { HAP_ID_REGEX, HAP_VERSION } from "./types";
+export {
+  HAP_COMPACT_REGEX,
+  HAP_COMPACT_VERSION,
+  HAP_ID_REGEX,
+  HAP_TEST_ID_REGEX,
+  HAP_VERSION,
+} from "./types";
 
 // Verification functions (for recipients)
 export {
@@ -74,10 +85,28 @@ export {
 
 // Signing functions (for VAs)
 export {
-  createRecipientCommitmentClaim,
+  createContentAttestationClaim,
+  createFinancialCommitmentClaim,
   createHumanEffortClaim,
+  createPhysicalDeliveryClaim,
+  createRecipientCommitmentClaim,
   exportPublicKeyJwk,
   generateHapId,
   generateKeyPair,
+  generateTestHapId,
+  hashContent,
+  isTestHapId,
   signClaim,
 } from "./sign";
+
+// Compact format functions (for QR codes and offline verification)
+export {
+  buildCompactPayload,
+  decodeCompact,
+  encodeCompact,
+  extractCompactFromUrl,
+  generateVerificationUrl,
+  isValidCompact,
+  signCompact,
+  verifyCompact,
+} from "./compact";

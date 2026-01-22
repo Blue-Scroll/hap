@@ -15,7 +15,15 @@ from cryptography.hazmat.primitives.asymmetric.ed25519 import (
     Ed25519PublicKey,
 )
 
-from hap.types import HAP_VERSION, RecipientCommitmentClaim, HapClaim, HumanEffortClaim
+from hap.types import (
+    HAP_VERSION,
+    RecipientCommitmentClaim,
+    HapClaim,
+    HumanEffortClaim,
+    PhysicalDeliveryClaim,
+    FinancialCommitmentClaim,
+    ContentAttestationClaim,
+)
 
 # Characters used for HAP ID generation
 HAP_ID_CHARS = string.ascii_letters + string.digits
@@ -30,6 +38,31 @@ def generate_hap_id() -> str:
     """
     suffix = "".join(secrets.choice(HAP_ID_CHARS) for _ in range(12))
     return f"hap_{suffix}"
+
+
+def generate_test_hap_id() -> str:
+    """
+    Generates a test HAP ID (for previews and development).
+
+    Returns:
+        A test HAP ID in the format hap_test_[a-zA-Z0-9]{8}
+    """
+    suffix = "".join(secrets.choice(HAP_ID_CHARS) for _ in range(8))
+    return f"hap_test_{suffix}"
+
+
+def is_test_hap_id(hap_id: str) -> bool:
+    """
+    Checks if a HAP ID is a test ID.
+
+    Args:
+        hap_id: The HAP ID to check
+
+    Returns:
+        True if the ID is a test ID
+    """
+    import re
+    return bool(re.match(r"^hap_test_[a-zA-Z0-9]{8}$", hap_id))
 
 
 def generate_key_pair() -> tuple[Ed25519PrivateKey, Ed25519PublicKey]:
@@ -184,3 +217,159 @@ def create_recipient_commitment_claim(
         claim["exp"] = exp.isoformat().replace("+00:00", "Z")
 
     return claim
+
+
+def create_physical_delivery_claim(
+    method: str,
+    recipient_name: str,
+    issuer: str,
+    domain: Optional[str] = None,
+    tier: Optional[str] = None,
+    expires_in_days: Optional[int] = None,
+) -> PhysicalDeliveryClaim:
+    """
+    Creates a physical delivery claim (attests physical scarcity).
+
+    Args:
+        method: Verification method (e.g., "physical_mail")
+        recipient_name: Recipient name
+        issuer: VA's domain
+        domain: Recipient domain (optional)
+        tier: Service tier (optional)
+        expires_in_days: Days until expiration (optional)
+
+    Returns:
+        A complete PhysicalDeliveryClaim dict
+    """
+    now = datetime.now(timezone.utc)
+
+    claim: PhysicalDeliveryClaim = {
+        "v": HAP_VERSION,
+        "id": generate_hap_id(),
+        "type": "physical_delivery",
+        "method": method,
+        "to": {"name": recipient_name},
+        "at": now.isoformat().replace("+00:00", "Z"),
+        "iss": issuer,
+    }
+
+    if domain:
+        claim["to"]["domain"] = domain
+
+    if tier:
+        claim["tier"] = tier
+
+    if expires_in_days:
+        exp = now + timedelta(days=expires_in_days)
+        claim["exp"] = exp.isoformat().replace("+00:00", "Z")
+
+    return claim
+
+
+def create_financial_commitment_claim(
+    method: str,
+    recipient_name: str,
+    issuer: str,
+    domain: Optional[str] = None,
+    tier: Optional[str] = None,
+    expires_in_days: Optional[int] = None,
+) -> FinancialCommitmentClaim:
+    """
+    Creates a financial commitment claim (attests monetary commitment).
+
+    Args:
+        method: Verification method (e.g., "payment")
+        recipient_name: Recipient name
+        issuer: VA's domain
+        domain: Recipient domain (optional)
+        tier: Service tier (optional)
+        expires_in_days: Days until expiration (optional)
+
+    Returns:
+        A complete FinancialCommitmentClaim dict
+    """
+    now = datetime.now(timezone.utc)
+
+    claim: FinancialCommitmentClaim = {
+        "v": HAP_VERSION,
+        "id": generate_hap_id(),
+        "type": "financial_commitment",
+        "method": method,
+        "to": {"name": recipient_name},
+        "at": now.isoformat().replace("+00:00", "Z"),
+        "iss": issuer,
+    }
+
+    if domain:
+        claim["to"]["domain"] = domain
+
+    if tier:
+        claim["tier"] = tier
+
+    if expires_in_days:
+        exp = now + timedelta(days=expires_in_days)
+        claim["exp"] = exp.isoformat().replace("+00:00", "Z")
+
+    return claim
+
+
+def create_content_attestation_claim(
+    method: str,
+    recipient_name: str,
+    issuer: str,
+    domain: Optional[str] = None,
+    tier: Optional[str] = None,
+    expires_in_days: Optional[int] = None,
+) -> ContentAttestationClaim:
+    """
+    Creates a content attestation claim (sender attests to content truthfulness).
+
+    Args:
+        method: Verification method (e.g., "truthfulness_confirmation")
+        recipient_name: Recipient name
+        issuer: VA's domain
+        domain: Recipient domain (optional)
+        tier: Service tier (optional)
+        expires_in_days: Days until expiration (optional)
+
+    Returns:
+        A complete ContentAttestationClaim dict
+    """
+    now = datetime.now(timezone.utc)
+
+    claim: ContentAttestationClaim = {
+        "v": HAP_VERSION,
+        "id": generate_hap_id(),
+        "type": "content_attestation",
+        "method": method,
+        "to": {"name": recipient_name},
+        "at": now.isoformat().replace("+00:00", "Z"),
+        "iss": issuer,
+    }
+
+    if domain:
+        claim["to"]["domain"] = domain
+
+    if tier:
+        claim["tier"] = tier
+
+    if expires_in_days:
+        exp = now + timedelta(days=expires_in_days)
+        claim["exp"] = exp.isoformat().replace("+00:00", "Z")
+
+    return claim
+
+
+def hash_content(content: str) -> str:
+    """
+    Computes SHA-256 hash of content with prefix.
+
+    Args:
+        content: The content to hash
+
+    Returns:
+        Hash string in format "sha256:xxxxx"
+    """
+    import hashlib
+    hash_bytes = hashlib.sha256(content.encode("utf-8")).hexdigest()
+    return f"sha256:{hash_bytes}"

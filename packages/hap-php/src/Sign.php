@@ -160,10 +160,159 @@ final class Sign
     }
 
     /**
+     * Creates a physical delivery claim (attests physical scarcity).
+     *
+     * @param string $method Verification method (e.g., "physical_mail")
+     * @param string $recipientName Recipient name
+     * @param string $issuer VA's domain
+     * @param string|null $domain Recipient domain (optional)
+     * @param string|null $tier Service tier (optional)
+     * @param int|null $expiresInDays Days until expiration (optional)
+     * @return array A complete physical delivery claim
+     */
+    public static function createPhysicalDeliveryClaim(
+        string $method,
+        string $recipientName,
+        string $issuer,
+        ?string $domain = null,
+        ?string $tier = null,
+        ?int $expiresInDays = null
+    ): array {
+        $now = new \DateTimeImmutable('now', new \DateTimeZone('UTC'));
+
+        $claim = [
+            'v' => Hap::VERSION,
+            'id' => Hap::generateHapId(),
+            'type' => Hap::CLAIM_TYPE_PHYSICAL_DELIVERY,
+            'method' => $method,
+            'to' => ['name' => $recipientName],
+            'at' => $now->format(\DateTimeInterface::ATOM),
+            'iss' => $issuer,
+        ];
+
+        if ($domain !== null) {
+            $claim['to']['domain'] = $domain;
+        }
+
+        if ($tier !== null) {
+            $claim['tier'] = $tier;
+        }
+
+        if ($expiresInDays !== null) {
+            $exp = $now->modify("+{$expiresInDays} days");
+            $claim['exp'] = $exp->format(\DateTimeInterface::ATOM);
+        }
+
+        return $claim;
+    }
+
+    /**
+     * Creates a financial commitment claim (attests monetary commitment).
+     *
+     * @param string $method Verification method (e.g., "payment")
+     * @param string $recipientName Recipient name
+     * @param string $issuer VA's domain
+     * @param string|null $domain Recipient domain (optional)
+     * @param string|null $tier Service tier (optional)
+     * @param int|null $expiresInDays Days until expiration (optional)
+     * @return array A complete financial commitment claim
+     */
+    public static function createFinancialCommitmentClaim(
+        string $method,
+        string $recipientName,
+        string $issuer,
+        ?string $domain = null,
+        ?string $tier = null,
+        ?int $expiresInDays = null
+    ): array {
+        $now = new \DateTimeImmutable('now', new \DateTimeZone('UTC'));
+
+        $claim = [
+            'v' => Hap::VERSION,
+            'id' => Hap::generateHapId(),
+            'type' => Hap::CLAIM_TYPE_FINANCIAL_COMMITMENT,
+            'method' => $method,
+            'to' => ['name' => $recipientName],
+            'at' => $now->format(\DateTimeInterface::ATOM),
+            'iss' => $issuer,
+        ];
+
+        if ($domain !== null) {
+            $claim['to']['domain'] = $domain;
+        }
+
+        if ($tier !== null) {
+            $claim['tier'] = $tier;
+        }
+
+        if ($expiresInDays !== null) {
+            $exp = $now->modify("+{$expiresInDays} days");
+            $claim['exp'] = $exp->format(\DateTimeInterface::ATOM);
+        }
+
+        return $claim;
+    }
+
+    /**
+     * Creates a content attestation claim (sender attests to content truthfulness).
+     *
+     * @param string $method Verification method (e.g., "truthfulness_confirmation")
+     * @param string $recipientName Recipient name
+     * @param string $issuer VA's domain
+     * @param string|null $domain Recipient domain (optional)
+     * @param string|null $tier Service tier (optional)
+     * @param int|null $expiresInDays Days until expiration (optional)
+     * @return array A complete content attestation claim
+     */
+    public static function createContentAttestationClaim(
+        string $method,
+        string $recipientName,
+        string $issuer,
+        ?string $domain = null,
+        ?string $tier = null,
+        ?int $expiresInDays = null
+    ): array {
+        $now = new \DateTimeImmutable('now', new \DateTimeZone('UTC'));
+
+        $claim = [
+            'v' => Hap::VERSION,
+            'id' => Hap::generateHapId(),
+            'type' => Hap::CLAIM_TYPE_CONTENT_ATTESTATION,
+            'method' => $method,
+            'to' => ['name' => $recipientName],
+            'at' => $now->format(\DateTimeInterface::ATOM),
+            'iss' => $issuer,
+        ];
+
+        if ($domain !== null) {
+            $claim['to']['domain'] = $domain;
+        }
+
+        if ($tier !== null) {
+            $claim['tier'] = $tier;
+        }
+
+        if ($expiresInDays !== null) {
+            $exp = $now->modify("+{$expiresInDays} days");
+            $claim['exp'] = $exp->format(\DateTimeInterface::ATOM);
+        }
+
+        return $claim;
+    }
+
+    /**
      * Encode data to base64url format.
      */
-    private static function base64UrlEncode(string $data): string
+    public static function base64UrlEncode(string $data): string
     {
         return rtrim(strtr(base64_encode($data), '+/', '-_'), '=');
+    }
+
+    /**
+     * Decode data from base64url format.
+     */
+    public static function base64UrlDecode(string $data): string
+    {
+        return base64_decode(strtr($data, '-_', '+/'), true);
     }
 }

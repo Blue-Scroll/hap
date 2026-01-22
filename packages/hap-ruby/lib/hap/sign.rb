@@ -5,6 +5,7 @@ require "json"
 require "base64"
 require "securerandom"
 require "time"
+require "digest"
 
 module Hap
   # Signing functions for HAP claims (for Verification Authorities)
@@ -18,6 +19,31 @@ module Hap
     def generate_hap_id
       suffix = Array.new(12) { HAP_ID_CHARS[SecureRandom.random_number(HAP_ID_CHARS.length)] }.join
       "hap_#{suffix}"
+    end
+
+    # Generates a test HAP ID (for previews and development)
+    #
+    # @return [String] A test HAP ID in the format hap_test_[a-zA-Z0-9]{8}
+    def generate_test_hap_id
+      suffix = Array.new(8) { HAP_ID_CHARS[SecureRandom.random_number(HAP_ID_CHARS.length)] }.join
+      "hap_test_#{suffix}"
+    end
+
+    # Checks if a HAP ID is a test ID
+    #
+    # @param id [String] The HAP ID to check
+    # @return [Boolean] true if the ID is a test ID
+    def test_hap_id?(id)
+      HAP_TEST_ID_REGEX.match?(id)
+    end
+
+    # Computes SHA-256 hash of content with prefix
+    #
+    # @param content [String] The content to hash
+    # @return [String] Hash string in format "sha256:xxxxx"
+    def hash_content(content)
+      hash = Digest::SHA256.hexdigest(content)
+      "sha256:#{hash}"
     end
 
     # Generates a new Ed25519 key pair for signing HAP claims
@@ -126,6 +152,105 @@ module Hap
       }
 
       claim[:recipient][:domain] = recipient_domain if recipient_domain
+
+      if expires_in_days
+        exp = now + (expires_in_days * 24 * 60 * 60)
+        claim[:exp] = exp.iso8601
+      end
+
+      claim
+    end
+
+    # Creates a physical delivery claim (attests physical scarcity)
+    #
+    # @param method [String] Verification method (e.g., "physical_mail")
+    # @param recipient_name [String] Recipient name
+    # @param issuer [String] VA's domain
+    # @param domain [String, nil] Recipient domain (optional)
+    # @param tier [String, nil] Service tier (optional)
+    # @param expires_in_days [Integer, nil] Days until expiration (optional)
+    # @return [Hash] A complete physical delivery claim
+    def create_physical_delivery_claim(method:, recipient_name:, issuer:, domain: nil, tier: nil, expires_in_days: nil)
+      now = Time.now.utc
+
+      claim = {
+        v: VERSION_PROTOCOL,
+        id: generate_hap_id,
+        type: CLAIM_TYPE_PHYSICAL_DELIVERY,
+        method: method,
+        to: { name: recipient_name },
+        at: now.iso8601,
+        iss: issuer
+      }
+
+      claim[:to][:domain] = domain if domain
+      claim[:tier] = tier if tier
+
+      if expires_in_days
+        exp = now + (expires_in_days * 24 * 60 * 60)
+        claim[:exp] = exp.iso8601
+      end
+
+      claim
+    end
+
+    # Creates a financial commitment claim (attests monetary commitment)
+    #
+    # @param method [String] Verification method (e.g., "payment")
+    # @param recipient_name [String] Recipient name
+    # @param issuer [String] VA's domain
+    # @param domain [String, nil] Recipient domain (optional)
+    # @param tier [String, nil] Service tier (optional)
+    # @param expires_in_days [Integer, nil] Days until expiration (optional)
+    # @return [Hash] A complete financial commitment claim
+    def create_financial_commitment_claim(method:, recipient_name:, issuer:, domain: nil, tier: nil, expires_in_days: nil)
+      now = Time.now.utc
+
+      claim = {
+        v: VERSION_PROTOCOL,
+        id: generate_hap_id,
+        type: CLAIM_TYPE_FINANCIAL_COMMITMENT,
+        method: method,
+        to: { name: recipient_name },
+        at: now.iso8601,
+        iss: issuer
+      }
+
+      claim[:to][:domain] = domain if domain
+      claim[:tier] = tier if tier
+
+      if expires_in_days
+        exp = now + (expires_in_days * 24 * 60 * 60)
+        claim[:exp] = exp.iso8601
+      end
+
+      claim
+    end
+
+    # Creates a content attestation claim (sender attests to content truthfulness)
+    #
+    # @param method [String] Verification method (e.g., "truthfulness_confirmation")
+    # @param recipient_name [String] Recipient name
+    # @param issuer [String] VA's domain
+    # @param domain [String, nil] Recipient domain (optional)
+    # @param tier [String, nil] Service tier (optional)
+    # @param expires_in_days [Integer, nil] Days until expiration (optional)
+    # @return [Hash] A complete content attestation claim
+    def create_content_attestation_claim(method:, recipient_name:, issuer:, domain: nil, tier: nil, expires_in_days: nil)
+      now = Time.now.utc
+
+      claim = {
+        v: VERSION_PROTOCOL,
+        id: generate_hap_id,
+        type: CLAIM_TYPE_CONTENT_ATTESTATION,
+        method: method,
+        to: { name: recipient_name },
+        at: now.iso8601,
+        iss: issuer
+      }
+
+      claim[:to][:domain] = domain if domain
+      claim[:tier] = tier if tier
 
       if expires_in_days
         exp = now + (expires_in_days * 24 * 60 * 60)

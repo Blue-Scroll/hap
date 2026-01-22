@@ -33,8 +33,18 @@ public class Hap {
     /** Protocol version */
     public static final String VERSION = "0.1";
 
+    /** HAP Compact format version */
+    public static final String COMPACT_VERSION = "1";
+
     /** HAP ID regex pattern */
     public static final Pattern HAP_ID_PATTERN = Pattern.compile("^hap_[a-zA-Z0-9]{12}$");
+
+    /** Test HAP ID regex pattern */
+    public static final Pattern HAP_TEST_ID_PATTERN = Pattern.compile("^hap_test_[a-zA-Z0-9]{8}$");
+
+    /** HAP Compact format regex pattern */
+    public static final Pattern HAP_COMPACT_PATTERN = Pattern.compile(
+            "^HAP1\\.hap_[a-zA-Z0-9_]+\\.[a-z_]+\\.[a-z_]+\\.[^.]+\\.[^.]*\\.\\d+\\.\\d+\\.[^.]+\\.[A-Za-z0-9_-]+$");
 
     /** Characters for HAP ID generation */
     private static final String HAP_ID_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -68,6 +78,52 @@ public class Hap {
             suffix.append(HAP_ID_CHARS.charAt(random.nextInt(HAP_ID_CHARS.length())));
         }
         return "hap_" + suffix;
+    }
+
+    /**
+     * Generates a test HAP ID (for previews and development).
+     *
+     * @return A test HAP ID in the format hap_test_[a-zA-Z0-9]{8}
+     */
+    public static String generateTestHapId() {
+        SecureRandom random = new SecureRandom();
+        StringBuilder suffix = new StringBuilder(8);
+        for (int i = 0; i < 8; i++) {
+            suffix.append(HAP_ID_CHARS.charAt(random.nextInt(HAP_ID_CHARS.length())));
+        }
+        return "hap_test_" + suffix;
+    }
+
+    /**
+     * Checks if a HAP ID is a test ID.
+     *
+     * @param id The HAP ID to check
+     * @return true if the ID is a test ID
+     */
+    public static boolean isTestHapId(String id) {
+        return id != null && HAP_TEST_ID_PATTERN.matcher(id).matches();
+    }
+
+    /**
+     * Computes SHA-256 hash of content with prefix.
+     *
+     * @param content The content to hash
+     * @return Hash string in format "sha256:xxxxx"
+     */
+    public static String hashContent(String content) {
+        try {
+            java.security.MessageDigest digest = java.security.MessageDigest.getInstance("SHA-256");
+            byte[] hashBytes = digest.digest(content.getBytes(java.nio.charset.StandardCharsets.UTF_8));
+            StringBuilder hexString = new StringBuilder();
+            for (byte b : hashBytes) {
+                String hex = Integer.toHexString(0xff & b);
+                if (hex.length() == 1) hexString.append('0');
+                hexString.append(hex);
+            }
+            return "sha256:" + hexString;
+        } catch (java.security.NoSuchAlgorithmException e) {
+            throw new RuntimeException("SHA-256 not available", e);
+        }
     }
 
     /**

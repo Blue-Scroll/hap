@@ -26,6 +26,30 @@ export function generateHapId(): string {
 }
 
 /**
+ * Generates a test HAP ID (for previews and development)
+ * @returns A test HAP ID in the format hap_test_[a-zA-Z0-9]{8}
+ */
+export function generateTestHapId(): string {
+  const randomBytes = crypto.getRandomValues(new Uint8Array(8));
+  let suffix = "";
+
+  for (let i = 0; i < 8; i++) {
+    suffix += HAP_ID_CHARS[randomBytes[i] % HAP_ID_CHARS.length];
+  }
+
+  return `hap_test_${suffix}`;
+}
+
+/**
+ * Checks if a HAP ID is a test ID
+ * @param id - The HAP ID to check
+ * @returns true if the ID is a test ID
+ */
+export function isTestHapId(id: string): boolean {
+  return /^hap_test_[a-zA-Z0-9]{8}$/.test(id);
+}
+
+/**
  * Generates a new Ed25519 key pair for signing HAP claims
  * @returns Object containing the public and private keys
  */
@@ -164,4 +188,138 @@ export function createRecipientCommitmentClaim(params: {
   }
 
   return claim;
+}
+
+/**
+ * Creates a physical delivery claim (attests physical scarcity)
+ * @param params - Claim parameters
+ * @returns A complete PhysicalDeliveryClaim object
+ */
+export function createPhysicalDeliveryClaim(params: {
+  method: string;
+  recipientName: string;
+  domain?: string;
+  tier?: string;
+  issuer: string;
+  expiresInDays?: number;
+}): HapClaim {
+  const now = new Date();
+  const claim: HapClaim = {
+    v: HAP_VERSION,
+    id: generateHapId(),
+    type: "physical_delivery",
+    method: params.method as HapClaim extends { method: infer M } ? M : never,
+    to: {
+      name: params.recipientName,
+      ...(params.domain && { domain: params.domain }),
+    },
+    at: now.toISOString(),
+    iss: params.issuer,
+  };
+
+  if (params.tier) {
+    (claim as { tier?: string }).tier = params.tier;
+  }
+
+  if (params.expiresInDays) {
+    const exp = new Date(now);
+    exp.setDate(exp.getDate() + params.expiresInDays);
+    claim.exp = exp.toISOString();
+  }
+
+  return claim;
+}
+
+/**
+ * Creates a financial commitment claim (attests monetary commitment)
+ * @param params - Claim parameters
+ * @returns A complete FinancialCommitmentClaim object
+ */
+export function createFinancialCommitmentClaim(params: {
+  method: string;
+  recipientName: string;
+  domain?: string;
+  tier?: string;
+  issuer: string;
+  expiresInDays?: number;
+}): HapClaim {
+  const now = new Date();
+  const claim: HapClaim = {
+    v: HAP_VERSION,
+    id: generateHapId(),
+    type: "financial_commitment",
+    method: params.method as HapClaim extends { method: infer M } ? M : never,
+    to: {
+      name: params.recipientName,
+      ...(params.domain && { domain: params.domain }),
+    },
+    at: now.toISOString(),
+    iss: params.issuer,
+  };
+
+  if (params.tier) {
+    (claim as { tier?: string }).tier = params.tier;
+  }
+
+  if (params.expiresInDays) {
+    const exp = new Date(now);
+    exp.setDate(exp.getDate() + params.expiresInDays);
+    claim.exp = exp.toISOString();
+  }
+
+  return claim;
+}
+
+/**
+ * Creates a content attestation claim (sender attests to content truthfulness)
+ * @param params - Claim parameters
+ * @returns A complete ContentAttestationClaim object
+ */
+export function createContentAttestationClaim(params: {
+  method: string;
+  recipientName: string;
+  domain?: string;
+  tier?: string;
+  issuer: string;
+  expiresInDays?: number;
+}): HapClaim {
+  const now = new Date();
+  const claim: HapClaim = {
+    v: HAP_VERSION,
+    id: generateHapId(),
+    type: "content_attestation",
+    method: params.method as HapClaim extends { method: infer M } ? M : never,
+    to: {
+      name: params.recipientName,
+      ...(params.domain && { domain: params.domain }),
+    },
+    at: now.toISOString(),
+    iss: params.issuer,
+  };
+
+  if (params.tier) {
+    (claim as { tier?: string }).tier = params.tier;
+  }
+
+  if (params.expiresInDays) {
+    const exp = new Date(now);
+    exp.setDate(exp.getDate() + params.expiresInDays);
+    claim.exp = exp.toISOString();
+  }
+
+  return claim;
+}
+
+/**
+ * Computes SHA-256 hash of content with prefix
+ * @param content - The content to hash
+ * @returns Hash string in format "sha256:xxxxx"
+ */
+export async function hashContent(content: string): Promise<string> {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(content);
+  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  const hashHex = hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
+  return `sha256:${hashHex}`;
 }

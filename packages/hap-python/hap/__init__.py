@@ -30,10 +30,18 @@ Example - Signing a claim (for VAs):
 """
 
 from hap.types import (
+    HAP_COMPACT_REGEX,
+    HAP_COMPACT_VERSION,
     HAP_ID_REGEX,
+    HAP_TEST_ID_REGEX,
     HAP_VERSION,
     ClaimType,
     CommitmentLevel,
+    CompactVerificationResult,
+    ContentAttestationClaim,
+    DecodedCompact,
+    FinancialCommitmentClaim,
+    PhysicalDeliveryClaim,
     RecipientCommitmentClaim,
     HapClaim,
     HapJwk,
@@ -54,12 +62,28 @@ from hap.verify import (
     verify_signature,
 )
 from hap.sign import (
-    create_recipient_commitment_claim,
+    create_content_attestation_claim,
+    create_financial_commitment_claim,
     create_human_effort_claim,
+    create_physical_delivery_claim,
+    create_recipient_commitment_claim,
     export_public_key_jwk,
     generate_hap_id,
     generate_key_pair,
+    generate_test_hap_id,
+    hash_content,
+    is_test_hap_id,
     sign_claim,
+)
+from hap.compact import (
+    build_compact_payload,
+    decode_compact,
+    encode_compact,
+    extract_compact_from_url,
+    generate_verification_url,
+    is_valid_compact,
+    sign_compact,
+    verify_compact,
 )
 
 __version__ = "0.3.7"
@@ -68,11 +92,19 @@ __all__ = [
     # Version
     "__version__",
     # Constants
+    "HAP_COMPACT_REGEX",
+    "HAP_COMPACT_VERSION",
     "HAP_ID_REGEX",
+    "HAP_TEST_ID_REGEX",
     "HAP_VERSION",
     # Types
     "ClaimType",
     "CommitmentLevel",
+    "CompactVerificationResult",
+    "ContentAttestationClaim",
+    "DecodedCompact",
+    "FinancialCommitmentClaim",
+    "PhysicalDeliveryClaim",
     "RecipientCommitmentClaim",
     "HapClaim",
     "HapJwk",
@@ -91,10 +123,25 @@ __all__ = [
     "verify_hap_claim",
     "verify_signature",
     # Signing functions
-    "create_recipient_commitment_claim",
+    "create_content_attestation_claim",
+    "create_financial_commitment_claim",
     "create_human_effort_claim",
+    "create_physical_delivery_claim",
+    "create_recipient_commitment_claim",
     "export_public_key_jwk",
     "generate_hap_id",
     "generate_key_pair",
+    "generate_test_hap_id",
+    "hash_content",
+    "is_test_hap_id",
     "sign_claim",
+    # Compact format functions
+    "build_compact_payload",
+    "decode_compact",
+    "encode_compact",
+    "extract_compact_from_url",
+    "generate_verification_url",
+    "is_valid_compact",
+    "sign_compact",
+    "verify_compact",
 ]

@@ -5,15 +5,27 @@
 /** Protocol version */
 export const HAP_VERSION = "0.1";
 
+/** HAP Compact format version */
+export const HAP_COMPACT_VERSION = "1";
+
 /** HAP ID format: hap_ followed by 12 alphanumeric characters */
 export const HAP_ID_REGEX = /^hap_[a-zA-Z0-9]{12}$/;
+
+/** Test HAP ID format: hap_test_ followed by 8 alphanumeric characters */
+export const HAP_TEST_ID_REGEX = /^hap_test_[a-zA-Z0-9]{8}$/;
+
+/** HAP Compact format regex - 10 dot-separated fields with URL-encoded values (dots encoded as %2E) */
+export const HAP_COMPACT_REGEX =
+  /^HAP1\.hap_[a-zA-Z0-9_]+\.[a-z_]+\.[a-z_]+\.[^.]+\.[^.]*\.\d+\.\d+\.[^.]+\.[A-Za-z0-9_-]+$/;
 
 /** Core verification methods defined by HAP spec */
 export type CoreVerificationMethod =
   | "physical_mail"
   | "video_interview"
   | "paid_assessment"
-  | "referral";
+  | "referral"
+  | "payment"
+  | "truthfulness_confirmation";
 
 /** Custom verification methods (x- prefix) */
 export type CustomVerificationMethod = `x-${string}`;
@@ -24,7 +36,12 @@ export type VerificationMethod =
   | CustomVerificationMethod;
 
 /** Claim types */
-export type ClaimType = "human_effort" | "recipient_commitment";
+export type ClaimType =
+  | "human_effort"
+  | "recipient_commitment"
+  | "physical_delivery"
+  | "financial_commitment"
+  | "content_attestation";
 
 /** Recipient commitment levels */
 export type CommitmentLevel =
@@ -85,8 +102,46 @@ export interface RecipientCommitmentClaim extends BaseHapClaim {
   commitment: CommitmentLevel;
 }
 
+/** Physical delivery claim - attests physical scarcity/delivery */
+export interface PhysicalDeliveryClaim extends BaseHapClaim {
+  type: "physical_delivery";
+  /** Verification method used */
+  method: VerificationMethod;
+  /** Service tier (VA-specific) */
+  tier?: string;
+  /** Target recipient */
+  to: ClaimTarget;
+}
+
+/** Financial commitment claim - attests monetary commitment */
+export interface FinancialCommitmentClaim extends BaseHapClaim {
+  type: "financial_commitment";
+  /** Verification method used */
+  method: VerificationMethod;
+  /** Service tier (VA-specific) */
+  tier?: string;
+  /** Target recipient */
+  to: ClaimTarget;
+}
+
+/** Content attestation claim - sender attests to content truthfulness */
+export interface ContentAttestationClaim extends BaseHapClaim {
+  type: "content_attestation";
+  /** Verification method used */
+  method: VerificationMethod;
+  /** Service tier (VA-specific) */
+  tier?: string;
+  /** Target recipient */
+  to: ClaimTarget;
+}
+
 /** Union of all HAP claim types */
-export type HapClaim = HumanEffortClaim | RecipientCommitmentClaim;
+export type HapClaim =
+  | HumanEffortClaim
+  | RecipientCommitmentClaim
+  | PhysicalDeliveryClaim
+  | FinancialCommitmentClaim
+  | ContentAttestationClaim;
 
 /** Revocation reason codes */
 export type RevocationReason = "fraud" | "error" | "legal" | "user_request";
@@ -172,4 +227,22 @@ export interface SignatureVerificationResult {
   claim?: HapClaim;
   /** Error message (if invalid) */
   error?: string;
+}
+
+/** Result of compact format verification */
+export interface CompactVerificationResult {
+  /** Whether verification is valid */
+  valid: boolean;
+  /** Decoded claim (if valid) */
+  claim?: HapClaim;
+  /** Error message (if invalid) */
+  error?: string;
+}
+
+/** Decoded compact format data */
+export interface DecodedCompact {
+  /** Decoded claim */
+  claim: HapClaim;
+  /** Raw signature bytes */
+  signature: Uint8Array;
 }

@@ -4,6 +4,7 @@ require_relative "hap/version"
 require_relative "hap/types"
 require_relative "hap/verify"
 require_relative "hap/sign"
+require_relative "hap/compact"
 
 # HAP (Human Attestation Protocol) SDK for Ruby
 #
@@ -41,4 +42,5 @@ module Hap
   # Extend self to allow calling methods directly on the module
   extend Verify
   extend Sign
+  extend Compact
 end

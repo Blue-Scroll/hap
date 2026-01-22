@@ -62,6 +62,63 @@ public class RecipientCommitmentClaim : HapClaim
 }
 
 /// <summary>
+/// Physical delivery claim (attests physical scarcity).
+/// </summary>
+public class PhysicalDeliveryClaim : HapClaim
+{
+    [JsonPropertyName("type")]
+    public override string Type => Hap.ClaimTypes.PhysicalDelivery;
+
+    [JsonPropertyName("method")]
+    public string Method { get; set; } = string.Empty;
+
+    [JsonPropertyName("tier")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Tier { get; set; }
+
+    [JsonPropertyName("to")]
+    public ClaimTarget To { get; set; } = new();
+}
+
+/// <summary>
+/// Financial commitment claim (attests monetary commitment).
+/// </summary>
+public class FinancialCommitmentClaim : HapClaim
+{
+    [JsonPropertyName("type")]
+    public override string Type => Hap.ClaimTypes.FinancialCommitment;
+
+    [JsonPropertyName("method")]
+    public string Method { get; set; } = string.Empty;
+
+    [JsonPropertyName("tier")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Tier { get; set; }
+
+    [JsonPropertyName("to")]
+    public ClaimTarget To { get; set; } = new();
+}
+
+/// <summary>
+/// Content attestation claim (sender attests to content truthfulness).
+/// </summary>
+public class ContentAttestationClaim : HapClaim
+{
+    [JsonPropertyName("type")]
+    public override string Type => Hap.ClaimTypes.ContentAttestation;
+
+    [JsonPropertyName("method")]
+    public string Method { get; set; } = string.Empty;
+
+    [JsonPropertyName("tier")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Tier { get; set; }
+
+    [JsonPropertyName("to")]
+    public ClaimTarget To { get; set; } = new();
+}
+
+/// <summary>
 /// Target recipient information.
 /// </summary>
 public class ClaimTarget
@@ -161,4 +218,68 @@ public class SignatureVerificationResult
     public bool Valid { get; set; }
     public HumanEffortClaim? Claim { get; set; }
     public string? Error { get; set; }
+}
+
+/// <summary>
+/// Decoded compact format data.
+/// </summary>
+public class DecodedCompact
+{
+    public GenericClaim Claim { get; set; } = new();
+    public byte[] Signature { get; set; } = Array.Empty<byte>();
+}
+
+/// <summary>
+/// Result of compact format verification.
+/// </summary>
+public class CompactVerificationResult
+{
+    public bool Valid { get; set; }
+    public GenericClaim? Claim { get; set; }
+    public string? Error { get; set; }
+}
+
+/// <summary>
+/// Generic claim for compact format support.
+/// </summary>
+public class GenericClaim
+{
+    [JsonPropertyName("v")]
+    public string V { get; set; } = Hap.Version;
+
+    [JsonPropertyName("id")]
+    public string Id { get; set; } = string.Empty;
+
+    [JsonPropertyName("type")]
+    public string Type { get; set; } = string.Empty;
+
+    [JsonPropertyName("method")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Method { get; set; }
+
+    [JsonPropertyName("to")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public ClaimTarget? To { get; set; }
+
+    [JsonPropertyName("recipient")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public RecipientInfo? Recipient { get; set; }
+
+    [JsonPropertyName("commitment")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Commitment { get; set; }
+
+    [JsonPropertyName("tier")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Tier { get; set; }
+
+    [JsonPropertyName("at")]
+    public string At { get; set; } = string.Empty;
+
+    [JsonPropertyName("exp")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Exp { get; set; }
+
+    [JsonPropertyName("iss")]
+    public string Iss { get; set; } = string.Empty;
 }

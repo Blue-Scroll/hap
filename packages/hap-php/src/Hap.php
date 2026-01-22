@@ -26,8 +26,17 @@ final class Hap
     /** Protocol version */
     public const VERSION = '0.1';
 
+    /** HAP Compact format version */
+    public const COMPACT_VERSION = '1';
+
     /** HAP ID regex pattern */
     public const HAP_ID_PATTERN = '/^hap_[a-zA-Z0-9]{12}$/';
+
+    /** Test HAP ID regex pattern */
+    public const HAP_TEST_ID_PATTERN = '/^hap_test_[a-zA-Z0-9]{8}$/';
+
+    /** HAP Compact format regex pattern */
+    public const HAP_COMPACT_PATTERN = '/^HAP1\.hap_[a-zA-Z0-9_]+\.[a-z_]+\.[a-z_]+\.[^.]+\.[^.]*\.\d+\.\d+\.[^.]+\.[A-Za-z0-9_-]+$/';
 
     /** Characters for HAP ID generation */
     private const HAP_ID_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -35,12 +44,17 @@ final class Hap
     /** Claim types */
     public const CLAIM_TYPE_HUMAN_EFFORT = 'human_effort';
     public const CLAIM_TYPE_RECIPIENT_COMMITMENT = 'recipient_commitment';
+    public const CLAIM_TYPE_PHYSICAL_DELIVERY = 'physical_delivery';
+    public const CLAIM_TYPE_FINANCIAL_COMMITMENT = 'financial_commitment';
+    public const CLAIM_TYPE_CONTENT_ATTESTATION = 'content_attestation';
 
     /** Verification methods */
     public const METHOD_PHYSICAL_MAIL = 'physical_mail';
     public const METHOD_VIDEO_INTERVIEW = 'video_interview';
     public const METHOD_PAID_ASSESSMENT = 'paid_assessment';
     public const METHOD_REFERRAL = 'referral';
+    public const METHOD_PAYMENT = 'payment';
+    public const METHOD_TRUTHFULNESS_CONFIRMATION = 'truthfulness_confirmation';
 
     /** Commitment levels */
     public const COMMITMENT_REVIEW_VERIFIED = 'review_verified';
@@ -80,5 +94,45 @@ final class Hap
         }
 
         return 'hap_' . $suffix;
+    }
+
+    /**
+     * Generates a test HAP ID (for previews and development).
+     *
+     * @return string A test HAP ID in the format hap_test_[a-zA-Z0-9]{8}
+     */
+    public static function generateTestHapId(): string
+    {
+        $suffix = '';
+        $chars = self::HAP_ID_CHARS;
+        $charsLen = strlen($chars);
+
+        for ($i = 0; $i < 8; $i++) {
+            $suffix .= $chars[random_int(0, $charsLen - 1)];
+        }
+
+        return 'hap_test_' . $suffix;
+    }
+
+    /**
+     * Checks if a HAP ID is a test ID.
+     *
+     * @param string $id The HAP ID to check
+     * @return bool True if the ID is a test ID
+     */
+    public static function isTestHapId(string $id): bool
+    {
+        return preg_match(self::HAP_TEST_ID_PATTERN, $id) === 1;
+    }
+
+    /**
+     * Computes SHA-256 hash of content with prefix.
+     *
+     * @param string $content The content to hash
+     * @return string Hash string in format "sha256:xxxxx"
+     */
+    public static function hashContent(string $content): string
+    {
+        return 'sha256:' . hash('sha256', $content);
     }
 }

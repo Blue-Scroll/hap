@@ -8,12 +8,34 @@ from typing import Literal, TypedDict, Union
 # Protocol version
 HAP_VERSION = "0.1"
 
+# HAP Compact format version
+HAP_COMPACT_VERSION = "1"
+
 # HAP ID format: hap_ followed by 12 alphanumeric characters
 HAP_ID_REGEX = re.compile(r"^hap_[a-zA-Z0-9]{12}$")
 
+# Test HAP ID format: hap_test_ followed by 8 alphanumeric characters
+HAP_TEST_ID_REGEX = re.compile(r"^hap_test_[a-zA-Z0-9]{8}$")
+
+# HAP Compact format regex
+HAP_COMPACT_REGEX = re.compile(r"^HAP1\.hap_[a-zA-Z0-9_]+\.[a-z_]+\.[a-z_]+\.[^.]+\.[^.]*\.\d+\.\d+\.[^.]+\.[A-Za-z0-9_-]+$")
+
 # Type aliases
-ClaimType = Literal["human_effort", "recipient_commitment"]
-VerificationMethod = Literal["physical_mail", "video_interview", "paid_assessment", "referral"]
+ClaimType = Literal[
+    "human_effort",
+    "recipient_commitment",
+    "physical_delivery",
+    "financial_commitment",
+    "content_attestation",
+]
+VerificationMethod = Literal[
+    "physical_mail",
+    "video_interview",
+    "paid_assessment",
+    "referral",
+    "payment",
+    "truthfulness_confirmation",
+]
 CommitmentLevel = Literal["review_verified", "prioritize_verified", "respond_verified"]
 RevocationReason = Literal["fraud", "error", "legal", "user_request"]
 
@@ -55,8 +77,66 @@ class RecipientCommitmentClaim(TypedDict, total=False):
     iss: str
 
 
+class PhysicalDeliveryClaim(TypedDict, total=False):
+    """Physical delivery claim - attests physical scarcity"""
+    v: str
+    id: str
+    type: Literal["physical_delivery"]
+    method: str
+    tier: str
+    to: ClaimTarget
+    at: str
+    exp: str
+    iss: str
+
+
+class FinancialCommitmentClaim(TypedDict, total=False):
+    """Financial commitment claim - attests monetary commitment"""
+    v: str
+    id: str
+    type: Literal["financial_commitment"]
+    method: str
+    tier: str
+    to: ClaimTarget
+    at: str
+    exp: str
+    iss: str
+
+
+class ContentAttestationClaim(TypedDict, total=False):
+    """Content attestation claim - sender attests to content truthfulness"""
+    v: str
+    id: str
+    type: Literal["content_attestation"]
+    method: str
+    tier: str
+    to: ClaimTarget
+    at: str
+    exp: str
+    iss: str
+
+
 # Union of all claim types
-HapClaim = Union[HumanEffortClaim, RecipientCommitmentClaim]
+HapClaim = Union[
+    HumanEffortClaim,
+    RecipientCommitmentClaim,
+    PhysicalDeliveryClaim,
+    FinancialCommitmentClaim,
+    ContentAttestationClaim,
+]
+
+
+class DecodedCompact(TypedDict):
+    """Decoded compact format data"""
+    claim: HapClaim
+    signature: bytes
+
+
+class CompactVerificationResult(TypedDict, total=False):
+    """Result of compact format verification"""
+    valid: bool
+    claim: HapClaim
+    error: str
 
 
 class HapJwk(TypedDict):

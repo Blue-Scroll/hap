@@ -73,6 +73,9 @@ The `type` field identifies what the claim attests to. Types are extensible usin
 | ---------------------- | ------------------------------------------------------------ |
 | `human_effort`         | Sender demonstrated genuine effort through a costly action   |
 | `recipient_commitment` | Recipient has committed to reviewing HAP-verified messages   |
+| `physical_delivery`    | Physical object was delivered to recipient (scarcity signal) |
+| `financial_commitment` | Real money was spent as a signal of genuine interest         |
+| `content_attestation`  | Sender attests to the truthfulness of submitted content      |
 
 #### Custom Types
 
@@ -116,12 +119,14 @@ The `method` field identifies what verification action the VA performed. Methods
 
 The following methods are documented in the HAP repository. Any VA may use them:
 
-| Method            | Description                         |
-| ----------------- | ----------------------------------- |
-| `physical_mail`   | Message sent via physical mail      |
-| `video_interview` | Live video interview with a human   |
-| `paid_assessment` | Completed a paid skills assessment  |
-| `referral`        | Referred by a verified professional |
+| Method                     | Description                                    |
+| -------------------------- | ---------------------------------------------- |
+| `physical_mail`            | Message sent via physical mail                 |
+| `video_interview`          | Live video interview with a human              |
+| `paid_assessment`          | Completed a paid skills assessment             |
+| `referral`                 | Referred by a verified professional            |
+| `payment`                  | Payment made for a service                     |
+| `truthfulness_confirmation`| Sender confirmed truthfulness of content       |
 
 #### Custom Methods
 
@@ -136,6 +141,21 @@ VAs MAY define additional methods. To avoid namespace collision with future regi
 **Custom methods are first-class.** The `x-` prefix is a namespace convention, not a status indicator. Recipients MAY accept any method that meets the requirements in [Method Requirements](/docs/method-requirements.md).
 
 To register a method (remove the `x-` prefix), submit documentation to the HAP repository. Registration requires only documentation, not approval.
+
+### 3.5 Trust Signal Properties
+
+Different verification methods provide different trust signals. These properties help recipients understand what a claim attests to:
+
+| Property             | Description                                | Methods                          |
+| -------------------- | ------------------------------------------ | -------------------------------- |
+| `physical_scarcity`  | One object, can't be mass-duplicated       | `physical_mail`                  |
+| `geographic_binding` | Sent to a specific physical location       | `physical_mail`                  |
+| `time_delayed`       | Requires days to complete, not instant     | `physical_mail`                  |
+| `monetary_cost`      | Real money was spent                       | `payment`, `paid_assessment`     |
+| `human_verification` | A live human was involved in verification  | `video_interview`, `referral`    |
+| `self_attestation`   | Sender made a formal attestation           | `truthfulness_confirmation`      |
+
+This table is informative. Recipients should evaluate which properties matter for their use case.
 
 ---
 
@@ -386,6 +406,94 @@ The 12-character suffix should be generated using a cryptographically secure ran
 4. Sign claim with Ed25519 private key
 5. Store claim + JWS
 6. Include verification in delivered message (QR code, etc.)
+
+### 7.3 Offline Verification & HAP Compact Format
+
+HAP supports offline verification when claims are available directly (not fetched from VA). For QR codes and space-constrained contexts, HAP defines a compact serialization format.
+
+#### HAP Compact Format
+
+```
+HAP{version}.{id}.{type}.{method}.{to_name}.{to_domain}.{at}.{exp}.{iss}.{signature}
+```
+
+**Example:**
+
+```
+HAP1.hap_abc123xyz456.human_effort.physical_mail.Acme%20Corp.acme.com.1706169600.1769241600.ballista.jobs.MEUCIQDx...
+```
+
+**Field encoding:**
+
+| Field       | Encoding                                              |
+| ----------- | ----------------------------------------------------- |
+| `version`   | "1" for HAP v0.1                                      |
+| `id`        | HAP ID (e.g., `hap_abc123xyz456`)                     |
+| `type`      | Claim type                                            |
+| `method`    | Verification method                                   |
+| `to_name`   | Recipient name, URL-encoded (RFC 3986, dots as %2E)   |
+| `to_domain` | Recipient domain, URL-encoded (RFC 3986, dots as %2E) |
+| `at`        | Unix epoch seconds (verification timestamp)           |
+| `exp`       | Unix epoch seconds (expiration, 0 if none)            |
+| `iss`       | Issuer domain, URL-encoded (RFC 3986, dots as %2E)    |
+| `signature` | Base64url-encoded Ed25519 signature (no padding)      |
+
+**Encoding note for implementers:** Since dot (`.`) is the field delimiter, SDK implementations MUST encode dots as `%2E` when serializing name, domain, and issuer fields. Users of SDK libraries provide normal strings (e.g., "acme.com") and the library handles encoding automatically.
+
+**Signature computation:**
+
+The signature is computed over the compact payload (everything before the final `.`), making the format self-contained:
+
+```
+payload = "HAP1.hap_abc123xyz456.human_effort.physical_mail.Acme%20Corp.acme.com.1706169600.1769241600.ballista.jobs"
+signature = Ed25519_sign(private_key, payload)
+compact = payload + "." + base64url(signature)
+```
+
+**Recommended field length limits (for URL compatibility):**
+
+| Field       | Max Length | Notes                       |
+| ----------- | ---------- | --------------------------- |
+| `to.name`   | 200 chars  | Before URL-encoding         |
+| `to.domain` | 253 chars  | DNS limit                   |
+| `type`      | 64 chars   | Including `x-` prefix       |
+| `method`    | 64 chars   | Including `x-` prefix       |
+| `iss`       | 253 chars  | DNS limit                   |
+
+These are soft limits to ensure the `url-compact` format stays under 2000 characters (universal browser/server support). VAs MAY exceed limits but SHOULD use the `compact` format (no URL wrapper) for large claims.
+
+#### QR Code Formats
+
+| Format        | Size        | Use Case                                          |
+| ------------- | ----------- | ------------------------------------------------- |
+| URL only      | ~50 chars   | Online verification (simple case)                 |
+| URL + compact | ~300 chars  | **Recommended** - Best of both worlds             |
+| Compact only  | ~240 chars  | Raw offline verification                          |
+| Full JWS      | ~580 chars  | High-assurance contexts                           |
+
+**Recommended: URL with embedded compact claim**
+
+```
+https://ballista.jobs/v?c=HAP1.hap_abc123xyz456.human_effort.physical_mail.Acme%20Corp.acme.com.1706169600.1769241600.ballista.jobs.MEUCIQDx...
+```
+
+This format:
+- Loads a verification page (good UX)
+- Page can verify from `c` query param without API call
+- Offline-capable with cached keys
+- ~300 chars total (QR Version 10-11, ~1.8 inch)
+
+#### Offline Verification Flow
+
+1. Parse compact format to extract claim fields
+2. Reconstruct payload string (everything before final `.`)
+3. Verify Ed25519 signature using cached public keys from `/.well-known/hap.json`
+4. Validate claim fields (expiration, recipient, etc.)
+
+**Limitations of offline verification:**
+- Cannot check revocation status
+- Requires pre-cached public keys
+- Should validate `exp` field to detect stale claims
 
 ---
 
