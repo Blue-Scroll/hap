@@ -5,7 +5,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Version>0.3.6</Version>
+    <Version>0.3.7</Version>
     <Authors>BlueScroll Inc.</Authors>
     <Company>BlueScroll</Company>
     <Description>Official SDK for HAP (Human Attestation Protocol) - cryptographic proof of verified human effort</Description>
