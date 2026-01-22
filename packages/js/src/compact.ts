@@ -236,7 +236,7 @@ export async function verifyCompact(
         const isValid = await crypto.subtle.verify(
           "Ed25519",
           publicKey as CryptoKey,
-          signature,
+          signature.buffer as ArrayBuffer,
           payloadBytes,
         );
 
