@@ -1,7 +1,7 @@
 {
   "name": "bluescroll/human-attestation",
   "description": "Official SDK for HAP (Human Attestation Protocol) - cryptographic proof of verified human effort",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "type": "library",
   "license": "Apache-2.0",
   "homepage": "https://github.com/Blue-Scroll/hap",
