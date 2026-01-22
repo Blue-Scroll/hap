@@ -47,27 +47,27 @@ public class HumanEffortClaim : HapClaim
 }
 
 /// <summary>
-/// Employer commitment claim.
+/// Recipient commitment claim.
 /// </summary>
-public class EmployerCommitmentClaim : HapClaim
+public class RecipientCommitmentClaim : HapClaim
 {
     [JsonPropertyName("type")]
-    public override string Type => Hap.ClaimTypes.EmployerCommitment;
+    public override string Type => Hap.ClaimTypes.RecipientCommitment;
 
-    [JsonPropertyName("employer")]
-    public EmployerInfo Employer { get; set; } = new();
+    [JsonPropertyName("recipient")]
+    public RecipientInfo Recipient { get; set; } = new();
 
     [JsonPropertyName("commitment")]
     public string Commitment { get; set; } = string.Empty;
 }
 
 /// <summary>
-/// Target company information.
+/// Target recipient information.
 /// </summary>
 public class ClaimTarget
 {
-    [JsonPropertyName("company")]
-    public string Company { get; set; } = string.Empty;
+    [JsonPropertyName("name")]
+    public string Name { get; set; } = string.Empty;
 
     [JsonPropertyName("domain")]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -75,9 +75,9 @@ public class ClaimTarget
 }
 
 /// <summary>
-/// Employer information.
+/// Recipient information.
 /// </summary>
-public class EmployerInfo
+public class RecipientInfo
 {
     [JsonPropertyName("name")]
     public string Name { get; set; } = string.Empty;

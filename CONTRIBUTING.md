@@ -118,7 +118,7 @@ Be kind. We're all here to make hiring less broken.
 
 ## Questions?
 
-Open an issue at [github.com/BlueScroll/hap](https://github.com/BlueScroll/hap)
+Open an issue at [github.com/Blue-Scroll/hap](https://github.com/Blue-Scroll/hap)
 
 ---
 

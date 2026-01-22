@@ -71,7 +71,7 @@ Official SDKs handle key fetching, signature verification, and claim validation:
 | ---------- | -------------------------------------------------- | ---------------------------------------------------------------------------- |
 | TypeScript | `npm install @bluescroll/hap`                      | [@bluescroll/hap](https://www.npmjs.com/package/@bluescroll/hap)             |
 | Python     | `pip install bluescroll-hap`                       | [bluescroll-hap](https://pypi.org/project/bluescroll-hap/)                   |
-| Go         | `go get github.com/BlueScroll/hap/packages/hap-go` | [hap-go](https://pkg.go.dev/github.com/BlueScroll/hap/packages/hap-go)       |
+| Go         | `go get github.com/Blue-Scroll/hap/packages/hap-go` | [hap-go](https://pkg.go.dev/github.com/Blue-Scroll/hap/packages/hap-go)       |
 | Java       | Maven/Gradle                                       | [io.bluescroll:hap](https://central.sonatype.com/artifact/io.bluescroll/hap) |
 | Ruby       | `gem install bluescroll-hap`                       | [bluescroll-hap](https://rubygems.org/gems/bluescroll-hap)                   |
 | PHP        | `composer require bluescroll/hap`                  | [bluescroll/hap](https://packagist.org/packages/bluescroll/hap)              |

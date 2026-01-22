@@ -185,7 +185,7 @@ The HAP repository maintains a [VA directory](../directory/) for discovery purpo
 
 1. Implement all technical requirements above
 2. Publish your `/.well-known/hap.json` endpoint
-3. Open a PR to [github.com/BlueScroll/hap](https://github.com/BlueScroll/hap) adding your domain to `directory/vas.json`
+3. Open a PR to [github.com/Blue-Scroll/hap](https://github.com/Blue-Scroll/hap) adding your domain to `directory/vas.json`
 4. We'll verify your endpoint responds correctly
 
 ### What listing means:
@@ -213,4 +213,4 @@ Trust decisions belong to verifiers (employers), who should evaluate your verifi
 
 ## Questions?
 
-Open an issue at [github.com/BlueScroll/hap](https://github.com/BlueScroll/hap)
+Open an issue at [github.com/Blue-Scroll/hap](https://github.com/Blue-Scroll/hap)

@@ -155,17 +155,17 @@ module Hap
       false
     end
 
-    # Checks if the claim target matches the expected company
+    # Checks if the claim target matches the expected recipient
     #
     # @param claim [Hash] The HAP claim to check
-    # @param company_domain [String] The expected company domain
+    # @param recipient_domain [String] The expected recipient domain
     # @return [Boolean] true if the claim's target domain matches
-    def claim_for_company?(claim, company_domain)
+    def claim_for_recipient?(claim, recipient_domain)
       case claim[:type]
       when CLAIM_TYPE_HUMAN_EFFORT
-        claim.dig(:to, :domain) == company_domain
-      when CLAIM_TYPE_EMPLOYER_COMMITMENT
-        claim.dig(:employer, :domain) == company_domain
+        claim.dig(:to, :domain) == recipient_domain
+      when CLAIM_TYPE_RECIPIENT_COMMITMENT
+        claim.dig(:recipient, :domain) == recipient_domain
       else
         false
       end

@@ -37,11 +37,11 @@ public class HumanEffortClaim implements HapClaim {
 
     public HumanEffortClaim() {}
 
-    public HumanEffortClaim(String method, String company, String domain, String tier, String issuer) {
+    public HumanEffortClaim(String method, String recipientName, String domain, String tier, String issuer) {
         this.v = Hap.VERSION;
         this.id = Hap.generateHapId();
         this.method = method;
-        this.to = new ClaimTarget(company, domain);
+        this.to = new ClaimTarget(recipientName, domain);
         this.tier = tier;
         this.at = java.time.Instant.now().toString();
         this.iss = issuer;
@@ -69,26 +69,26 @@ public class HumanEffortClaim implements HapClaim {
     public void setIss(String iss) { this.iss = iss; }
 
     /**
-     * Target company information.
+     * Target recipient information.
      */
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class ClaimTarget {
-        @JsonProperty("company")
-        private String company;
+        @JsonProperty("name")
+        private String name;
 
         @JsonProperty("domain")
         private String domain;
 
         public ClaimTarget() {}
 
-        public ClaimTarget(String company, String domain) {
-            this.company = company;
+        public ClaimTarget(String name, String domain) {
+            this.name = name;
             this.domain = domain;
         }
 
-        public String getCompany() { return company; }
+        public String getName() { return name; }
         public String getDomain() { return domain; }
-        public void setCompany(String company) { this.company = company; }
+        public void setName(String name) { this.name = name; }
         public void setDomain(String domain) { this.domain = domain; }
     }
 }

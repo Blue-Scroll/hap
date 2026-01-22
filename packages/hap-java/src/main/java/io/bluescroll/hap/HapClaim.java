@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 )
 @JsonSubTypes({
     @JsonSubTypes.Type(value = HumanEffortClaim.class, name = "human_effort"),
-    @JsonSubTypes.Type(value = EmployerCommitmentClaim.class, name = "employer_commitment")
+    @JsonSubTypes.Type(value = RecipientCommitmentClaim.class, name = "recipient_commitment")
 })
 @JsonIgnoreProperties(ignoreUnknown = true)
 public interface HapClaim {

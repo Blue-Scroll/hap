@@ -1,4 +1,4 @@
-# @bluescroll/hap
+# human-attestation
 
 Official HAP (Human Attestation Protocol) SDK for JavaScript/TypeScript.
 
@@ -7,19 +7,19 @@ HAP is an open standard for verified human effort. It enables Verification Autho
 ## Installation
 
 ```bash
-npm install @bluescroll/hap
+npm install human-attestation
 ```
 
 ## Quick Start
 
-### Verifying a Claim (For Employers)
+### Verifying a Claim (For Recipients)
 
 ```typescript
 import {
   verifyHapClaim,
   isClaimExpired,
-  isClaimForCompany,
-} from "@bluescroll/hap";
+  isClaimForRecipient,
+} from "human-attestation";
 
 // Verify a claim from a HAP ID
 const claim = await verifyHapClaim("hap_abc123xyz456", "ballista.jobs");
@@ -31,20 +31,20 @@ if (claim) {
     return;
   }
 
-  // Verify it's for your company
-  if (!isClaimForCompany(claim, "yourcompany.com")) {
-    console.log("Claim is for a different company");
+  // Verify it's for your organization
+  if (!isClaimForRecipient(claim, "yourcompany.com")) {
+    console.log("Claim is for a different recipient");
     return;
   }
 
-  console.log(`Verified ${claim.method} application to ${claim.to.company}`);
+  console.log(`Verified ${claim.method} application to ${claim.to.name}`);
 }
 ```
 
 ### Verifying from a URL
 
 ```typescript
-import { extractHapIdFromUrl, verifyHapClaim } from "@bluescroll/hap";
+import { extractHapIdFromUrl, verifyHapClaim } from "human-attestation";
 
 // Extract HAP ID from a verification URL
 const url = "https://www.ballista.jobs/v/hap_abc123xyz456";
@@ -59,7 +59,7 @@ if (hapId) {
 ### Verifying Signature Manually
 
 ```typescript
-import { fetchClaim, verifySignature } from "@bluescroll/hap";
+import { fetchClaim, verifySignature } from "human-attestation";
 
 // Fetch the claim
 const response = await fetchClaim("hap_abc123xyz456", "ballista.jobs");
@@ -84,7 +84,7 @@ import {
   exportPublicKeyJwk,
   createHumanEffortClaim,
   signClaim,
-} from "@bluescroll/hap";
+} from "human-attestation";
 
 // Generate a key pair (do this once, store securely)
 const { publicKey, privateKey } = await generateKeyPair();
@@ -96,7 +96,7 @@ console.log(JSON.stringify({ issuer: "my-va.com", keys: [jwk] }));
 // Create and sign a claim
 const claim = createHumanEffortClaim({
   method: "physical_mail",
-  company: "Acme Corp",
+  recipientName: "Acme Corp",
   domain: "acme.com",
   tier: "standard",
   issuer: "my-va.com",
@@ -107,14 +107,14 @@ const jws = await signClaim(claim, privateKey, { kid: "my_key_001" });
 console.log("Signed JWS:", jws);
 ```
 
-### Creating Employer Commitment Claims
+### Creating Recipient Commitment Claims
 
 ```typescript
-import { createEmployerCommitmentClaim, signClaim } from "@bluescroll/hap";
+import { createRecipientCommitmentClaim, signClaim } from "human-attestation";
 
-const claim = createEmployerCommitmentClaim({
-  employerName: "Acme Corp",
-  employerDomain: "acme.com",
+const claim = createRecipientCommitmentClaim({
+  recipientName: "Acme Corp",
+  recipientDomain: "acme.com",
   commitment: "review_verified",
   issuer: "my-va.com",
   expiresInDays: 365,
@@ -136,7 +136,7 @@ const jws = await signClaim(claim, privateKey, { kid: "my_key_001" });
 | `isValidHapId(id)`                 | Check if string matches HAP ID format           |
 | `extractHapIdFromUrl(url)`         | Extract HAP ID from verification URL            |
 | `isClaimExpired(claim)`            | Check if claim has passed expiration            |
-| `isClaimForCompany(claim, domain)` | Check if claim targets specific company         |
+| `isClaimForRecipient(claim, domain)` | Check if claim targets specific recipient         |
 
 ### Signing Functions (For VAs)
 
@@ -147,7 +147,7 @@ const jws = await signClaim(claim, privateKey, { kid: "my_key_001" });
 | `signClaim(claim, privateKey, options)` | Sign a claim, returns JWS                |
 | `generateHapId()`                       | Generate cryptographically secure HAP ID |
 | `createHumanEffortClaim(params)`        | Create human_effort claim with defaults  |
-| `createEmployerCommitmentClaim(params)` | Create employer_commitment claim         |
+| `createRecipientCommitmentClaim(params)` | Create recipient_commitment claim         |
 
 ### Types
 
@@ -155,11 +155,11 @@ const jws = await signClaim(claim, privateKey, { kid: "my_key_001" });
 import type {
   HapClaim,
   HumanEffortClaim,
-  EmployerCommitmentClaim,
+  RecipientCommitmentClaim,
   VerificationResponse,
   HapWellKnown,
   HapJwk,
-} from "@bluescroll/hap";
+} from "human-attestation";
 ```
 
 ## Requirements

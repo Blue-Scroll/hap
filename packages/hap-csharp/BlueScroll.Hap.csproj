@@ -1,19 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <PackageId>HumanAttestation</PackageId>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <Version>0.2.0</Version>
     <Authors>BlueScroll Inc.</Authors>
     <Company>BlueScroll</Company>
-    <Description>Official HAP (Human Attestation Protocol) SDK for .NET</Description>
+    <Description>Official SDK for HAP (Human Attestation Protocol) - cryptographic proof of verified human effort</Description>
     <Copyright>Copyright (c) BlueScroll Inc.</Copyright>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/BlueScroll/hap</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/BlueScroll/hap.git</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/Blue-Scroll/hap</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Blue-Scroll/hap.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageTags>hap;human-attestation-protocol;verification;ed25519;jws</PackageTags>
+    <PackageTags>hap;human-attestation-protocol;attestation;verification;proof-of-effort;cryptographic;ed25519;jws;sender-verification</PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>

@@ -1,4 +1,4 @@
-module github.com/BlueScroll/hap/packages/hap-go
+module github.com/Blue-Scroll/hap/packages/hap-go
 
 go 1.21
 

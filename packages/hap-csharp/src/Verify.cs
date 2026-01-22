@@ -209,25 +209,25 @@ public class HapVerifier : IDisposable
     }
 
     /// <summary>
-    /// Checks if the claim target matches the expected company.
+    /// Checks if the claim target matches the expected recipient.
     /// </summary>
     /// <param name="claim">The HAP claim to check</param>
-    /// <param name="companyDomain">The expected company domain</param>
+    /// <param name="recipientDomain">The expected recipient domain</param>
     /// <returns>true if the claim's target domain matches</returns>
-    public static bool IsClaimForCompany(HumanEffortClaim claim, string companyDomain)
+    public static bool IsClaimForRecipient(HumanEffortClaim claim, string recipientDomain)
     {
-        return claim.To?.Domain == companyDomain;
+        return claim.To?.Domain == recipientDomain;
     }
 
     /// <summary>
-    /// Checks if an employer commitment claim matches the expected company.
+    /// Checks if a recipient commitment claim matches the expected recipient.
     /// </summary>
-    /// <param name="claim">The employer commitment claim to check</param>
-    /// <param name="companyDomain">The expected company domain</param>
-    /// <returns>true if the claim's employer domain matches</returns>
-    public static bool IsClaimForCompany(EmployerCommitmentClaim claim, string companyDomain)
+    /// <param name="claim">The recipient commitment claim to check</param>
+    /// <param name="recipientDomain">The expected recipient domain</param>
+    /// <returns>true if the claim's recipient domain matches</returns>
+    public static bool IsClaimForRecipient(RecipientCommitmentClaim claim, string recipientDomain)
     {
-        return claim.Employer?.Domain == companyDomain;
+        return claim.Recipient?.Domain == recipientDomain;
     }
 
     private static string Base64UrlDecode(string input)

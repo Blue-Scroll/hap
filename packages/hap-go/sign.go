@@ -84,7 +84,7 @@ func SignClaim(claim interface{}, privateKey ed25519.PrivateKey, kid string) (st
 // HumanEffortClaimParams contains parameters for creating a human effort claim
 type HumanEffortClaimParams struct {
 	Method        string
-	Company       string
+	RecipientName string
 	Domain        string
 	Tier          string
 	Issuer        string
@@ -105,8 +105,8 @@ func CreateHumanEffortClaim(params HumanEffortClaimParams) (*HumanEffortClaim, e
 		Type:   ClaimTypeHumanEffort,
 		Method: params.Method,
 		To: ClaimTarget{
-			Company: params.Company,
-			Domain:  params.Domain,
+			Name:   params.RecipientName,
+			Domain: params.Domain,
 		},
 		At:  now.Format(time.RFC3339),
 		Iss: params.Issuer,
@@ -124,30 +124,30 @@ func CreateHumanEffortClaim(params HumanEffortClaimParams) (*HumanEffortClaim, e
 	return claim, nil
 }
 
-// EmployerCommitmentClaimParams contains parameters for creating an employer commitment claim
-type EmployerCommitmentClaimParams struct {
-	EmployerName   string
-	EmployerDomain string
-	Commitment     string
-	Issuer         string
-	ExpiresInDays  int
+// RecipientCommitmentClaimParams contains parameters for creating a recipient commitment claim
+type RecipientCommitmentClaimParams struct {
+	RecipientName   string
+	RecipientDomain string
+	Commitment      string
+	Issuer          string
+	ExpiresInDays   int
 }
 
-// CreateEmployerCommitmentClaim creates a complete employer commitment claim with all required fields
-func CreateEmployerCommitmentClaim(params EmployerCommitmentClaimParams) (*EmployerCommitmentClaim, error) {
+// CreateRecipientCommitmentClaim creates a complete recipient commitment claim with all required fields
+func CreateRecipientCommitmentClaim(params RecipientCommitmentClaimParams) (*RecipientCommitmentClaim, error) {
 	id, err := GenerateHapID()
 	if err != nil {
 		return nil, err
 	}
 
 	now := time.Now().UTC()
-	claim := &EmployerCommitmentClaim{
+	claim := &RecipientCommitmentClaim{
 		V:    HAPVersion,
 		ID:   id,
-		Type: ClaimTypeEmployerCommitment,
-		Employer: EmployerInfo{
-			Name:   params.EmployerName,
-			Domain: params.EmployerDomain,
+		Type: ClaimTypeRecipientCommitment,
+		Recipient: RecipientInfo{
+			Name:   params.RecipientName,
+			Domain: params.RecipientDomain,
 		},
 		Commitment: params.Commitment,
 		At:         now.Format(time.RFC3339),

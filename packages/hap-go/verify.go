@@ -260,12 +260,12 @@ func IsClaimExpired(claim HapClaim) bool {
 	return expTime.Before(time.Now())
 }
 
-// IsClaimForCompany checks if the claim target matches the expected company
-func IsClaimForCompany(claim *HumanEffortClaim, companyDomain string) bool {
-	return claim.To.Domain == companyDomain
+// IsClaimForRecipient checks if the claim target matches the expected recipient
+func IsClaimForRecipient(claim *HumanEffortClaim, recipientDomain string) bool {
+	return claim.To.Domain == recipientDomain
 }
 
-// IsEmployerClaimForCompany checks if an employer commitment claim matches the expected company
-func IsEmployerClaimForCompany(claim *EmployerCommitmentClaim, companyDomain string) bool {
-	return claim.Employer.Domain == companyDomain
+// IsRecipientClaimForRecipient checks if a recipient commitment claim matches the expected recipient
+func IsRecipientClaimForRecipient(claim *RecipientCommitmentClaim, recipientDomain string) bool {
+	return claim.Recipient.Domain == recipientDomain
 }

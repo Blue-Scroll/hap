@@ -1,17 +1,20 @@
 {
-  "name": "bluescroll/hap",
-  "description": "Official HAP (Human Attestation Protocol) SDK for PHP",
+  "name": "bluescroll/human-attestation",
+  "description": "Official SDK for HAP (Human Attestation Protocol) - cryptographic proof of verified human effort",
   "version": "0.2.0",
   "type": "library",
   "license": "Apache-2.0",
-  "homepage": "https://github.com/BlueScroll/hap",
+  "homepage": "https://github.com/Blue-Scroll/hap",
   "keywords": [
     "hap",
     "human-attestation-protocol",
+    "attestation",
     "verification",
-    "job-applications",
+    "proof-of-effort",
+    "cryptographic",
     "ed25519",
-    "jws"
+    "jws",
+    "sender-verification"
   ],
   "authors": [
     {

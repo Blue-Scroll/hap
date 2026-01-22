@@ -75,16 +75,16 @@ final class Sign
      * Creates a complete human effort claim with all required fields.
      *
      * @param string $method Verification method (e.g., "physical_mail")
-     * @param string $company Target company name
+     * @param string $recipientName Recipient name
      * @param string $issuer VA's domain
-     * @param string|null $domain Target company domain (optional)
+     * @param string|null $domain Recipient domain (optional)
      * @param string|null $tier Service tier (optional)
      * @param int|null $expiresInDays Days until expiration (optional)
      * @return array A complete human effort claim
      */
     public static function createHumanEffortClaim(
         string $method,
-        string $company,
+        string $recipientName,
         string $issuer,
         ?string $domain = null,
         ?string $tier = null,
@@ -97,7 +97,7 @@ final class Sign
             'id' => Hap::generateHapId(),
             'type' => Hap::CLAIM_TYPE_HUMAN_EFFORT,
             'method' => $method,
-            'to' => ['company' => $company],
+            'to' => ['name' => $recipientName],
             'at' => $now->format(\DateTimeInterface::ATOM),
             'iss' => $issuer,
         ];
@@ -119,20 +119,20 @@ final class Sign
     }
 
     /**
-     * Creates a complete employer commitment claim with all required fields.
+     * Creates a complete recipient commitment claim with all required fields.
      *
-     * @param string $employerName Employer's name
+     * @param string $recipientName Recipient's name
      * @param string $commitment Commitment level (e.g., "review_verified")
      * @param string $issuer VA's domain
-     * @param string|null $employerDomain Employer's domain (optional)
+     * @param string|null $recipientDomain Recipient's domain (optional)
      * @param int|null $expiresInDays Days until expiration (optional)
-     * @return array A complete employer commitment claim
+     * @return array A complete recipient commitment claim
      */
-    public static function createEmployerCommitmentClaim(
-        string $employerName,
+    public static function createRecipientCommitmentClaim(
+        string $recipientName,
         string $commitment,
         string $issuer,
-        ?string $employerDomain = null,
+        ?string $recipientDomain = null,
         ?int $expiresInDays = null
     ): array {
         $now = new \DateTimeImmutable('now', new \DateTimeZone('UTC'));
@@ -140,15 +140,15 @@ final class Sign
         $claim = [
             'v' => Hap::VERSION,
             'id' => Hap::generateHapId(),
-            'type' => Hap::CLAIM_TYPE_EMPLOYER_COMMITMENT,
-            'employer' => ['name' => $employerName],
+            'type' => Hap::CLAIM_TYPE_RECIPIENT_COMMITMENT,
+            'recipient' => ['name' => $recipientName],
             'commitment' => $commitment,
             'at' => $now->format(\DateTimeInterface::ATOM),
             'iss' => $issuer,
         ];
 
-        if ($employerDomain !== null) {
-            $claim['employer']['domain'] = $employerDomain;
+        if ($recipientDomain !== null) {
+            $claim['recipient']['domain'] = $recipientDomain;
         }
 
         if ($expiresInDays !== null) {

@@ -1,4 +1,4 @@
-# hap-java
+# human-attestation
 
 Official HAP (Human Attestation Protocol) SDK for Java.
 
@@ -10,21 +10,21 @@ HAP is an open standard for verified human effort. It enables Verification Autho
 
 ```xml
 <dependency>
-    <groupId>io.bluescroll</groupId>
-    <artifactId>hap</artifactId>
-    <version>0.1.0</version>
+    <groupId>io.github.blue-scroll</groupId>
+    <artifactId>human-attestation</artifactId>
+    <version>0.2.0</version>
 </dependency>
 ```
 
 ### Gradle
 
 ```groovy
-implementation 'io.bluescroll:hap:0.1.0'
+implementation 'io.github.blue-scroll:human-attestation:0.2.0'
 ```
 
 ## Quick Start
 
-### Verifying a Claim (For Employers)
+### Verifying a Claim (For Recipients)
 
 ```java
 import io.bluescroll.hap.*;
@@ -41,14 +41,14 @@ public class VerifyExample {
                 return;
             }
 
-            // Verify it's for your company
-            if (!Hap.isClaimForCompany(claim, "yourcompany.com")) {
-                System.out.println("Claim is for a different company");
+            // Verify it's for your organization
+            if (!Hap.isClaimForRecipient(claim, "yourcompany.com")) {
+                System.out.println("Claim is for a different recipient");
                 return;
             }
 
             System.out.printf("Verified %s application to %s%n",
-                    claim.getMethod(), claim.getTo().getCompany());
+                    claim.getMethod(), claim.getTo().getName());
         }
     }
 }
@@ -104,7 +104,7 @@ public class SignExample {
         // Create and sign a claim
         HumanEffortClaim claim = HapSigner.createHumanEffortClaim(
                 "physical_mail",   // method
-                "Acme Corp",       // company
+                "Acme Corp",       // recipientName
                 "acme.com",        // domain
                 "standard",        // tier
                 "my-va.com",       // issuer
@@ -117,12 +117,12 @@ public class SignExample {
 }
 ```
 
-### Creating Employer Commitment Claims
+### Creating Recipient Commitment Claims
 
 ```java
-EmployerCommitmentClaim claim = HapSigner.createEmployerCommitmentClaim(
-        "Acme Corp",         // employer name
-        "acme.com",          // employer domain
+RecipientCommitmentClaim claim = HapSigner.createRecipientCommitmentClaim(
+        "Acme Corp",         // recipient name
+        "acme.com",          // recipient domain
         "review_verified",   // commitment level
         "my-va.com",         // issuer
         365                  // expires in 1 year
@@ -144,7 +144,7 @@ String jws = HapSigner.signClaim(claim, keyPair, "my_key_001");
 | `isValidHapId(id)`                 | Check if string matches HAP ID format           |
 | `extractHapIdFromUrl(url)`         | Extract HAP ID from verification URL            |
 | `isClaimExpired(claim)`            | Check if claim has passed expiration            |
-| `isClaimForCompany(claim, domain)` | Check if claim targets specific company         |
+| `isClaimForRecipient(claim, domain)` | Check if claim targets specific recipient         |
 | `generateHapId()`                  | Generate cryptographically secure HAP ID        |
 
 ### Signing Functions (HapSigner class)
@@ -155,7 +155,7 @@ String jws = HapSigner.signClaim(claim, keyPair, "my_key_001");
 | `exportPublicKeyJwk(keyPair, kid)`   | Export public key as JWK                 |
 | `signClaim(claim, keyPair, kid)`     | Sign a claim, returns JWS                |
 | `createHumanEffortClaim(...)`        | Create human_effort claim with defaults  |
-| `createEmployerCommitmentClaim(...)` | Create employer_commitment claim         |
+| `createRecipientCommitmentClaim(...)` | Create recipient_commitment claim         |
 
 ### Types
 
@@ -165,7 +165,7 @@ import io.bluescroll.hap.*;
 // Main claim types
 HapClaim claim;
 HumanEffortClaim humanEffort;
-EmployerCommitmentClaim employerCommitment;
+RecipientCommitmentClaim recipientCommitment;
 
 // Response types
 VerificationResponse response;

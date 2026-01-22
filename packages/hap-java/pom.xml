@@ -4,14 +4,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>io.bluescroll</groupId>
-    <artifactId>hap</artifactId>
+    <groupId>io.github.blue-scroll</groupId>
+    <artifactId>human-attestation</artifactId>
     <version>0.2.0</version>
     <packaging>jar</packaging>
 
-    <name>HAP SDK</name>
-    <description>Official HAP (Human Attestation Protocol) SDK for Java</description>
-    <url>https://github.com/BlueScroll/hap</url>
+    <name>Human Attestation Protocol SDK</name>
+    <description>Official SDK for HAP (Human Attestation Protocol) - cryptographic proof of verified human effort</description>
+    <url>https://github.com/Blue-Scroll/hap</url>
 
     <licenses>
         <license>
@@ -24,14 +24,14 @@
         <developer>
             <name>BlueScroll Inc.</name>
             <organization>BlueScroll</organization>
-            <organizationUrl>https://github.com/BlueScroll</organizationUrl>
+            <organizationUrl>https://github.com/Blue-Scroll</organizationUrl>
         </developer>
     </developers>
 
     <scm>
-        <connection>scm:git:git://github.com/BlueScroll/hap.git</connection>
-        <developerConnection>scm:git:ssh://github.com:BlueScroll/hap.git</developerConnection>
-        <url>https://github.com/BlueScroll/hap</url>
+        <connection>scm:git:git://github.com/Blue-Scroll/hap.git</connection>
+        <developerConnection>scm:git:ssh://github.com:Blue-Scroll/hap.git</developerConnection>
+        <url>https://github.com/Blue-Scroll/hap</url>
     </scm>
 
 

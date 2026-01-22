@@ -113,6 +113,6 @@ Ballista is a service that helps job seekers send physical mail applications. Th
 
 ## Questions?
 
-The HAP specification is open source: [github.com/BlueScroll/hap](https://github.com/BlueScroll/hap)
+The HAP specification is open source: [github.com/Blue-Scroll/hap](https://github.com/Blue-Scroll/hap)
 
 For Ballista-specific questions: [ballista.jobs](https://www.ballista.jobs)

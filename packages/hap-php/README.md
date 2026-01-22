@@ -1,4 +1,4 @@
-# bluescroll/hap
+# human-attestation
 
 Official HAP (Human Attestation Protocol) SDK for PHP.
 
@@ -7,7 +7,7 @@ HAP is an open standard for verified human effort. It enables Verification Autho
 ## Installation
 
 ```bash
-composer require bluescroll/hap
+composer require bluescroll/human-attestation
 ```
 
 ## Requirements
@@ -17,7 +17,7 @@ composer require bluescroll/hap
 
 ## Quick Start
 
-### Verifying a Claim (For Employers)
+### Verifying a Claim (For Recipients)
 
 ```php
 <?php
@@ -36,13 +36,13 @@ if ($claim) {
         return;
     }
 
-    // Verify it's for your company
-    if (!Verify::isClaimForCompany($claim, 'yourcompany.com')) {
-        echo "Claim is for a different company\n";
+    // Verify it's for your organization
+    if (!Verify::isClaimForRecipient($claim, 'yourcompany.com')) {
+        echo "Claim is for a different recipient\n";
         return;
     }
 
-    echo "Verified {$claim['method']} application to {$claim['to']['company']}\n";
+    echo "Verified {$claim['method']} application to {$claim['to']['name']}\n";
 }
 ```
 
@@ -108,7 +108,7 @@ echo json_encode($wellKnown, JSON_PRETTY_PRINT) . "\n";
 // Create and sign a claim
 $claim = Sign::createHumanEffortClaim(
     method: 'physical_mail',
-    company: 'Acme Corp',
+    recipientName: 'Acme Corp',
     issuer: 'my-va.com',
     domain: 'acme.com',
     tier: 'standard',
@@ -119,16 +119,16 @@ $jws = Sign::signClaim($claim, $privateKey, 'my_key_001');
 echo "Signed JWS: {$jws}\n";
 ```
 
-### Creating Employer Commitment Claims
+### Creating Recipient Commitment Claims
 
 ```php
 use BlueScroll\Hap\Sign;
 
-$claim = Sign::createEmployerCommitmentClaim(
-    employerName: 'Acme Corp',
+$claim = Sign::createRecipientCommitmentClaim(
+    recipientName: 'Acme Corp',
     commitment: 'review_verified',
     issuer: 'my-va.com',
-    employerDomain: 'acme.com',
+    recipientDomain: 'acme.com',
     expiresInDays: 365
 );
 
@@ -154,7 +154,7 @@ $jws = Sign::signClaim($claim, $privateKey, 'my_key_001');
 | `fetchPublicKeys($issuer)`                   | Fetch VA's public keys from well-known endpoint |
 | `Verify::extractHapIdFromUrl($url)`          | Extract HAP ID from verification URL            |
 | `Verify::isClaimExpired($claim)`             | Check if claim has passed expiration            |
-| `Verify::isClaimForCompany($claim, $domain)` | Check if claim targets specific company         |
+| `Verify::isClaimForRecipient($claim, $domain)` | Check if claim targets specific recipient         |
 
 ### Sign Class
 
@@ -164,7 +164,7 @@ $jws = Sign::signClaim($claim, $privateKey, 'my_key_001');
 | `Sign::exportPublicKeyJwk($key, $kid)`       | Export public key as JWK                |
 | `Sign::signClaim($claim, $privateKey, $kid)` | Sign a claim, returns JWS               |
 | `Sign::createHumanEffortClaim(...)`          | Create human_effort claim with defaults |
-| `Sign::createEmployerCommitmentClaim(...)`   | Create employer_commitment claim        |
+| `Sign::createRecipientCommitmentClaim(...)`   | Create recipient_commitment claim        |
 
 ### Constants
 
@@ -172,8 +172,8 @@ $jws = Sign::signClaim($claim, $privateKey, 'my_key_001');
 use BlueScroll\Hap\Hap;
 
 // Claim types
-Hap::CLAIM_TYPE_HUMAN_EFFORT;        // "human_effort"
-Hap::CLAIM_TYPE_EMPLOYER_COMMITMENT; // "employer_commitment"
+Hap::CLAIM_TYPE_HUMAN_EFFORT;         // "human_effort"
+Hap::CLAIM_TYPE_RECIPIENT_COMMITMENT; // "recipient_commitment"
 
 // Verification methods
 Hap::METHOD_PHYSICAL_MAIL;   // "physical_mail"

@@ -3,7 +3,7 @@
 module Hap
   # Claim types
   CLAIM_TYPE_HUMAN_EFFORT = "human_effort"
-  CLAIM_TYPE_EMPLOYER_COMMITMENT = "employer_commitment"
+  CLAIM_TYPE_RECIPIENT_COMMITMENT = "recipient_commitment"
 
   # Core verification methods
   METHOD_PHYSICAL_MAIL = "physical_mail"

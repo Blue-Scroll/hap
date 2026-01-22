@@ -4,10 +4,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Represents an employer commitment claim.
+ * Represents a recipient commitment claim.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class EmployerCommitmentClaim implements HapClaim {
+public class RecipientCommitmentClaim implements HapClaim {
     @JsonProperty("v")
     private String v;
 
@@ -15,10 +15,10 @@ public class EmployerCommitmentClaim implements HapClaim {
     private String id;
 
     @JsonProperty("type")
-    private String type = "employer_commitment";
+    private String type = "recipient_commitment";
 
-    @JsonProperty("employer")
-    private EmployerInfo employer;
+    @JsonProperty("recipient")
+    private RecipientInfo recipient;
 
     @JsonProperty("commitment")
     private String commitment;
@@ -32,12 +32,12 @@ public class EmployerCommitmentClaim implements HapClaim {
     @JsonProperty("iss")
     private String iss;
 
-    public EmployerCommitmentClaim() {}
+    public RecipientCommitmentClaim() {}
 
-    public EmployerCommitmentClaim(String employerName, String employerDomain, String commitment, String issuer) {
+    public RecipientCommitmentClaim(String recipientName, String recipientDomain, String commitment, String issuer) {
         this.v = Hap.VERSION;
         this.id = Hap.generateHapId();
-        this.employer = new EmployerInfo(employerName, employerDomain);
+        this.recipient = new RecipientInfo(recipientName, recipientDomain);
         this.commitment = commitment;
         this.at = java.time.Instant.now().toString();
         this.iss = issuer;
@@ -50,32 +50,32 @@ public class EmployerCommitmentClaim implements HapClaim {
     @Override public String getExp() { return exp; }
     @Override public String getIss() { return iss; }
 
-    public EmployerInfo getEmployer() { return employer; }
+    public RecipientInfo getRecipient() { return recipient; }
     public String getCommitment() { return commitment; }
 
     public void setV(String v) { this.v = v; }
     public void setId(String id) { this.id = id; }
     public void setType(String type) { this.type = type; }
-    public void setEmployer(EmployerInfo employer) { this.employer = employer; }
+    public void setRecipient(RecipientInfo recipient) { this.recipient = recipient; }
     public void setCommitment(String commitment) { this.commitment = commitment; }
     public void setAt(String at) { this.at = at; }
     public void setExp(String exp) { this.exp = exp; }
     public void setIss(String iss) { this.iss = iss; }
 
     /**
-     * Employer information.
+     * Recipient information.
      */
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public static class EmployerInfo {
+    public static class RecipientInfo {
         @JsonProperty("name")
         private String name;
 
         @JsonProperty("domain")
         private String domain;
 
-        public EmployerInfo() {}
+        public RecipientInfo() {}
 
-        public EmployerInfo(String name, String domain) {
+        public RecipientInfo(String name, String domain) {
             this.name = name;
             this.domain = domain;
         }
