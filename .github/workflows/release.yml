@@ -280,7 +280,7 @@ jobs:
             **Java (Maven):**
             ```xml
             <dependency>
-                <groupId>io.github.blue-scroll</groupId>
+                <groupId>io.bluescroll</groupId>
                 <artifactId>human-attestation</artifactId>
                 <version>${{ needs.validate.outputs.version }}</version>
             </dependency>

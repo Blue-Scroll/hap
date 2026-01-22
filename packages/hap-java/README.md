@@ -10,7 +10,7 @@ HAP is an open standard for verified human effort. It enables Verification Autho
 
 ```xml
 <dependency>
-    <groupId>io.github.blue-scroll</groupId>
+    <groupId>io.bluescroll</groupId>
     <artifactId>human-attestation</artifactId>
     <version>0.2.0</version>
 </dependency>
@@ -19,7 +19,7 @@ HAP is an open standard for verified human effort. It enables Verification Autho
 ### Gradle
 
 ```groovy
-implementation 'io.github.blue-scroll:human-attestation:0.2.0'
+implementation 'io.bluescroll:human-attestation:0.2.0'
 ```
 
 ## Quick Start

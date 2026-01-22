@@ -72,7 +72,7 @@ Official SDKs handle key fetching, signature verification, and claim validation:
 | TypeScript | `npm install human-attestation`                     | [human-attestation](https://www.npmjs.com/package/human-attestation)                                  |
 | Python     | `pip install human-attestation`                     | [human-attestation](https://pypi.org/project/human-attestation/)                                      |
 | Go         | `go get github.com/Blue-Scroll/hap/packages/hap-go` | [hap-go](https://pkg.go.dev/github.com/Blue-Scroll/hap/packages/hap-go)                               |
-| Java       | Maven/Gradle                                        | [io.github.blue-scroll:human-attestation](https://central.sonatype.com/artifact/io.github.blue-scroll/human-attestation) |
+| Java       | Maven/Gradle                                        | [io.bluescroll:human-attestation](https://central.sonatype.com/artifact/io.bluescroll/human-attestation) |
 | Ruby       | `gem install human-attestation`                     | [human-attestation](https://rubygems.org/gems/human-attestation)                                      |
 | PHP        | `composer require bluescroll/human-attestation`     | [bluescroll/human-attestation](https://packagist.org/packages/bluescroll/human-attestation)           |
 | C#         | `dotnet add package HumanAttestation`               | [HumanAttestation](https://www.nuget.org/packages/HumanAttestation)                                   |
