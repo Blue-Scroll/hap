@@ -39,7 +39,7 @@ import {
   verifyHapClaim,
   isClaimExpired,
   isClaimForRecipient,
-} from "@bluescroll/hap";
+} from "human-attestation";
 
 const claim = await verifyHapClaim("hap_abc123xyz456", "ballista.jobs");
 if (
@@ -67,15 +67,15 @@ curl https://www.ballista.jobs/.well-known/hap.json
 
 Official SDKs handle key fetching, signature verification, and claim validation:
 
-| Language   | Install                                            | Package                                                                      |
-| ---------- | -------------------------------------------------- | ---------------------------------------------------------------------------- |
-| TypeScript | `npm install @bluescroll/hap`                      | [@bluescroll/hap](https://www.npmjs.com/package/@bluescroll/hap)             |
-| Python     | `pip install bluescroll-hap`                       | [bluescroll-hap](https://pypi.org/project/bluescroll-hap/)                   |
-| Go         | `go get github.com/Blue-Scroll/hap/packages/hap-go` | [hap-go](https://pkg.go.dev/github.com/Blue-Scroll/hap/packages/hap-go)       |
-| Java       | Maven/Gradle                                       | [io.bluescroll:hap](https://central.sonatype.com/artifact/io.bluescroll/hap) |
-| Ruby       | `gem install bluescroll-hap`                       | [bluescroll-hap](https://rubygems.org/gems/bluescroll-hap)                   |
-| PHP        | `composer require bluescroll/hap`                  | [bluescroll/hap](https://packagist.org/packages/bluescroll/hap)              |
-| C#         | `dotnet add package BlueScroll.Hap`                | [BlueScroll.Hap](https://www.nuget.org/packages/BlueScroll.Hap)              |
+| Language   | Install                                             | Package                                                                                               |
+| ---------- | --------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| TypeScript | `npm install human-attestation`                     | [human-attestation](https://www.npmjs.com/package/human-attestation)                                  |
+| Python     | `pip install human-attestation`                     | [human-attestation](https://pypi.org/project/human-attestation/)                                      |
+| Go         | `go get github.com/Blue-Scroll/hap/packages/hap-go` | [hap-go](https://pkg.go.dev/github.com/Blue-Scroll/hap/packages/hap-go)                               |
+| Java       | Maven/Gradle                                        | [io.bluescroll:human-attestation](https://central.sonatype.com/artifact/io.bluescroll/human-attestation) |
+| Ruby       | `gem install human-attestation`                     | [human-attestation](https://rubygems.org/gems/human-attestation)                                      |
+| PHP        | `composer require bluescroll/human-attestation`     | [bluescroll/human-attestation](https://packagist.org/packages/bluescroll/human-attestation)           |
+| C#         | `dotnet add package HumanAttestation`               | [HumanAttestation](https://www.nuget.org/packages/HumanAttestation)                                   |
 
 See [`packages/`](./packages/) for complete SDK documentation.
 
