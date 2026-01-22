@@ -1,5 +1,5 @@
 """
-HAP (Human Application Protocol) type definitions for Python
+HAP (Human Attestation Protocol) type definitions for Python
 """
 
 import re

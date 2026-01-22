@@ -1,4 +1,4 @@
-# HAP - Human Application Protocol
+# HAP - Human Attestation Protocol
 
 **The open standard for verified job applications.**
 
@@ -106,6 +106,7 @@ HAP claims do **not** verify identity, credential validity, or whether AI assist
 
 - **[Full Specification](SPEC.md)** — Technical details, claim formats, cryptographic requirements
 - **[Vision & Philosophy](docs/vision.md)** — Why HAP exists and where it's going
+- **[Method Requirements](docs/method-requirements.md)** — What makes a verification method HAP-compliant
 - **[For Verification Authorities](docs/for-vas.md)** — How to implement HAP and join the directory
 
 ## License

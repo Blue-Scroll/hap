@@ -1,13 +1,13 @@
 {
   "name": "bluescroll/hap",
-  "description": "Official HAP (Human Application Protocol) SDK for PHP",
+  "description": "Official HAP (Human Attestation Protocol) SDK for PHP",
   "version": "0.1.2",
   "type": "library",
   "license": "Apache-2.0",
   "homepage": "https://github.com/BlueScroll/hap",
   "keywords": [
     "hap",
-    "human-application-protocol",
+    "human-attestation-protocol",
     "verification",
     "job-applications",
     "ed25519",

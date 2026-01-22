@@ -1,8 +1,8 @@
-// Package hap provides the official HAP (Human Application Protocol) SDK for Go.
+// Package hap provides the official HAP (Human Attestation Protocol) SDK for Go.
 //
-// HAP is an open standard for verified job applications. It enables Verification
-// Authorities (VAs) to cryptographically attest that an applicant took deliberate,
-// costly action when applying for a job.
+// HAP is an open standard for verified human effort. It enables Verification
+// Authorities (VAs) to cryptographically attest that a sender took deliberate,
+// costly action when communicating with a recipient.
 //
 // Example - Verifying a claim (for employers):
 //

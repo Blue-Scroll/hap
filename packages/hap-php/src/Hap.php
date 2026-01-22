@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace BlueScroll\Hap;
 
 /**
- * HAP (Human Application Protocol) SDK for PHP.
+ * HAP (Human Attestation Protocol) SDK for PHP.
  *
- * HAP is an open standard for verified job applications. It enables Verification
- * Authorities (VAs) to cryptographically attest that an applicant took deliberate,
- * costly action when applying for a job.
+ * HAP is an open standard for verified human effort. It enables Verification
+ * Authorities (VAs) to cryptographically attest that a sender took deliberate,
+ * costly action when communicating with a recipient.
  *
  * @example Verifying a claim (for employers)
  * ```php

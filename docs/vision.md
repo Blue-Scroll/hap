@@ -1,26 +1,37 @@
-# The Vision: Human-First Hiring
+# The Vision: Verified Human Effort
 
-**HAP exists because trust has collapsed in hiring.**
+**HAP exists because the cost of faking human intent is approaching zero.**
 
-Job seekers submit into black holes. They're reduced to keywords. They wonder if anyone even saw their name. Meanwhile, employers drown in AI-generated spam and can't tell who's real.
+AI can generate unlimited text, images, and video. The marginal cost of content is effectively free. Every system that depends on processing human input — job applications, public comments, support tickets, first messages — is drowning in noise.
 
-**This is not a spec for a spec's sake. This is infrastructure for restoring trust.**
+**This is not a spec for a spec's sake. This is infrastructure for making costly signals possible again.**
 
 ---
 
-## The Enemy
+## The Core Problem
 
-- "Easy Apply" buttons that make applications meaningless
-- AI tools that flood inboxes with low-effort spam
-- ATS black holes that swallow applications without a trace
-- The "numbers game" advice that treats job seeking as a lottery
+When sending a message costs nothing, messages mean nothing.
 
-## The People We Serve
+This is the spam problem, generalized. Email solved it (partially) with filters and reputation. But every new communication channel faces the same collapse:
 
-- The person applying at 11pm, wondering if anyone will see their work
-- The career changer who doesn't fit keyword filters
-- The employer who wants to hire humans, not process volume
-- Anyone who believes genuine effort should be visible
+| Channel | What happened |
+|---------|---------------|
+| Email | Spam made cold outreach nearly useless |
+| Job applications | "Easy Apply" made applications meaningless |
+| Dating apps | Copy-paste openers ruined first messages |
+| Public comments | Bots flooded every policy discussion |
+| Support tickets | Noise overwhelmed real customer issues |
+
+The pattern is always the same:
+1. Channel opens with friction
+2. Friction gets removed ("democratized")
+3. Volume explodes, signal drowns
+4. Recipients stop paying attention
+5. Channel becomes useless for genuine communication
+
+**HAP breaks this pattern by making costly signals cryptographically verifiable.**
+
+---
 
 ## Core Beliefs
 
@@ -28,100 +39,98 @@ Job seekers submit into black holes. They're reduced to keywords. They wonder if
 
 2. **Observable actions over content analysis.** We don't verify _what_ was written. We verify _that someone went through a process_.
 
-3. **Both sides need trust.** Applicants need to know they'll be seen. Employers need to know who's real.
+3. **Both sides need trust.** Senders need to know they'll be seen. Recipients need to know who's real.
 
 4. **Open standards beat proprietary moats.** HAP is open because trust infrastructure shouldn't be owned by any single company.
 
-5. **Verification does not equal identity.** We verify effort, not who you are or whether your credentials are real.
+5. **Verification does not equal identity.** We verify effort, not who you are or whether your content is true.
 
 ---
 
-## The Problem
+## Use Cases
 
-Job searching is broken. On both sides.
+### Job Applications (Flagship)
 
-## The Applicant's Reality
+**The problem:** Job seekers submit into black holes. Employers drown in AI-generated spam. Both sides lose.
 
-You spend an hour crafting a cover letter. You research the company, tailor your resume, and hit "Apply." Then nothing. No confirmation that a human saw it. No signal that your effort mattered. Just a void.
+**HAP solution:** Applicant pays real cost (physical mail, fee, etc.) → VA issues claim → Employer sees verified signal → Actually reads the application.
 
-Meanwhile, the advice is: "Apply to 200 jobs. It's a numbers game."
+**Why it matters:** The person who spent $15 and 30 minutes to send a physical packet probably wants this specific job more than someone who clicked "Easy Apply" on 50 listings. That signal has value.
 
-That advice made sense when applications required effort. But Easy Apply buttons and AI tools have changed the math. Now one person can spam 1,000 applications in an hour. Your thoughtful application drowns in a sea of automated noise.
+### Dating App Messages
 
-## The Employer's Reality
+**The problem:** Inboxes are unusable. Copy-paste openers flood every profile. Real interest is indistinguishable from spray-and-pray.
 
-Hiring managers are buried. Every role gets hundreds of applications, most obviously templated or AI-generated. The genuine candidates exist, but finding them requires sifting through mountains of garbage.
+**HAP solution:** Pay $1-2 to send a verified first message → Recipient sees "This person paid to message you specifically" → Your message is in a pool of 10, not 500.
 
-The response? More filters. More keyword matching. More automation. Which means more qualified people get filtered out for missing the right buzzwords.
+**Why it matters:** Dating apps already sell premium features. Verified messages are a natural extension that improves the experience for everyone.
 
-Both sides lose.
+### Freelancer Proposals
 
-## The Root Problem
+**The problem:** Clients post a job, get 50 copy-paste proposals. Good freelancers can't stand out. Race to the bottom.
 
-Trust has collapsed.
+**HAP solution:** Freelancer pays $5 to verify their proposal → Client sees "3 verified proposals, 47 unverified" → Verified proposals get read first.
 
-Applicants don't trust that employers will read their applications.
-Employers don't trust that applicants put in real effort.
+**Why it matters:** Freelancers already invest in profiles and certifications. Verified proposals are the same signal: "I'm serious about this specific opportunity."
 
-The cheap, frictionless application model that "democratized" job seeking actually commoditized it. When applying costs nothing, applications mean nothing.
+### Journalism Tips
 
-## A Different Approach
+**The problem:** Newsrooms get hundreds of "tips" daily. Most are noise. Real whistleblowers get lost.
 
-What if there was a way to prove genuine effort?
+**HAP solution:** Source pays $10-20 to verify their tip → Journalist sees "12 verified tips this week" → Verified tips get investigated.
 
-Not prove identity. Not prove credentials. Just prove that a real human took deliberate, costly action to apply.
+**Why it matters:** Sources with real information are motivated. The cost filters out noise while preserving anonymity (VA verifies payment, not identity).
 
-Physical mail is one such action. Sending a printed packet costs money, requires real addresses, and can't be automated at scale. It's not the only signal of effort, but it's a strong one.
+### Public Comments on Regulations
 
-HAP (Human Application Protocol) is an open standard that lets any service attest to this kind of effort. When an applicant sends mail through Ballista, the packet includes a cryptographic signature that employers can verify. That signature doesn't vouch for qualifications. It says: "This person did something real."
+**The problem:** Government agencies open comment periods. Lobbying groups flood them with AI-generated "constituent" letters. Real voices drown.
 
-## What We're Building Toward
+**HAP solution:** Citizen pays small fee to verify their comment → Agency sees "3,000 verified comments, 47,000 unverified" → Verified comments get human review.
 
-Short term: Ballista packets include verifiable effort claims.
+**Why it matters:** Democracy requires costly signals. When astroturfing is cheap, democratic feedback breaks. HAP makes real voices distinguishable.
 
-Medium term: Employers can scan a QR code to confirm authenticity. Some may choose to prioritize verified applications.
+---
 
-Long term: A ecosystem where "Verified Application" becomes a meaningful signal. Where employers who opt into the protocol commit to reviewing verified applications with human eyes. Where the spray-and-pray model becomes less effective because genuine effort is distinguishable.
+## Why a Protocol?
 
-## What We're NOT Building
+### The Alternative: Walled Gardens
 
-- Identity verification (we don't check IDs)
-- Content verification (AI can help write; effort is what matters)
-- A walled garden (the protocol is open; anyone can implement)
-- A replacement for qualifications (effort != competence)
+Every verification service today is an island:
+- If you verify through Service A, only integrations with Service A can check your proof
+- Your verification history doesn't follow you between services
+- Recipients must integrate with every service they want to support
+- Verification requires live API calls, creating downtime risk
 
-## Why a Protocol, Not Just an API?
+### What a Protocol Enables
 
-Every verification service today is a walled garden. If you verify through Service A, only employers integrated with Service A can check your proof. Your verification history doesn't follow you between services. Employers must build separate integrations for each service they want to support.
+**A protocol makes HAP infrastructure, not a product.**
 
-This creates problems:
+| Without Protocol | With Protocol |
+|-----------------|---------------|
+| Ballista is a product | Ballista is one VA in an ecosystem |
+| Recipients integrate with Ballista specifically | Recipients integrate with HAP once, accept any VA |
+| Competitors are threats | Competitors grow the ecosystem |
+| Network effects are zero-sum | Network effects are positive-sum |
+| If Ballista dies, claims are worthless | Claims are self-verifying, survive VA death |
 
-- **Vendor lock-in**: Employers can't easily switch or add verification services
-- **No portability**: Applicants can't take their verification history with them
-- **Fragmented ecosystem**: Each service is an island, limiting network effects
-- **API dependency**: Verification requires live API calls, creating downtime risk
+When verification claims follow a standard format with cryptographic signatures, they become **self-verifying**. A recipient with a VA's public keys can verify a claim offline, without calling any API. The claim is the proof.
 
-**A protocol changes everything.**
+This is the same shift that happened with:
+- **Email**: Early email required both parties on the same service. SMTP created an ecosystem.
+- **Web**: HTTP let any server talk to any client. The protocol enabled the web.
+- **TLS**: Open standard, but Certificate Authorities earn trust. Anyone can verify, only trusted parties can issue.
 
-When verification claims follow a standard format with cryptographic signatures, they become self-verifying. An employer with a VA's public keys can verify a claim offline, without calling any API. The claim is the proof.
+HAP aims for the same: open protocol, competitive ecosystem, trust earned by VAs.
 
-This is the same shift that happened with email. Early email required both parties to use the same service. SMTP changed that—now any email server can talk to any other. The protocol created an ecosystem.
+### What This Means in Practice
 
-HAP aims to do the same for human verification:
+- **Portability**: Verified messages work everywhere, not just where one vendor has integrations
+- **Interoperability**: Recipients verify claims from any VA using the same code
+- **Choice**: Senders pick the VA that fits their needs; recipients don't need to care which one
+- **Offline verification**: Claims verify without network calls once you have the public keys
+- **Resilience**: Claims remain valid even if a VA goes offline
 
-- **Portability**: Verified applications work everywhere, not just where one vendor has integrations
-- **Interoperability**: Employers verify claims from any VA using the same code
-- **Choice**: Applicants pick the VA that fits their needs; employers don't need to care which one
-- **Offline verification**: Claims can be verified without network calls once you have the public keys
-- **Non-repudiation**: A signed claim is proof—it can't be disputed or revoked silently
-
-## Why Open?
-
-We could keep the verification proprietary. But an open standard is more defensible long-term.
-
-Think SSL/TLS: the protocol is open, but Certificate Authorities (Verisign, Let's Encrypt) are trusted entities. Anyone can verify a signature, but only certain parties can issue one.
-
-HAP works the same way. The spec is open. Verification is decentralized. But Verification Authorities (starting with Ballista) earn trust by maintaining standards.
+---
 
 ## Trust Without a Trust Authority
 
@@ -129,23 +138,36 @@ A critical design decision: **HAP does not dictate who to trust.**
 
 The VA directory in this repository is for discovery, not endorsement. Being listed means a VA has published a valid `/.well-known/hap.json` endpoint and follows the protocol. It doesn't mean we vouch for their verification quality.
 
-Trust decisions belong to the verifier (the employer). They evaluate:
-
+Trust decisions belong to the recipient. They evaluate:
 - What verification methods does this VA use?
 - What's their reputation?
 - Do I trust their attestations for my use case?
 
 This mirrors how the web works. HTTPS proves you're talking to `example.com`, but doesn't tell you whether to trust what `example.com` says. HAP proves a claim came from `ballista.io`, but whether you trust Ballista's verification methods is your call.
 
-The protocol provides the infrastructure. You provide the judgment.
+**The protocol provides the infrastructure. You provide the judgment.**
+
+---
+
+## What We're NOT Building
+
+- **Identity verification** — We don't check IDs
+- **Content verification** — AI can help write; effort is what matters
+- **A walled garden** — The protocol is open; anyone can implement
+- **A trust authority** — We don't decide who's trustworthy
+- **A replacement for quality** — Verified effort ≠ good content
+
+---
 
 ## The Bet
 
-We're betting that in a world of infinite AI-generated noise, proof of human effort becomes valuable.
+We're betting that in a world of infinite AI-generated noise, **proof of human effort becomes valuable**.
 
-Not valuable because effort equals talent. But valuable because effort equals intent. The person who spent $15 and 30 minutes to send a physical packet probably wants this specific job more than someone who clicked "Easy Apply" on 50 listings.
+Not because effort equals talent. But because effort equals intent.
 
-That signal has value.
+The person who paid real money to reach you probably wants to reach _you specifically_, not just anyone. That signal cuts through the noise.
+
+**HAP is the spam filter for the AI age.**
 
 ---
 

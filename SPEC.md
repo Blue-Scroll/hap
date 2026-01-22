@@ -8,7 +8,7 @@
 
 ## 1. Overview
 
-The Human Application Protocol (HAP) is an open standard for verified job applications. It enables Verification Authorities (VAs) to cryptographically attest that an applicant took deliberate, costly action when applying for a job.
+The Human Attestation Protocol (HAP) is an open standard for verified human effort. It enables Verification Authorities (VAs) to cryptographically attest that a sender took deliberate, costly action when communicating with a recipient.
 
 HAP is a **specification**, not infrastructure. Each VA hosts their own endpoints. There is no central server.
 
@@ -16,12 +16,14 @@ HAP is a **specification**, not infrastructure. Each VA hosts their own endpoint
 
 ## 2. Terminology
 
-| Term       | Definition                                                                            |
-| ---------- | ------------------------------------------------------------------------------------- |
-| **VA**     | Verification Authority - an entity that creates signed verification claims            |
-| **Claim**  | A structured assertion about an applicant's effort                                    |
-| **JWS**    | JSON Web Signature - the signed payload format                                        |
-| **HAP ID** | A unique identifier for a verification claim (format: `hap_` + 12 alphanumeric chars) |
+| Term          | Definition                                                                            |
+| ------------- | ------------------------------------------------------------------------------------- |
+| **VA**        | Verification Authority - an entity that creates signed verification claims            |
+| **Claim**     | A structured assertion about a sender's effort                                        |
+| **Sender**    | The party whose effort is being attested (e.g., job applicant, citizen, contributor)  |
+| **Recipient** | The party receiving the claim (e.g., employer, government agency, maintainer)         |
+| **JWS**       | JSON Web Signature - the signed payload format                                        |
+| **HAP ID**    | A unique identifier for a verification claim (format: `hap_` + 12 alphanumeric chars) |
 
 ---
 
@@ -37,7 +39,7 @@ HAP is a **specification**, not infrastructure. Each VA hosts their own endpoint
   "method": "physical_mail",
   "tier": "standard",
   "to": {
-    "company": "Acme Corp",
+    "name": "Acme Corp",
     "domain": "acme.com"
   },
   "at": "2026-01-19T06:00:00Z",
@@ -48,38 +50,46 @@ HAP is a **specification**, not infrastructure. Each VA hosts their own endpoint
 
 ### 3.2 Field Definitions
 
-| Field        | Type   | Required | Description                                          |
-| ------------ | ------ | -------- | ---------------------------------------------------- |
-| `v`          | string | Yes      | Protocol version (currently "0.1")                   |
-| `id`         | string | Yes      | Unique HAP ID for this claim                         |
-| `type`       | string | Yes      | Claim type (see 3.3)                                 |
-| `method`     | string | Yes      | Verification method used (see 3.4)                   |
-| `tier`       | string | No       | Service tier (VA-specific)                           |
-| `to.company` | string | Yes      | Target company name                                  |
-| `to.domain`  | string | No       | Target company domain for unambiguous identification |
-| `at`         | string | Yes      | ISO 8601 timestamp of verification                   |
-| `exp`        | string | No       | ISO 8601 timestamp of claim expiration               |
-| `iss`        | string | Yes      | Issuer domain (VA's domain)                          |
+| Field       | Type   | Required | Description                                           |
+| ----------- | ------ | -------- | ----------------------------------------------------- |
+| `v`         | string | Yes      | Protocol version (currently "0.1")                    |
+| `id`        | string | Yes      | Unique HAP ID for this claim                          |
+| `type`      | string | Yes      | Claim type (see 3.3)                                  |
+| `method`    | string | Yes      | Verification method used (see 3.4)                    |
+| `tier`      | string | No       | Service tier (VA-specific)                            |
+| `to.name`   | string | Yes      | Target recipient name                                 |
+| `to.domain` | string | No       | Target recipient domain for unambiguous identification|
+| `at`        | string | Yes      | ISO 8601 timestamp of verification                    |
+| `exp`       | string | No       | ISO 8601 timestamp of claim expiration                |
+| `iss`       | string | Yes      | Issuer domain (VA's domain)                           |
 
 ### 3.3 Claim Types
 
-| Type                  | Description                                                   |
-| --------------------- | ------------------------------------------------------------- |
-| `human_effort`        | Applicant demonstrated genuine effort through a costly action |
-| `employer_commitment` | Employer has committed to reviewing HAP-verified applications |
+The `type` field identifies what the claim attests to. Types are extensible using the same model as methods.
 
-Future versions may add: `identity`, `credential`, `reference`.
+#### Registered Types
 
-#### Employer Commitment Claims
+| Type                   | Description                                                  |
+| ---------------------- | ------------------------------------------------------------ |
+| `human_effort`         | Sender demonstrated genuine effort through a costly action   |
+| `recipient_commitment` | Recipient has committed to reviewing HAP-verified messages   |
 
-The `employer_commitment` type allows VAs to certify that an employer has committed to engaging with HAP-verified applications.
+#### Custom Types
+
+VAs MAY define additional claim types using an `x-` prefix (e.g., `x-identity`, `x-credential`). Custom types are first-class; the prefix is a namespace convention.
+
+To register a type, submit documentation to the HAP repository.
+
+#### Recipient Commitment Claims
+
+The `recipient_commitment` type allows VAs to certify that a recipient has committed to engaging with HAP-verified messages.
 
 ```json
 {
   "v": "0.1",
-  "id": "hap_emp_abc123xyz",
-  "type": "employer_commitment",
-  "employer": {
+  "id": "hap_rcp_abc123xyz",
+  "type": "recipient_commitment",
+  "recipient": {
     "name": "Acme Corp",
     "domain": "acme.com"
   },
@@ -90,17 +100,21 @@ The `employer_commitment` type allows VAs to certify that an employer has commit
 }
 ```
 
-| Commitment Level      | Description                               |
-| --------------------- | ----------------------------------------- |
-| `review_verified`     | Will review all HAP-verified applications |
-| `prioritize_verified` | HAP applications receive priority review  |
-| `respond_verified`    | Commits to responding to HAP applications |
+| Commitment Level      | Description                             |
+| --------------------- | --------------------------------------- |
+| `review_verified`     | Will review all HAP-verified messages   |
+| `prioritize_verified` | HAP messages receive priority review    |
+| `respond_verified`    | Commits to responding to HAP messages   |
 
 VAs MAY define additional commitment levels with an `x-` prefix.
 
 ### 3.4 Verification Methods
 
-#### Core Methods
+The `method` field identifies what verification action the VA performed. Methods are VA-defined; recipients decide which methods to accept.
+
+#### Registered Methods
+
+The following methods are documented in the HAP repository. Any VA may use them:
 
 | Method            | Description                         |
 | ----------------- | ----------------------------------- |
@@ -111,7 +125,7 @@ VAs MAY define additional commitment levels with an `x-` prefix.
 
 #### Custom Methods
 
-VAs MAY define custom verification methods using an `x-` prefix:
+VAs MAY define additional methods. To avoid namespace collision with future registered methods, custom methods SHOULD use an `x-` prefix:
 
 | Example              | Description             |
 | -------------------- | ----------------------- |
@@ -119,7 +133,9 @@ VAs MAY define custom verification methods using an `x-` prefix:
 | `x-portfolio-review` | Manual portfolio review |
 | `x-in-person`        | In-person verification  |
 
-Custom methods that gain adoption MAY be promoted to core methods in future spec versions.
+**Custom methods are first-class.** The `x-` prefix is a namespace convention, not a status indicator. Recipients MAY accept any method that meets the requirements in [Method Requirements](/docs/method-requirements.md).
+
+To register a method (remove the `x-` prefix), submit documentation to the HAP repository. Registration requires only documentation, not approval.
 
 ---
 
@@ -268,7 +284,7 @@ Returns the verification claim with its signature.
     "method": "physical_mail",
     "tier": "standard",
     "to": {
-      "company": "Acme Corp",
+      "name": "Acme Corp",
       "domain": "acme.com"
     },
     "at": "2026-01-19T06:00:00Z",
@@ -353,9 +369,9 @@ The 12-character suffix should be generated using a cryptographically secure ran
 
 ## 7. Verification Flow
 
-### 7.1 For Employers (Verifiers)
+### 7.1 For Recipients (Verifiers)
 
-1. Receive application with HAP verification (QR code or URL)
+1. Receive message with HAP verification (QR code or URL)
 2. Extract HAP ID from URL: `https://ballista.io/v/hap_abc123xyz456`
 3. Fetch claim: `GET https://ballista.io/api/v1/verify/hap_abc123xyz456`
 4. Optionally verify signature:
@@ -364,12 +380,12 @@ The 12-character suffix should be generated using a cryptographically secure ran
 
 ### 7.2 For VAs (Issuers)
 
-1. Applicant completes verification action (e.g., sends physical mail)
+1. Sender completes verification action (e.g., sends physical mail, pays fee)
 2. Generate HAP ID
 3. Create claim object
 4. Sign claim with Ed25519 private key
 5. Store claim + JWS
-6. Include verification in delivered application (QR code, etc.)
+6. Include verification in delivered message (QR code, etc.)
 
 ---
 
@@ -383,14 +399,14 @@ The 12-character suffix should be generated using a cryptographically secure ran
 
 ### 8.2 Replay Protection
 
-- Each HAP ID is unique and bound to a specific application
-- Verifiers should check the `to.company` field matches their organization
+- Each HAP ID is unique and bound to a specific message
+- Verifiers should check the `to.domain` field matches their organization
 - Timestamps (`at` field) can be used to reject stale claims
 
 ### 8.3 Privacy
 
-- Claims intentionally exclude applicant identity
-- Only the target company is recorded
+- Claims intentionally exclude sender identity
+- Only the target recipient is recorded
 - VAs SHOULD NOT log verifier IP addresses or queries
 - VAs MUST publish a privacy policy documenting what verifier information, if any, is logged
 
@@ -410,7 +426,7 @@ VAs MAY revoke claims under specific circumstances:
 | `fraud`        | Claim was issued based on fraudulent activity |
 | `error`        | Claim contains incorrect information          |
 | `legal`        | Legal requirement (court order, etc.)         |
-| `user_request` | Applicant requests removal (GDPR, etc.)       |
+| `user_request` | Sender requests removal (GDPR, etc.)          |
 
 Revocation requirements:
 
@@ -470,7 +486,7 @@ The official HAP repository maintains a machine-readable directory of Verificati
 
 **The directory does NOT answer:** "Which VAs should I trust?"
 
-Trust decisions remain with verifiers (employers), who must evaluate each VA's verification methods and reputation for their specific use case.
+Trust decisions remain with recipients, who must evaluate each VA's verification methods and reputation for their specific use case.
 
 ### 10.2 Directory Schema
 
@@ -542,10 +558,10 @@ HAP provides the common language. VAs compete on service quality.
 
 ### 11.3 Platform Compatibility
 
-Job platforms (ATS, job boards) may claim "HAP Compatible" status if they:
+Platforms may claim "HAP Compatible" status if they:
 
-- Can ingest HAP claims from applications
-- Display verification status to employers
+- Can ingest HAP claims from incoming messages
+- Display verification status to recipients
 - Link to VA verification pages
 
 This is a self-declared technical capability. No approval process required.
