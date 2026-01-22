@@ -9,7 +9,7 @@
  *
  * Examples:
  *   npx tsx verify.ts hap_abc123xyz456
- *   npx tsx verify.ts hap_abc123xyz456 --issuer ballista.io
+ *   npx tsx verify.ts hap_abc123xyz456 --issuer ballista.jobs
  */
 
 import * as jose from "jose";
@@ -206,7 +206,7 @@ async function verifyHapClaim(
 function parseArgs(): { hapId: string; issuer: string } {
   const args = process.argv.slice(2);
   let hapId = "";
-  let issuer = "ballista.io"; // Default issuer
+  let issuer = "ballista.jobs"; // Default issuer
 
   for (let i = 0; i < args.length; i++) {
     if (args[i] === "--issuer" && args[i + 1]) {
@@ -227,7 +227,7 @@ if (!hapId) {
   console.log("");
   console.log("Examples:");
   console.log("  npx tsx verify.ts hap_abc123xyz456");
-  console.log("  npx tsx verify.ts hap_abc123xyz456 --issuer ballista.io");
+  console.log("  npx tsx verify.ts hap_abc123xyz456 --issuer ballista.jobs");
   process.exit(1);
 }
 

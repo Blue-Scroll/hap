@@ -26,7 +26,7 @@ using BlueScroll.Hap;
 using var verifier = new HapVerifier();
 
 // Verify a claim from a HAP ID
-var claim = await verifier.VerifyHapClaimAsync("hap_abc123xyz456", "ballista.io");
+var claim = await verifier.VerifyHapClaimAsync("hap_abc123xyz456", "ballista.jobs");
 
 if (claim != null)
 {
@@ -52,13 +52,13 @@ if (claim != null)
 
 ```csharp
 // Extract HAP ID from a verification URL
-var url = "https://ballista.io/v/hap_abc123xyz456";
+var url = "https://www.ballista.jobs/v/hap_abc123xyz456";
 var hapId = HapVerifier.ExtractHapIdFromUrl(url);
 
 if (hapId != null)
 {
     using var verifier = new HapVerifier();
-    var claim = await verifier.VerifyHapClaimAsync(hapId, "ballista.io");
+    var claim = await verifier.VerifyHapClaimAsync(hapId, "ballista.jobs");
     // ... handle claim
 }
 ```
@@ -69,12 +69,12 @@ if (hapId != null)
 using var verifier = new HapVerifier();
 
 // Fetch the claim
-var response = await verifier.FetchClaimAsync("hap_abc123xyz456", "ballista.io");
+var response = await verifier.FetchClaimAsync("hap_abc123xyz456", "ballista.jobs");
 
 if (response.Valid && response.Jws != null)
 {
     // Verify the cryptographic signature
-    var result = await verifier.VerifySignatureAsync(response.Jws, "ballista.io");
+    var result = await verifier.VerifySignatureAsync(response.Jws, "ballista.jobs");
 
     if (result.Valid)
     {

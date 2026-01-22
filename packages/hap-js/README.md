@@ -22,7 +22,7 @@ import {
 } from "@bluescroll/hap";
 
 // Verify a claim from a HAP ID
-const claim = await verifyHapClaim("hap_abc123xyz456", "ballista.io");
+const claim = await verifyHapClaim("hap_abc123xyz456", "ballista.jobs");
 
 if (claim) {
   // Check if not expired
@@ -47,11 +47,11 @@ if (claim) {
 import { extractHapIdFromUrl, verifyHapClaim } from "@bluescroll/hap";
 
 // Extract HAP ID from a verification URL
-const url = "https://ballista.io/v/hap_abc123xyz456";
+const url = "https://www.ballista.jobs/v/hap_abc123xyz456";
 const hapId = extractHapIdFromUrl(url);
 
 if (hapId) {
-  const claim = await verifyHapClaim(hapId, "ballista.io");
+  const claim = await verifyHapClaim(hapId, "ballista.jobs");
   // ... verify claim
 }
 ```
@@ -62,11 +62,11 @@ if (hapId) {
 import { fetchClaim, verifySignature } from "@bluescroll/hap";
 
 // Fetch the claim
-const response = await fetchClaim("hap_abc123xyz456", "ballista.io");
+const response = await fetchClaim("hap_abc123xyz456", "ballista.jobs");
 
 if (response.valid && "jws" in response) {
   // Verify the cryptographic signature
-  const result = await verifySignature(response.jws, "ballista.io");
+  const result = await verifySignature(response.jws, "ballista.jobs");
 
   if (result.valid) {
     console.log("Signature verified!", result.claim);

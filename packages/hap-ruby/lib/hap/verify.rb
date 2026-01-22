@@ -24,7 +24,7 @@ module Hap
 
     # Fetches the public keys from a VA's well-known endpoint
     #
-    # @param issuer_domain [String] The VA's domain (e.g., "ballista.io")
+    # @param issuer_domain [String] The VA's domain (e.g., "ballista.jobs")
     # @param timeout [Integer] Request timeout in seconds
     # @return [Hash] The VA's public key configuration
     def fetch_public_keys(issuer_domain, timeout: DEFAULT_TIMEOUT)

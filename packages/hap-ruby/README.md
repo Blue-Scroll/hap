@@ -26,7 +26,7 @@ gem install bluescroll-hap
 require 'hap'
 
 # Verify a claim from a HAP ID
-claim = Hap.verify_hap_claim("hap_abc123xyz456", "ballista.io")
+claim = Hap.verify_hap_claim("hap_abc123xyz456", "ballista.jobs")
 
 if claim
   # Check if not expired
@@ -49,11 +49,11 @@ end
 
 ```ruby
 # Extract HAP ID from a verification URL
-url = "https://ballista.io/v/hap_abc123xyz456"
+url = "https://www.ballista.jobs/v/hap_abc123xyz456"
 hap_id = Hap.extract_hap_id_from_url(url)
 
 if hap_id
-  claim = Hap.verify_hap_claim(hap_id, "ballista.io")
+  claim = Hap.verify_hap_claim(hap_id, "ballista.jobs")
   # ... handle claim
 end
 ```
@@ -62,11 +62,11 @@ end
 
 ```ruby
 # Fetch the claim
-response = Hap.fetch_claim("hap_abc123xyz456", "ballista.io")
+response = Hap.fetch_claim("hap_abc123xyz456", "ballista.jobs")
 
 if response[:valid] && response[:jws]
   # Verify the cryptographic signature
-  result = Hap.verify_signature(response[:jws], "ballista.io")
+  result = Hap.verify_signature(response[:jws], "ballista.jobs")
 
   if result[:valid]
     puts "Signature verified! Claim: #{result[:claim]}"
