@@ -63,12 +63,20 @@ HAP is a **specification**, not infrastructure. Each VA hosts their own endpoint
 
 ### 3.3 Claim Types
 
+The `type` field identifies what the claim attests to. Types are extensible using the same model as methods.
+
+#### Registered Types
+
 | Type                  | Description                                                   |
 | --------------------- | ------------------------------------------------------------- |
 | `human_effort`        | Applicant demonstrated genuine effort through a costly action |
 | `employer_commitment` | Employer has committed to reviewing HAP-verified applications |
 
-Future versions may add: `identity`, `credential`, `reference`.
+#### Custom Types
+
+VAs MAY define additional claim types using an `x-` prefix (e.g., `x-identity`, `x-credential`). Custom types are first-class; the prefix is a namespace convention.
+
+To register a type, submit documentation to the HAP repository.
 
 #### Employer Commitment Claims
 
@@ -100,7 +108,11 @@ VAs MAY define additional commitment levels with an `x-` prefix.
 
 ### 3.4 Verification Methods
 
-#### Core Methods
+The `method` field identifies what verification action the VA performed. Methods are VA-defined; employers decide which methods to accept.
+
+#### Registered Methods
+
+The following methods are documented in the HAP repository. Any VA may use them:
 
 | Method            | Description                         |
 | ----------------- | ----------------------------------- |
@@ -111,7 +123,7 @@ VAs MAY define additional commitment levels with an `x-` prefix.
 
 #### Custom Methods
 
-VAs MAY define custom verification methods using an `x-` prefix:
+VAs MAY define additional methods. To avoid namespace collision with future registered methods, custom methods SHOULD use an `x-` prefix:
 
 | Example              | Description             |
 | -------------------- | ----------------------- |
@@ -119,7 +131,9 @@ VAs MAY define custom verification methods using an `x-` prefix:
 | `x-portfolio-review` | Manual portfolio review |
 | `x-in-person`        | In-person verification  |
 
-Custom methods that gain adoption MAY be promoted to core methods in future spec versions.
+**Custom methods are first-class.** The `x-` prefix is a namespace convention, not a status indicator. Employers MAY accept any method that meets the requirements in [Method Requirements](/docs/method-requirements.md).
+
+To register a method (remove the `x-` prefix), submit documentation to the HAP repository. Registration requires only documentation, not approval.
 
 ---
 

@@ -89,7 +89,7 @@ No API call to the VA should be required for basic verification. The cryptograph
 
 HAP recognizes three categories of verification methods. These are descriptive, not normative — a method's category does not affect its validity, only its properties.
 
-> **Note:** The HAP specification defines core methods (`physical_mail`, `video_interview`, `paid_assessment`, `referral`) and allows custom methods with an `x-` prefix. The examples below include both core methods and illustrative custom methods. Custom methods that gain adoption may be promoted to core methods in future spec versions.
+> **Note:** The HAP specification documents registered methods (`physical_mail`, `video_interview`, `paid_assessment`, `referral`) and supports custom methods with an `x-` prefix. Custom methods are first-class — the prefix is a namespace convention, not a status indicator. To register a method, submit documentation to the HAP repository.
 
 ### Physical Methods
 
@@ -97,7 +97,7 @@ Methods where the cost is embedded in physical atoms.
 
 Examples:
 
-- `physical_mail` — Standard postal delivery *(core method)*
+- `physical_mail` — Standard postal delivery *(registered)*
 - `x-certified_mail` — Tracked postal delivery with proof of receipt
 - `x-notarized` — In-person notarization
 - `x-in_person` — Physical presence verification
@@ -114,7 +114,7 @@ Methods where the cost is purely monetary/digital with no physical component.
 
 Examples:
 
-- `paid_assessment` — Fee-based skills assessment *(core method)*
+- `paid_assessment` — Fee-based skills assessment *(registered)*
 - `x-paid_digital` — Fee-based digital verification
 - `x-escrow` — Refundable stake held during application period
 
@@ -130,7 +130,7 @@ Methods combining digital and physical elements.
 
 Examples:
 
-- `video_interview` — Live video interview with a human *(core method)*
+- `video_interview` — Live video interview with a human *(registered)*
 - `x-expedited_mail` — Digital claim issued instantly, physical mail follows
 
 Properties:
