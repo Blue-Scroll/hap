@@ -4,11 +4,11 @@ using System.Text.RegularExpressions;
 namespace BlueScroll.Hap;
 
 /// <summary>
-/// HAP (Human Application Protocol) SDK for .NET.
+/// HAP (Human Attestation Protocol) SDK for .NET.
 ///
-/// HAP is an open standard for verified job applications. It enables Verification
-/// Authorities (VAs) to cryptographically attest that an applicant took deliberate,
-/// costly action when applying for a job.
+/// HAP is an open standard for verified human effort. It enables Verification
+/// Authorities (VAs) to cryptographically attest that a sender took deliberate,
+/// costly action when communicating with a recipient.
 /// </summary>
 public static partial class Hap
 {

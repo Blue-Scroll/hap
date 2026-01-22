@@ -1,4 +1,4 @@
-# HAP - Human Application Protocol
+# HAP - Human Attestation Protocol
 
 **The open standard for verified job applications.**
 

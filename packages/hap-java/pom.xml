@@ -10,7 +10,7 @@
     <packaging>jar</packaging>
 
     <name>HAP SDK</name>
-    <description>Official HAP (Human Application Protocol) SDK for Java</description>
+    <description>Official HAP (Human Attestation Protocol) SDK for Java</description>
     <url>https://github.com/BlueScroll/hap</url>
 
     <licenses>

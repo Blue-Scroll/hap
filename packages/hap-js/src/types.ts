@@ -1,5 +1,5 @@
 /**
- * HAP (Human Application Protocol) TypeScript type definitions
+ * HAP (Human Attestation Protocol) TypeScript type definitions
  */
 
 /** Protocol version */

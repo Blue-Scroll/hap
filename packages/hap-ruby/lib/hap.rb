@@ -5,11 +5,11 @@ require_relative "hap/types"
 require_relative "hap/verify"
 require_relative "hap/sign"
 
-# HAP (Human Application Protocol) SDK for Ruby
+# HAP (Human Attestation Protocol) SDK for Ruby
 #
-# HAP is an open standard for verified job applications. It enables Verification
-# Authorities (VAs) to cryptographically attest that an applicant took deliberate,
-# costly action when applying for a job.
+# HAP is an open standard for verified human effort. It enables Verification
+# Authorities (VAs) to cryptographically attest that a sender took deliberate,
+# costly action when communicating with a recipient.
 #
 # @example Verifying a claim (for employers)
 #   claim = Hap.verify_hap_claim("hap_abc123xyz456", "ballista.io")

@@ -1,8 +1,8 @@
 /**
- * @bluescroll/hap - Official HAP (Human Application Protocol) SDK
+ * @bluescroll/hap - Official HAP (Human Attestation Protocol) SDK
  *
- * HAP is an open standard for verified job applications. This SDK provides
- * tools for both verifying HAP claims (for employers) and signing claims
+ * HAP is an open standard for verified human effort. This SDK provides
+ * tools for both verifying HAP claims (for recipients) and signing claims
  * (for Verification Authorities).
  *
  * @example Verifying a claim (for employers)

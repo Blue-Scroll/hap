@@ -73,7 +73,7 @@ Not prove identity. Not prove credentials. Just prove that a real human took del
 
 Physical mail is one such action. Sending a printed packet costs money, requires real addresses, and can't be automated at scale. It's not the only signal of effort, but it's a strong one.
 
-HAP (Human Application Protocol) is an open standard that lets any service attest to this kind of effort. When an applicant sends mail through Ballista, the packet includes a cryptographic signature that employers can verify. That signature doesn't vouch for qualifications. It says: "This person did something real."
+HAP (Human Attestation Protocol) is an open standard that lets any service attest to this kind of effort. When a sender communicates through a Verification Authority like Ballista, the message includes a cryptographic signature that recipients can verify. That signature doesn't vouch for qualifications. It says: "This person did something real."
 
 ## What We're Building Toward
 

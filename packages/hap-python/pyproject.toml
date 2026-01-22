@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "bluescroll-hap"
 version = "0.1.2"
-description = "Official HAP (Human Application Protocol) SDK for Python"
+description = "Official HAP (Human Attestation Protocol) SDK for Python"
 readme = "README.md"
 license = "Apache-2.0"
 requires-python = ">=3.9"
@@ -14,7 +14,7 @@ authors = [
 ]
 keywords = [
     "hap",
-    "human-application-protocol",
+    "human-attestation-protocol",
     "verification",
     "job-applications",
     "ed25519",
