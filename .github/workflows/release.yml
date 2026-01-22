@@ -196,8 +196,15 @@ jobs:
 
       - name: Split and push PHP package
         env:
-          GITHUB_TOKEN: ${{ secrets.PACKAGIST_PUSH_TOKEN }}
+          MIRROR_PUSH_TOKEN: ${{ secrets.PACKAGIST_PUSH_TOKEN }}
         run: |
+          # Validate token exists
+          if [ -z "$MIRROR_PUSH_TOKEN" ]; then
+            echo "Error: PACKAGIST_PUSH_TOKEN secret is not set or empty"
+            echo "For fine-grained PATs, ensure the token includes Blue-Scroll/human-attestation-php with Contents: Read and write"
+            exit 1
+          fi
+
           # Configure git
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -206,7 +213,7 @@ jobs:
           SHA=$(splitsh-lite --prefix=packages/hap-php)
 
           # Push to mirror repo
-          git remote add mirror https://x-access-token:${GITHUB_TOKEN}@github.com/Blue-Scroll/human-attestation-php.git || true
+          git remote add mirror https://x-access-token:${MIRROR_PUSH_TOKEN}@github.com/Blue-Scroll/human-attestation-php.git || true
           git push mirror ${SHA}:refs/heads/main --force
           git push mirror v${{ needs.validate.outputs.version }} --force
 
