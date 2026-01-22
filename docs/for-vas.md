@@ -2,6 +2,8 @@
 
 HAP is an open protocol. Anyone can implement it without permission or approval. This guide covers the technical requirements and operational standards for running a Verification Authority (VA).
 
+For the authoritative requirements that define HAP-compliant verification methods, see **[Method Requirements](method-requirements.md)**.
+
 ## What VAs Do
 
 A Verification Authority:
@@ -119,15 +121,16 @@ const hapId = `hap_${nanoid(12)}`;
 
 Technical implementation is necessary but not sufficient. To be a trusted VA:
 
-### Verification Method Must Be Costly
+### Verification Method Must Meet HAP Requirements
 
-The action you verify should have real cost or friction:
+Your verification method must satisfy the four core requirements defined in [Method Requirements](method-requirements.md):
 
-- Financial cost (physical mail, paid services)
-- Time cost (video interviews, assessments)
-- Scarcity (referrals from existing network)
+1. **Non-externalizable cost** — The cost cannot be pushed to unwitting third parties
+2. **Linear scaling** — N verifications must cost approximately N times one verification
+3. **Cryptographic binding** — Claims bound to content, recipient, and timestamp
+4. **Verifiable commitment** — Verifiable using only the claim and public keys
 
-"Clicking a button" is not a verification method.
+"Clicking a button" is not a verification method. See the [full requirements](method-requirements.md) for detailed criteria and examples.
 
 ### Claims Must Be Accurate
 
