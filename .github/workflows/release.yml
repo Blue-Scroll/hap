@@ -82,7 +82,7 @@ jobs:
           registry-url: "https://registry.npmjs.org"
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install
 
       - name: Build
         run: npm run build
@@ -178,19 +178,32 @@ jobs:
           mkdir -p ~/.gem
           echo ":rubygems_api_key: ${{ secrets.RUBYGEMS_API_KEY }}" > ~/.gem/credentials
           chmod 0600 ~/.gem/credentials
-          gem push bluescroll-hap-${{ needs.validate.outputs.version }}.gem
+          gem push human-attestation-${{ needs.validate.outputs.version }}.gem
 
   publish-packagist:
     name: Publish to Packagist
     needs: [validate, sync-and-tag]
     runs-on: ubuntu-latest
+    # NOTE: Packagist requires composer.json at repository root.
+    # For monorepos, either:
+    # 1. Use subtree split to mirror packages/hap-php to a separate repo
+    # 2. Register that mirror repo on Packagist
+    # Until then, this job will fail (now with proper error reporting).
     steps:
       - name: Trigger Packagist update
         run: |
-          curl -XPOST \
+          response=$(curl -s -w "%{http_code}" -XPOST \
             -H "Content-Type: application/json" \
             "https://packagist.org/api/update-package?username=bluescroll&apiToken=${{ secrets.PACKAGIST_API_TOKEN }}" \
-            -d '{"repository":{"url":"https://github.com/Blue-Scroll/hap"}}'
+            -d '{"repository":{"url":"https://github.com/Blue-Scroll/hap"}}')
+          http_code="${response: -3}"
+          body="${response:0:-3}"
+          echo "Response: $body"
+          echo "HTTP Status: $http_code"
+          if [ "$http_code" != "200" ] && [ "$http_code" != "202" ]; then
+            echo "Packagist update failed with status $http_code"
+            exit 1
+          fi
 
   publish-nuget:
     name: Publish to NuGet
@@ -251,12 +264,12 @@ jobs:
 
             **JavaScript/TypeScript:**
             ```bash
-            npm install @bluescroll/hap@${{ needs.validate.outputs.version }}
+            npm install human-attestation@${{ needs.validate.outputs.version }}
             ```
 
             **Python:**
             ```bash
-            pip install bluescroll-hap==${{ needs.validate.outputs.version }}
+            pip install human-attestation==${{ needs.validate.outputs.version }}
             ```
 
             **Go:**
@@ -267,25 +280,25 @@ jobs:
             **Java (Maven):**
             ```xml
             <dependency>
-                <groupId>io.bluescroll</groupId>
-                <artifactId>hap</artifactId>
+                <groupId>io.github.blue-scroll</groupId>
+                <artifactId>human-attestation</artifactId>
                 <version>${{ needs.validate.outputs.version }}</version>
             </dependency>
             ```
 
             **Ruby:**
             ```bash
-            gem install bluescroll-hap -v ${{ needs.validate.outputs.version }}
+            gem install human-attestation -v ${{ needs.validate.outputs.version }}
             ```
 
             **PHP:**
             ```bash
-            composer require bluescroll/hap:${{ needs.validate.outputs.version }}
+            composer require bluescroll/human-attestation:${{ needs.validate.outputs.version }}
             ```
 
             **C#/.NET:**
             ```bash
-            dotnet add package BlueScroll.Hap --version ${{ needs.validate.outputs.version }}
+            dotnet add package HumanAttestation --version ${{ needs.validate.outputs.version }}
             ```
           draft: false
           prerelease: false
