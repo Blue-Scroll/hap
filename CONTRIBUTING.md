@@ -1,6 +1,6 @@
 # Contributing to HAP
 
-HAP is open because trust infrastructure should be shared. We welcome contributions from anyone who wants to help restore trust in hiring.
+HAP is open because trust infrastructure should be shared. We welcome contributions from anyone who wants to help build trust infrastructure for human communication.
 
 ## What We Welcome
 
@@ -8,7 +8,7 @@ HAP is open because trust infrastructure should be shared. We welcome contributi
 - **Spec clarifications** - Help make the specification clearer
 - **SDK improvements** - Bug fixes, performance, new languages
 - **Documentation** - Guides, examples, translations
-- **Employer integration guides** - Help employers adopt HAP
+- **Recipient integration guides** - Help recipients adopt HAP
 
 ## Writing Guidelines
 
@@ -17,8 +17,8 @@ When contributing to HAP documentation or code, follow these principles:
 ### Voice
 
 - **Direct and confident.** No hedging or corporate speak.
-- **Human-first.** Write for the job seeker wondering if anyone cares.
-- **Technical but accessible.** Employers aren't all developers.
+- **Human-first.** Write for the person wondering if their effort matters.
+- **Technical but accessible.** Recipients aren't all developers.
 
 ### Avoid
 
@@ -109,7 +109,7 @@ See [docs/for-vas.md](./docs/for-vas.md) for requirements. To be listed in the o
 
 ## Code of Conduct
 
-Be kind. We're all here to make hiring less broken.
+Be kind. We're all here to make communication more trustworthy.
 
 - Assume good intent
 - Focus on the work, not the person

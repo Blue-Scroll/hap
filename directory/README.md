@@ -4,7 +4,7 @@ This directory contains a machine-readable list of Verification Authorities (VAs
 
 ## What This Directory Is
 
-**A discovery mechanism.** The directory helps developers and employers find VAs that have published valid HAP endpoints. It answers the question: "What VAs exist that I could potentially accept claims from?"
+**A discovery mechanism.** The directory helps developers and recipients find VAs that have published valid HAP endpoints. It answers the question: "What VAs exist that I could potentially accept claims from?"
 
 ## What This Directory Is NOT
 

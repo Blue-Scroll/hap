@@ -149,7 +149,7 @@ HAP takes no position on:
 - **Speed** — Instant or delayed delivery are both acceptable
 - **Specific technologies** — Any cryptographic implementation meeting the spec is valid
 
-These are VA-level decisions. Market competition and employer preferences determine which methods succeed.
+These are VA-level decisions. Market competition and recipient preferences determine which methods succeed.
 
 -----
 
@@ -173,7 +173,7 @@ For complete technical implementation details, see [Becoming a Verification Auth
 HAP does not mandate pricing, but VAs should consider:
 
 - **Too low** — Fails to deter spray-and-pray; dilutes the signal
-- **Too high** — Excludes legitimate applicants; reduces adoption
+- **Too high** — Excludes legitimate senders; reduces adoption
 - **Context-dependent** — Entry-level roles may warrant lower friction than executive positions
 
 VAs may offer multiple tiers at different price points.
@@ -194,11 +194,11 @@ VAs may combine multiple signals (e.g., payment + behavioral analysis + device a
 }
 ```
 
-Employers can then filter based on method properties.
+Recipients can then filter based on method properties.
 
 -----
 
-## Guidance for Employers
+## Guidance for Recipients
 
 ### Evaluating Methods
 
@@ -215,7 +215,7 @@ When deciding which HAP methods to accept, consider:
 
 Listing in the HAP directory indicates a VA has published a valid `/.well-known/hap.json` endpoint. It does not constitute endorsement.
 
-Employers should evaluate:
+Recipients should evaluate:
 
 - The VA's verification method against these requirements
 - The VA's reputation and operational history

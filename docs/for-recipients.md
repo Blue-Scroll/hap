@@ -1,23 +1,23 @@
-# HAP for Employers
+# HAP for Recipients
 
 ## What Is This QR Code?
 
-If you received a job application with a QR code or verification URL, the applicant used a HAP-compatible service to apply. Scanning the code confirms that a real human took deliberate action to apply to your company.
+If you received a message with a QR code or verification URL, the sender used a HAP-compatible service to reach you. Scanning the code confirms that a real human took deliberate action to send you this message.
 
 ## What Does Verification Mean?
 
 A valid HAP verification confirms:
 
-- **A human made effort.** Someone completed a costly action (like sending physical mail) to apply.
-- **It was targeted to you.** The claim includes your company name.
+- **A human made effort.** Someone completed a costly action (like sending physical mail or paying a fee) to reach you.
+- **It was targeted to you.** The claim includes your organization's name.
 - **It's cryptographically signed.** The claim can't be forged or reused.
 
 A HAP verification does NOT confirm:
 
-- Applicant identity (no ID verification)
-- Qualifications or experience
+- Sender identity (no ID verification)
+- Qualifications or credentials
 - Whether AI helped write the content
-- Anything about the applicant's fit for the role
+- Anything about the sender's suitability for your needs
 
 ## How to Verify
 
@@ -25,7 +25,7 @@ A HAP verification does NOT confirm:
 
 Scan with your phone's camera. You'll see a verification page showing:
 
-- Company name (should match yours)
+- Recipient name (should match your organization)
 - Verification date
 - The issuing authority
 
@@ -48,8 +48,8 @@ Response (valid claim):
     "method": "physical_mail",
     "tier": "standard",
     "to": {
-      "company": "Your Company",
-      "domain": "yourcompany.com"
+      "name": "Your Organization",
+      "domain": "yourorg.com"
     },
     "at": "2026-01-19T06:00:00Z",
     "iss": "ballista.jobs"
@@ -72,7 +72,7 @@ Response (revoked claim):
 }
 ```
 
-**Note:** A revoked claim means the applicant or VA withdrew the verification. Treat it as if there's no verification.
+**Note:** A revoked claim means the sender or VA withdrew the verification. Treat it as if there's no verification.
 
 ### Option 3: Verify the Signature
 
@@ -86,30 +86,30 @@ See [SPEC.md](../SPEC.md) for technical details.
 
 ## Why Should You Care?
 
-In a sea of automated applications, HAP-verified applications stand out because:
+In a sea of automated messages, HAP-verified communications stand out because:
 
-1. **Higher intent signal.** Someone who spends money and time on a physical application probably wants _this_ job, not just _a_ job.
+1. **Higher intent signal.** Someone who spends money and time to reach you specifically probably has a genuine reason, not just a spray-and-pray approach.
 
-2. **Lower spam volume.** The cost of verification makes mass-applying impractical.
+2. **Lower spam volume.** The cost of verification makes mass-sending impractical.
 
-3. **No extra work for you.** Verification is optional. You can ignore the QR code entirely and evaluate the application normally.
+3. **No extra work for you.** Verification is optional. You can ignore the QR code entirely and evaluate the message normally.
 
 ## FAQ
 
-**Q: Does this mean the applicant is qualified?**
-No. HAP verifies effort, not competence. A verified applicant still needs to be evaluated on their merits.
+**Q: Does this mean the sender is legitimate?**
+No. HAP verifies effort, not legitimacy. A verified sender still needs to be evaluated on their merits.
 
-**Q: Can applicants fake these?**
-No. The cryptographic signature is tied to a specific application. Forging one would require the VA's private key.
+**Q: Can senders fake these?**
+No. The cryptographic signature is tied to a specific message. Forging one would require the VA's private key.
 
 **Q: Do I have to do anything different?**
-No. You can completely ignore HAP verification and evaluate applications as you normally would. It's supplementary information, not a requirement.
+No. You can completely ignore HAP verification and evaluate messages as you normally would. It's supplementary information, not a requirement.
 
 **Q: What's the catch?**
 None. Verification is free to check. We don't collect your data or require registration.
 
 **Q: Who is Ballista?**
-Ballista is a service that helps job seekers send physical mail applications. They're the first Verification Authority implementing HAP.
+Ballista is a service that helps people send physical mail. They're one of the first Verification Authorities implementing HAP.
 
 ## Questions?
 

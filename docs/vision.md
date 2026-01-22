@@ -53,7 +53,7 @@ The pattern is always the same:
 
 **The problem:** Job seekers submit into black holes. Employers drown in AI-generated spam. Both sides lose.
 
-**HAP solution:** Applicant pays real cost (physical mail, fee, etc.) → VA issues claim → Employer sees verified signal → Actually reads the application.
+**HAP solution:** Sender pays real cost (physical mail, fee, etc.) → VA issues claim → Recipient sees verified signal → Actually reads the message.
 
 **Why it matters:** The person who spent $15 and 30 minutes to send a physical packet probably wants this specific job more than someone who clicked "Easy Apply" on 50 listings. That signal has value.
 

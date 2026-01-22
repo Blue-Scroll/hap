@@ -10,7 +10,7 @@
         "method": "physical_mail",
         "tier": "standard",
         "to": {
-          "company": "Acme Corp",
+          "name": "Acme Corp",
           "domain": "acme.com"
         },
         "at": "2026-01-19T06:00:00Z",
@@ -26,7 +26,7 @@
         "method": "physical_mail",
         "tier": "premium",
         "to": {
-          "company": "TechStartup Inc",
+          "name": "TechStartup Inc",
           "domain": "techstartup.com"
         },
         "at": "2026-01-19T12:30:00Z",
@@ -42,7 +42,7 @@
         "type": "human_effort",
         "method": "x-video-interview",
         "to": {
-          "company": "Future Corp",
+          "name": "Future Corp",
           "domain": "futurecorp.io"
         },
         "at": "2026-01-20T09:00:00Z",
@@ -60,7 +60,7 @@
       "method": "physical_mail",
       "tier": "standard",
       "to": {
-        "company": "Acme Corp",
+        "name": "Acme Corp",
         "domain": "acme.com"
       },
       "at": "2026-01-19T06:00:00Z",

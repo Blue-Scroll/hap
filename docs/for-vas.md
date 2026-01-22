@@ -91,7 +91,7 @@ const claim = {
   type: "human_effort",
   method: "your_method", // or use x- prefix for custom: "x-your-method"
   to: {
-    company: "Target Corp",
+    name: "Target Corp",
     domain: "targetcorp.com", // optional but recommended
   },
   at: new Date().toISOString(),
@@ -154,7 +154,7 @@ VAs MUST publish a privacy policy that documents:
 
 - What verifier information (if any) is logged
 - How long logs are retained
-- How applicant data is handled
+- How sender data is handled
 
 VAs SHOULD NOT log verifier IP addresses or queries.
 
@@ -173,7 +173,7 @@ VAs MUST support claim revocation for these cases:
 | `fraud`        | Claim was issued fraudulently         |
 | `error`        | Claim contained incorrect information |
 | `legal`        | Legal requirement (court order, etc.) |
-| `user_request` | Applicant requested removal           |
+| `user_request` | Sender requested removal              |
 
 When a claim is revoked, return a revoked response (see SPEC.md Section 5.2) rather than silently deleting it.
 
@@ -200,13 +200,13 @@ The HAP repository maintains a [VA directory](../directory/) for discovery purpo
 - We recommend trusting your claims
 - We have audited your operations
 
-Trust decisions belong to verifiers (employers), who should evaluate your verification methods, reputation, and operational practices for their specific use case.
+Trust decisions belong to verifiers (recipients), who should evaluate your verification methods, reputation, and operational practices for their specific use case.
 
 ## Example VAs
 
 | Type               | Method                            | Example  |
 | ------------------ | --------------------------------- | -------- |
-| Physical mail      | Sends actual mail to companies    | Ballista |
+| Physical mail      | Sends physical mail to recipients | Ballista |
 | Video verification | Live interview with a human       | (future) |
 | Paid assessment    | Completes a paid skills test      | (future) |
 | Network referral   | Referred by verified professional | (future) |
