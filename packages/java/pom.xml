@@ -6,7 +6,7 @@
 
     <groupId>io.bluescroll</groupId>
     <artifactId>human-attestation</artifactId>
-    <version>0.3.7</version>
+    <version>0.4.1</version>
     <packaging>jar</packaging>
 
     <name>Human Attestation Protocol SDK</name>
