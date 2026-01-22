@@ -56,9 +56,12 @@ jobs:
           else
             echo "No version changes needed"
           fi
-          # Create and push tag
+          # Create and push main tag
           git tag v${{ needs.validate.outputs.version }}
           git push origin v${{ needs.validate.outputs.version }}
+          # Create and push Go module tag (required for subdirectory modules)
+          git tag packages/hap-go/v${{ needs.validate.outputs.version }}
+          git push origin packages/hap-go/v${{ needs.validate.outputs.version }}
 
   publish-npm:
     name: Publish to npm
