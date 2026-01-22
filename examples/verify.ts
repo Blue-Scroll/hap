@@ -14,7 +14,7 @@
 
 import * as jose from "jose";
 
-interface HapClaim {
+interface Claim {
   v: string;
   id: string;
   type: string;
@@ -29,10 +29,10 @@ interface HapClaim {
   iss: string;
 }
 
-interface HapVerifyResponse {
+interface VerifyResponse {
   valid: boolean;
   id?: string;
-  claims?: HapClaim;
+  claims?: Claim;
   jws?: string;
   issuer?: string;
   verifyUrl?: string;
@@ -43,7 +43,7 @@ interface HapVerifyResponse {
   revokedAt?: string;
 }
 
-interface HapPublicKeyResponse {
+interface PublicKeyResponse {
   issuer: string;
   keys: jose.JWK[];
 }
@@ -54,7 +54,7 @@ interface HapPublicKeyResponse {
 async function fetchClaim(
   hapId: string,
   issuerDomain: string,
-): Promise<HapVerifyResponse> {
+): Promise<VerifyResponse> {
   const url = `https://${issuerDomain}/api/v1/verify/${hapId}`;
   const response = await fetch(url);
 
@@ -70,7 +70,7 @@ async function fetchClaim(
  */
 async function fetchPublicKeys(
   issuerDomain: string,
-): Promise<HapPublicKeyResponse> {
+): Promise<PublicKeyResponse> {
   const url = `https://${issuerDomain}/.well-known/hap.json`;
   const response = await fetch(url);
 
@@ -87,7 +87,7 @@ async function fetchPublicKeys(
 async function verifySignature(
   jws: string,
   issuerDomain: string,
-): Promise<HapClaim> {
+): Promise<Claim> {
   // Fetch public keys from the issuer
   const { keys } = await fetchPublicKeys(issuerDomain);
 
@@ -114,13 +114,13 @@ async function verifySignature(
 
   // Decode and return the claim
   const claim = JSON.parse(new TextDecoder().decode(payload));
-  return claim as HapClaim;
+  return claim as Claim;
 }
 
 /**
  * Full verification flow
  */
-async function verifyHapClaim(
+async function verifyClaim(
   hapId: string,
   issuerDomain: string,
 ): Promise<void> {
@@ -236,4 +236,4 @@ if (!hapId.startsWith("hap_")) {
   process.exit(1);
 }
 
-verifyHapClaim(hapId, issuer).catch(console.error);
+verifyClaim(hapId, issuer).catch(console.error);

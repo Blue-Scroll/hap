@@ -36,12 +36,12 @@ The signature verification can happen entirely offline once you have the VA's pu
 
 ```typescript
 import {
-  verifyHapClaim,
+  verifyClaim,
   isClaimExpired,
   isClaimForRecipient,
 } from "human-attestation";
 
-const claim = await verifyHapClaim("hap_abc123xyz456", "ballista.jobs");
+const claim = await verifyClaim("hap_abc123xyz456", "ballista.jobs");
 if (
   claim &&
   !isClaimExpired(claim) &&
@@ -71,7 +71,7 @@ Official SDKs handle key fetching, signature verification, and claim validation:
 | ---------- | --------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
 | TypeScript | `npm install human-attestation`                     | [human-attestation](https://www.npmjs.com/package/human-attestation)                                  |
 | Python     | `pip install human-attestation`                     | [human-attestation](https://pypi.org/project/human-attestation/)                                      |
-| Go         | `go get github.com/Blue-Scroll/hap/packages/hap-go` | [hap-go](https://pkg.go.dev/github.com/Blue-Scroll/hap/packages/hap-go)                               |
+| Go         | `go get github.com/Blue-Scroll/hap/packages/go`     | [humanattestation](https://pkg.go.dev/github.com/Blue-Scroll/hap/packages/go)                         |
 | Java       | Maven/Gradle                                        | [io.bluescroll:human-attestation](https://central.sonatype.com/artifact/io.bluescroll/human-attestation) |
 | Ruby       | `gem install human-attestation`                     | [human-attestation](https://rubygems.org/gems/human-attestation)                                      |
 | PHP        | `composer require bluescroll/human-attestation`     | [bluescroll/human-attestation](https://packagist.org/packages/bluescroll/human-attestation)           |

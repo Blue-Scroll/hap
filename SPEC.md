@@ -35,107 +35,128 @@ HAP is a **specification**, not infrastructure. Each VA hosts their own endpoint
 {
   "v": "0.1",
   "id": "hap_abc123xyz456",
-  "type": "human_effort",
-  "method": "physical_mail",
-  "tier": "standard",
   "to": {
     "name": "Acme Corp",
     "domain": "acme.com"
   },
   "at": "2026-01-19T06:00:00Z",
   "exp": "2028-01-19T06:00:00Z",
-  "iss": "ballista.jobs"
+  "iss": "ballista.jobs",
+  "method": "ba_priority_mail",
+  "description": "Priority mail packet with handwritten cover letter",
+  "tier": "standard",
+  "cost": {
+    "amount": 1500,
+    "currency": "USD"
+  },
+  "time": 1800,
+  "physical": true,
+  "energy": 150
 }
 ```
 
 ### 3.2 Field Definitions
 
-| Field       | Type   | Required | Description                                           |
-| ----------- | ------ | -------- | ----------------------------------------------------- |
-| `v`         | string | Yes      | Protocol version (currently "0.1")                    |
-| `id`        | string | Yes      | Unique HAP ID for this claim                          |
-| `type`      | string | Yes      | Claim type (see 3.3)                                  |
-| `method`    | string | Yes      | Verification method used (see 3.4)                    |
-| `tier`      | string | No       | Service tier (VA-specific)                            |
-| `to.name`   | string | Yes      | Target recipient name                                 |
-| `to.domain` | string | No       | Target recipient domain for unambiguous identification|
-| `at`        | string | Yes      | ISO 8601 timestamp of verification                    |
-| `exp`       | string | No       | ISO 8601 timestamp of claim expiration                |
-| `iss`       | string | Yes      | Issuer domain (VA's domain)                           |
+| Field         | Type    | Required | Description                                            |
+| ------------- | ------- | -------- | ------------------------------------------------------ |
+| `v`           | string  | Yes      | Protocol version (currently "0.1")                     |
+| `id`          | string  | Yes      | Unique HAP ID for this claim                           |
+| `to`          | object  | Yes      | Target recipient (see 3.2.1)                           |
+| `at`          | string  | Yes      | ISO 8601 timestamp of verification                     |
+| `exp`         | string  | No       | ISO 8601 timestamp of claim expiration                 |
+| `iss`         | string  | Yes      | Issuer domain (VA's domain)                            |
+| `method`      | string  | Yes      | VA-specific verification type identifier               |
+| `description` | string  | Yes      | Human-readable description of the effort               |
+| `tier`        | string  | No       | Service tier (VA-specific)                             |
+| `cost`        | object  | No       | Monetary cost incurred (see 3.3.1)                     |
+| `time`        | integer | No       | Exclusive dedication time in seconds                   |
+| `physical`    | boolean | No       | Whether physical-world atoms were involved             |
+| `energy`      | integer | No       | Human energy expenditure in kilocalories               |
 
-### 3.3 Claim Types
+#### 3.2.1 Recipient Target (`to`)
 
-The `type` field identifies what the claim attests to. Types are extensible using the same model as methods.
+| Field    | Type   | Required | Description                                       |
+| -------- | ------ | -------- | ------------------------------------------------- |
+| `name`   | string | Yes      | Target recipient name                             |
+| `domain` | string | No       | Target recipient domain for unambiguous identification |
 
-#### Registered Types
+### 3.3 Effort Dimensions
 
-| Type                   | Description                                                  |
-| ---------------------- | ------------------------------------------------------------ |
-| `human_effort`         | Sender demonstrated genuine effort through a costly action   |
-| `recipient_commitment` | Recipient has committed to reviewing HAP-verified messages   |
+HAP claims include transparent, machine-readable effort dimensions. VAs populate the dimensions they can verify or estimate. All effort dimensions are optional except `method` and `description`.
 
-#### Custom Types
+#### 3.3.1 Monetary Cost (`cost`)
 
-VAs MAY define additional claim types using an `x-` prefix (e.g., `x-identity`, `x-credential`). Custom types are first-class; the prefix is a namespace convention.
+Monetary cost incurred by the sender.
 
-To register a type, submit documentation to the HAP repository.
+| Field      | Type    | Description                                      |
+| ---------- | ------- | ------------------------------------------------ |
+| `amount`   | integer | Cost in smallest currency unit (cents, pence)    |
+| `currency` | string  | ISO 4217 currency code (e.g., "USD", "GBP")      |
 
-#### Recipient Commitment Claims
-
-The `recipient_commitment` type allows VAs to certify that a recipient has committed to engaging with HAP-verified messages.
-
+Example:
 ```json
-{
-  "v": "0.1",
-  "id": "hap_rcp_abc123xyz",
-  "type": "recipient_commitment",
-  "recipient": {
-    "name": "Acme Corp",
-    "domain": "acme.com"
-  },
-  "commitment": "review_verified",
-  "at": "2026-01-19T06:00:00Z",
-  "exp": "2027-01-19T06:00:00Z",
-  "iss": "ballista.jobs"
-}
+{ "amount": 1500, "currency": "USD" }
 ```
 
-| Commitment Level      | Description                             |
-| --------------------- | --------------------------------------- |
-| `review_verified`     | Will review all HAP-verified messages   |
-| `prioritize_verified` | HAP messages receive priority review    |
-| `respond_verified`    | Commits to responding to HAP messages   |
+This represents $15.00 USD (1500 cents).
 
-VAs MAY define additional commitment levels with an `x-` prefix.
+#### 3.3.2 Time (`time`)
+
+Time in seconds that the sender was required to exclusively dedicate to this task — time that could not be spent on anything else.
+
+Examples:
+- `1800` = 30 minutes (writing and preparing a mail packet)
+- `3600` = 1 hour (completing an assessment)
+- `900` = 15 minutes (video interview segment)
+
+#### 3.3.3 Physical (`physical`)
+
+Boolean indicating whether physical-world atoms were involved. When `true`, indicates:
+
+- A physical artifact was created or delivered
+- Inherent scarcity (cannot be digitally duplicated)
+- Replication requires re-incurring physical costs
+
+Examples:
+- `true`: Physical mail, handmade item, in-person delivery
+- `false` or omitted: Purely digital verification
+
+#### 3.3.4 Energy (`energy`)
+
+Human energy expenditure in kilocalories (kcal). This captures metabolic cost — what the human body actually expended.
+
+Note: Use kilocalories (what nutrition labels call "Calories"), not joules. Kilocalories better represent human effort because they capture metabolic cost, not just mechanical work output.
+
+This is appropriate for:
+- Physical labor (moving boxes, delivery)
+- Manual craftsmanship (handmade items)
+- Physical presence requirements (walking to location)
+
+#### 3.3.5 Custom Dimensions (`x-*`)
+
+VAs may define custom dimensions using the `x-` prefix. Custom dimensions are first-class; the prefix is a namespace convention.
+
+Examples:
+- `"x-referral-strength": 0.8`
+- `"x-assessment-score": 92`
+- `"x-delivery-tracking": "1Z999AA10123456784"`
 
 ### 3.4 Verification Methods
 
-The `method` field identifies what verification action the VA performed. Methods are VA-defined; recipients decide which methods to accept.
+The `method` field is a VA-specific machine-readable identifier for the verification type — like a SKU within the VA's system. Human-readable context goes in `description`.
 
-#### Registered Methods
+**Methods are VA-defined.** The protocol does not prescribe specific methods. VAs define their own method identifiers based on their verification offerings.
 
-The following methods are documented in the HAP repository. Any VA may use them:
-
-| Method            | Description                         |
-| ----------------- | ----------------------------------- |
-| `physical_mail`   | Message sent via physical mail      |
-| `video_interview` | Live video interview with a human   |
-| `paid_assessment` | Completed a paid skills assessment  |
-| `referral`        | Referred by a verified professional |
+Examples:
+- `ba_priority_mail` - Ballista's priority mail verification
+- `vi_video_30` - Video interview VA's 30-minute interview
+- `pa_tech_assessment` - Paid assessment VA's technical assessment
 
 #### Custom Methods
 
-VAs MAY define additional methods. To avoid namespace collision with future registered methods, custom methods SHOULD use an `x-` prefix:
+VAs MAY define any method identifier. To avoid namespace collision if future conventions emerge, VAs SHOULD consider prefixes based on their domain or brand.
 
-| Example              | Description             |
-| -------------------- | ----------------------- |
-| `x-live-coding`      | Live coding assessment  |
-| `x-portfolio-review` | Manual portfolio review |
-| `x-in-person`        | In-person verification  |
-
-**Custom methods are first-class.** The `x-` prefix is a namespace convention, not a status indicator. Recipients MAY accept any method that meets the requirements in [Method Requirements](/docs/method-requirements.md).
-
-To register a method (remove the `x-` prefix), submit documentation to the HAP repository. Registration requires only documentation, not approval.
+**Custom methods are first-class.** Recipients MAY accept any method that meets their requirements.
 
 ---
 
@@ -231,7 +252,7 @@ VAs MAY include an optional `va` object to provide additional metadata about the
   "keys": [...],
   "va": {
     "name": "Ballista",
-    "methods": ["physical_mail"],
+    "methods": ["ba_priority_mail", "ba_standard_mail"],
     "status": "active",
     "description": "Physical mail verification service"
   }
@@ -277,19 +298,22 @@ Returns the verification claim with its signature.
 {
   "valid": true,
   "id": "hap_abc123xyz456",
-  "claims": {
+  "claim": {
     "v": "0.1",
     "id": "hap_abc123xyz456",
-    "type": "human_effort",
-    "method": "physical_mail",
-    "tier": "standard",
     "to": {
       "name": "Acme Corp",
       "domain": "acme.com"
     },
     "at": "2026-01-19T06:00:00Z",
     "exp": "2028-01-19T06:00:00Z",
-    "iss": "ballista.jobs"
+    "iss": "ballista.jobs",
+    "method": "ba_priority_mail",
+    "description": "Priority mail packet with handwritten cover letter",
+    "tier": "standard",
+    "cost": { "amount": 1500, "currency": "USD" },
+    "time": 1800,
+    "physical": true
   },
   "jws": "eyJhbGciOiJFZERTQSIsImtpZCI6ImJhX2tleV8wMDEifQ...",
   "issuer": "ballista.jobs",
@@ -387,6 +411,95 @@ The 12-character suffix should be generated using a cryptographically secure ran
 5. Store claim + JWS
 6. Include verification in delivered message (QR code, etc.)
 
+### 7.3 Offline Verification & HAP Compact Format
+
+HAP supports offline verification when claims are available directly (not fetched from VA). For QR codes and space-constrained contexts, HAP defines a compact serialization format.
+
+#### HAP Compact Format
+
+```
+HAP{version}.{id}.{method}.{to_name}.{to_domain}.{at}.{exp}.{iss}.{signature}
+```
+
+**Example:**
+
+```
+HAP1.hap_abc123xyz456.ba_priority_mail.Acme%20Corp.acme%2Ecom.1706169600.1769241600.ballista%2Ejobs.MEUCIQDx...
+```
+
+**Field encoding:**
+
+| Field       | Encoding                                              |
+| ----------- | ----------------------------------------------------- |
+| `version`   | "1" for HAP v0.1                                      |
+| `id`        | HAP ID (e.g., `hap_abc123xyz456`)                     |
+| `method`    | VA-specific verification method                       |
+| `to_name`   | Recipient name, URL-encoded (RFC 3986, dots as %2E)   |
+| `to_domain` | Recipient domain, URL-encoded (RFC 3986, dots as %2E) |
+| `at`        | Unix epoch seconds (verification timestamp)           |
+| `exp`       | Unix epoch seconds (expiration, 0 if none)            |
+| `iss`       | Issuer domain, URL-encoded (RFC 3986, dots as %2E)    |
+| `signature` | Base64url-encoded Ed25519 signature (no padding)      |
+
+**Note:** Effort dimensions (`cost`, `time`, `physical`, `energy`, `description`) are NOT included in the compact format. The compact format is a minimal representation for QR codes. Full claims in JWS include all dimensions.
+
+**Encoding note for implementers:** Since dot (`.`) is the field delimiter, SDK implementations MUST encode dots as `%2E` when serializing name, domain, and issuer fields. Users of SDK libraries provide normal strings (e.g., "acme.com") and the library handles encoding automatically.
+
+**Signature computation:**
+
+The signature is computed over the compact payload (everything before the final `.`), making the format self-contained:
+
+```
+payload = "HAP1.hap_abc123xyz456.ba_priority_mail.Acme%20Corp.acme%2Ecom.1706169600.1769241600.ballista%2Ejobs"
+signature = Ed25519_sign(private_key, payload)
+compact = payload + "." + base64url(signature)
+```
+
+**Recommended field length limits (for URL compatibility):**
+
+| Field       | Max Length | Notes                       |
+| ----------- | ---------- | --------------------------- |
+| `to.name`   | 200 chars  | Before URL-encoding         |
+| `to.domain` | 253 chars  | DNS limit                   |
+| `method`    | 64 chars   | VA-specific identifier      |
+| `iss`       | 253 chars  | DNS limit                   |
+
+These are soft limits to ensure the `url-compact` format stays under 2000 characters (universal browser/server support). VAs MAY exceed limits but SHOULD use the `compact` format (no URL wrapper) for large claims.
+
+#### QR Code Formats
+
+| Format        | Size        | Use Case                                          |
+| ------------- | ----------- | ------------------------------------------------- |
+| URL only      | ~50 chars   | Online verification (simple case)                 |
+| URL + compact | ~280 chars  | **Recommended** - Best of both worlds             |
+| Compact only  | ~220 chars  | Raw offline verification                          |
+| Full JWS      | ~580 chars  | High-assurance contexts                           |
+
+**Recommended: URL with embedded compact claim**
+
+```
+https://ballista.jobs/v?c=HAP1.hap_abc123xyz456.ba_priority_mail.Acme%20Corp.acme%2Ecom.1706169600.1769241600.ballista%2Ejobs.MEUCIQDx...
+```
+
+This format:
+- Loads a verification page (good UX)
+- Page can verify from `c` query param without API call
+- Offline-capable with cached keys
+- ~280 chars total (QR Version 9-10, ~1.6 inch)
+
+#### Offline Verification Flow
+
+1. Parse compact format to extract claim fields
+2. Reconstruct payload string (everything before final `.`)
+3. Verify Ed25519 signature using cached public keys from `/.well-known/hap.json`
+4. Validate claim fields (expiration, recipient, etc.)
+
+**Limitations of offline verification:**
+- Cannot check revocation status
+- Requires pre-cached public keys
+- Should validate `exp` field to detect stale claims
+- Does not include effort dimensions (cost, time, etc.)
+
 ---
 
 ## 8. Security Considerations
@@ -452,7 +565,7 @@ Revocation requirements:
 ```typescript
 import * as jose from "jose";
 
-async function verifyHapClaim(
+async function verifyClaim(
   jws: string,
   issuerDomain: string,
 ): Promise<boolean> {
