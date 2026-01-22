@@ -184,18 +184,41 @@ jobs:
     name: Publish to Packagist
     needs: [validate, sync-and-tag]
     runs-on: ubuntu-latest
-    # NOTE: Packagist requires composer.json at repository root.
-    # For monorepos, either:
-    # 1. Use subtree split to mirror packages/hap-php to a separate repo
-    # 2. Register that mirror repo on Packagist
-    # Until then, this job will fail (now with proper error reporting).
+    # Packagist requires composer.json at repo root, so we use subtree split
+    # to push packages/hap-php to a mirror repo (Blue-Scroll/human-attestation-php)
     steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: v${{ needs.validate.outputs.version }}
+          fetch-depth: 0
+
+      - name: Install splitsh-lite
+        run: |
+          curl -L https://github.com/splitsh/lite/releases/download/v1.0.1/lite_linux_amd64.tar.gz | tar -xz
+          sudo mv splitsh-lite /usr/local/bin/
+
+      - name: Split and push PHP package
+        env:
+          GITHUB_TOKEN: ${{ secrets.PACKAGIST_PUSH_TOKEN }}
+        run: |
+          # Configure git
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Create split branch with only packages/hap-php contents
+          SHA=$(splitsh-lite --prefix=packages/hap-php)
+
+          # Push to mirror repo
+          git remote add mirror https://x-access-token:${GITHUB_TOKEN}@github.com/Blue-Scroll/human-attestation-php.git || true
+          git push mirror ${SHA}:refs/heads/main --force
+          git push mirror v${{ needs.validate.outputs.version }} --force
+
       - name: Trigger Packagist update
         run: |
           response=$(curl -s -w "%{http_code}" -XPOST \
             -H "Content-Type: application/json" \
             "https://packagist.org/api/update-package?username=bluescroll&apiToken=${{ secrets.PACKAGIST_API_TOKEN }}" \
-            -d '{"repository":{"url":"https://github.com/Blue-Scroll/hap"}}')
+            -d '{"repository":{"url":"https://github.com/Blue-Scroll/human-attestation-php"}}')
           http_code="${response: -3}"
           body="${response:0:-3}"
           echo "Response: $body"
