@@ -20,7 +20,7 @@ from hap import verify_hap_claim, is_claim_expired, is_claim_for_company
 
 async def main():
     # Verify a claim from a HAP ID
-    claim = await verify_hap_claim("hap_abc123xyz456", "ballista.io")
+    claim = await verify_hap_claim("hap_abc123xyz456", "ballista.jobs")
 
     if claim:
         # Check if not expired
@@ -48,7 +48,7 @@ async def verify_from_url(url: str):
     hap_id = extract_hap_id_from_url(url)
 
     if hap_id:
-        claim = await verify_hap_claim(hap_id, "ballista.io")
+        claim = await verify_hap_claim(hap_id, "ballista.jobs")
         return claim
     return None
 ```
@@ -60,11 +60,11 @@ from hap import fetch_claim, verify_signature
 
 async def verify_with_signature(hap_id: str):
     # Fetch the claim
-    response = await fetch_claim(hap_id, "ballista.io")
+    response = await fetch_claim(hap_id, "ballista.jobs")
 
     if response.get("valid") and "jws" in response:
         # Verify the cryptographic signature
-        result = await verify_signature(response["jws"], "ballista.io")
+        result = await verify_signature(response["jws"], "ballista.jobs")
 
         if result["valid"]:
             print("Signature verified!", result["claim"])

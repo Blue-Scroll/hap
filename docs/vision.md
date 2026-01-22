@@ -143,7 +143,7 @@ Trust decisions belong to the recipient. They evaluate:
 - What's their reputation?
 - Do I trust their attestations for my use case?
 
-This mirrors how the web works. HTTPS proves you're talking to `example.com`, but doesn't tell you whether to trust what `example.com` says. HAP proves a claim came from `ballista.io`, but whether you trust Ballista's verification methods is your call.
+This mirrors how the web works. HTTPS proves you're talking to `example.com`, but doesn't tell you whether to trust what `example.com` says. HAP proves a claim came from `ballista.jobs`, but whether you trust Ballista's verification methods is your call.
 
 **The protocol provides the infrastructure. You provide the judgment.**
 

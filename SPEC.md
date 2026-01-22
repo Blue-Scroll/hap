@@ -44,7 +44,7 @@ HAP is a **specification**, not infrastructure. Each VA hosts their own endpoint
   },
   "at": "2026-01-19T06:00:00Z",
   "exp": "2028-01-19T06:00:00Z",
-  "iss": "ballista.io"
+  "iss": "ballista.jobs"
 }
 ```
 
@@ -96,7 +96,7 @@ The `recipient_commitment` type allows VAs to certify that a recipient has commi
   "commitment": "review_verified",
   "at": "2026-01-19T06:00:00Z",
   "exp": "2027-01-19T06:00:00Z",
-  "iss": "ballista.io"
+  "iss": "ballista.jobs"
 }
 ```
 
@@ -200,7 +200,7 @@ Returns the VA's public keys in JWK format.
 
 ```json
 {
-  "issuer": "ballista.io",
+  "issuer": "ballista.jobs",
   "keys": [
     {
       "kid": "ba_key_001",
@@ -227,7 +227,7 @@ VAs MAY include an optional `va` object to provide additional metadata about the
 
 ```json
 {
-  "issuer": "ballista.io",
+  "issuer": "ballista.jobs",
   "keys": [...],
   "va": {
     "name": "Ballista",
@@ -289,11 +289,11 @@ Returns the verification claim with its signature.
     },
     "at": "2026-01-19T06:00:00Z",
     "exp": "2028-01-19T06:00:00Z",
-    "iss": "ballista.io"
+    "iss": "ballista.jobs"
   },
   "jws": "eyJhbGciOiJFZERTQSIsImtpZCI6ImJhX2tleV8wMDEifQ...",
-  "issuer": "ballista.io",
-  "verifyUrl": "https://ballista.io/v/hap_abc123xyz456"
+  "issuer": "ballista.jobs",
+  "verifyUrl": "https://www.ballista.jobs/v/hap_abc123xyz456"
 }
 ```
 
@@ -306,7 +306,7 @@ Returns the verification claim with its signature.
   "revoked": true,
   "revocationReason": "user_request",
   "revokedAt": "2026-02-01T12:00:00Z",
-  "issuer": "ballista.io"
+  "issuer": "ballista.jobs"
 }
 ```
 
@@ -372,10 +372,10 @@ The 12-character suffix should be generated using a cryptographically secure ran
 ### 7.1 For Recipients (Verifiers)
 
 1. Receive message with HAP verification (QR code or URL)
-2. Extract HAP ID from URL: `https://ballista.io/v/hap_abc123xyz456`
-3. Fetch claim: `GET https://ballista.io/api/v1/verify/hap_abc123xyz456`
+2. Extract HAP ID from URL: `https://www.ballista.jobs/v/hap_abc123xyz456`
+3. Fetch claim: `GET https://www.ballista.jobs/api/v1/verify/hap_abc123xyz456`
 4. Optionally verify signature:
-   a. Fetch public key: `GET https://ballista.io/.well-known/hap.json`
+   a. Fetch public key: `GET https://www.ballista.jobs/.well-known/hap.json`
    b. Verify JWS signature against the claim payload
 
 ### 7.2 For VAs (Issuers)
@@ -498,7 +498,7 @@ Trust decisions remain with recipients, who must evaluate each VA's verification
   "updated": "2026-01-20T00:00:00Z",
   "vas": [
     {
-      "domain": "ballista.io",
+      "domain": "ballista.jobs",
       "addedAt": "2026-01-15",
       "lastVerifiedAt": "2026-01-20"
     }

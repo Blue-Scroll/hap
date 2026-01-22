@@ -15,7 +15,7 @@ namespace BlueScroll\Hap;
  * ```php
  * use BlueScroll\Hap\Hap;
  *
- * $claim = Hap::verifyHapClaim('hap_abc123xyz456', 'ballista.io');
+ * $claim = Hap::verifyHapClaim('hap_abc123xyz456', 'ballista.jobs');
  * if ($claim && !Hap::isClaimExpired($claim)) {
  *     echo "Verified application to " . $claim['to']['company'];
  * }

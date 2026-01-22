@@ -41,7 +41,7 @@ import {
   isClaimForCompany,
 } from "@bluescroll/hap";
 
-const claim = await verifyHapClaim("hap_abc123xyz456", "ballista.io");
+const claim = await verifyHapClaim("hap_abc123xyz456", "ballista.jobs");
 if (
   claim &&
   !isClaimExpired(claim) &&
@@ -55,10 +55,10 @@ if (
 
 ```bash
 # Fetch claim from VA
-curl https://ballista.io/api/v1/verify/hap_abc123xyz
+curl https://www.ballista.jobs/api/v1/verify/hap_abc123xyz
 
 # Fetch VA's public keys
-curl https://ballista.io/.well-known/hap.json
+curl https://www.ballista.jobs/.well-known/hap.json
 
 # Verify JWS signature locally using the public keys
 ```
@@ -85,7 +85,7 @@ Verification Authorities (VAs) are services that verify human effort and sign HA
 
 | VA       | Methods       | Domain                             |
 | -------- | ------------- | ---------------------------------- |
-| Ballista | Physical mail | [ballista.io](https://ballista.io) |
+| Ballista | Physical mail | [ballista.jobs](https://www.ballista.jobs) |
 
 See [directory/](directory/) for the machine-readable list and listing criteria.
 

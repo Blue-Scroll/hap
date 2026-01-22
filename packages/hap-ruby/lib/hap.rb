@@ -12,7 +12,7 @@ require_relative "hap/sign"
 # costly action when communicating with a recipient.
 #
 # @example Verifying a claim (for employers)
-#   claim = Hap.verify_hap_claim("hap_abc123xyz456", "ballista.io")
+#   claim = Hap.verify_hap_claim("hap_abc123xyz456", "ballista.jobs")
 #   if claim && !Hap.claim_expired?(claim)
 #     puts "Verified application to #{claim[:to][:company]}"
 #   end

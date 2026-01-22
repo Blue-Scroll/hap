@@ -43,7 +43,7 @@ async def fetch_public_keys(
     Fetches the public keys from a VA's well-known endpoint.
 
     Args:
-        issuer_domain: The VA's domain (e.g., "ballista.io")
+        issuer_domain: The VA's domain (e.g., "ballista.jobs")
         timeout: Request timeout in seconds
         client: Optional httpx client to use
 
@@ -73,7 +73,7 @@ async def fetch_claim(
 
     Args:
         hap_id: The HAP ID to verify
-        issuer_domain: The VA's domain (e.g., "ballista.io")
+        issuer_domain: The VA's domain (e.g., "ballista.jobs")
         timeout: Request timeout in seconds
         client: Optional httpx client to use
 
@@ -212,7 +212,7 @@ def extract_hap_id_from_url(url: str) -> Optional[str]:
     Extracts the HAP ID from a verification URL.
 
     Args:
-        url: The verification URL (e.g., "https://ballista.io/v/hap_abc123xyz456")
+        url: The verification URL (e.g., "https://www.ballista.jobs/v/hap_abc123xyz456")
 
     Returns:
         The HAP ID or None if not found

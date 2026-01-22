@@ -33,7 +33,7 @@ public class HapVerifier : IDisposable
     /// <summary>
     /// Fetches the public keys from a VA's well-known endpoint.
     /// </summary>
-    /// <param name="issuerDomain">The VA's domain (e.g., "ballista.io")</param>
+    /// <param name="issuerDomain">The VA's domain (e.g., "ballista.jobs")</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The VA's public key configuration</returns>
     public async Task<HapWellKnown> FetchPublicKeysAsync(string issuerDomain, CancellationToken cancellationToken = default)
