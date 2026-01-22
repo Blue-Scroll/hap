@@ -62,7 +62,7 @@ from hap.sign import (
     sign_claim,
 )
 
-__version__ = "0.1.2"
+__version__ = "0.2.0"
 
 __all__ = [
     # Version

@@ -4,7 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Version>0.1.2</Version>
+    <Version>0.2.0</Version>
     <Authors>BlueScroll Inc.</Authors>
     <Company>BlueScroll</Company>
     <Description>Official HAP (Human Attestation Protocol) SDK for .NET</Description>
