@@ -6,15 +6,18 @@
       "claim": {
         "v": "0.1",
         "id": "hap_abc123xyz456",
-        "type": "human_effort",
-        "method": "physical_mail",
+        "method": "ba_priority_mail",
+        "description": "Priority mail packet with handwritten cover letter",
         "tier": "standard",
         "to": {
           "name": "Acme Corp",
           "domain": "acme.com"
         },
         "at": "2026-01-19T06:00:00Z",
-        "iss": "ballista.jobs"
+        "iss": "ballista.jobs",
+        "cost": { "amount": 1500, "currency": "USD" },
+        "time": 1800,
+        "physical": true
       }
     },
     {
@@ -22,8 +25,8 @@
       "claim": {
         "v": "0.1",
         "id": "hap_pRm789QrS012",
-        "type": "human_effort",
-        "method": "physical_mail",
+        "method": "ba_premium_mail",
+        "description": "Premium mail packet with portfolio and personalized materials",
         "tier": "premium",
         "to": {
           "name": "TechStartup Inc",
@@ -31,42 +34,51 @@
         },
         "at": "2026-01-19T12:30:00Z",
         "exp": "2028-01-19T12:30:00Z",
-        "iss": "ballista.jobs"
+        "iss": "ballista.jobs",
+        "cost": { "amount": 2500, "currency": "USD" },
+        "time": 2700,
+        "physical": true,
+        "energy": 150
       }
     },
     {
-      "name": "Custom method claim (x- prefix)",
+      "name": "Video interview claim",
       "claim": {
         "v": "0.1",
         "id": "hap_cstm56789ABC",
-        "type": "human_effort",
-        "method": "x-video-interview",
+        "method": "vi_video_30",
+        "description": "30-minute live video interview with human verifier",
         "to": {
           "name": "Future Corp",
           "domain": "futurecorp.io"
         },
         "at": "2026-01-20T09:00:00Z",
-        "iss": "example-va.com"
+        "iss": "example-va.com",
+        "cost": { "amount": 2000, "currency": "USD" },
+        "time": 1800
       }
     }
   ],
   "verification_response": {
     "valid": true,
     "id": "hap_abc123xyz456",
-    "claims": {
+    "claim": {
       "v": "0.1",
       "id": "hap_abc123xyz456",
-      "type": "human_effort",
-      "method": "physical_mail",
+      "method": "ba_priority_mail",
+      "description": "Priority mail packet with handwritten cover letter",
       "tier": "standard",
       "to": {
         "name": "Acme Corp",
         "domain": "acme.com"
       },
       "at": "2026-01-19T06:00:00Z",
-      "iss": "ballista.jobs"
+      "iss": "ballista.jobs",
+      "cost": { "amount": 1500, "currency": "USD" },
+      "time": 1800,
+      "physical": true
     },
-    "jws": "eyJhbGciOiJFZERTQSIsImtpZCI6ImJhX2tleV8wMDEifQ.eyJ2IjoiMC4xIiwiaWQiOiJoYXBfYWJjMTIzeHl6NDU2IiwidHlwZSI6Imh1bWFuX2VmZm9ydCIsIm1ldGhvZCI6InBoeXNpY2FsX21haWwiLCJ0aWVyIjoic3RhbmRhcmQiLCJ0byI6eyJjb21wYW55IjoiQWNtZSBDb3JwIiwiZG9tYWluIjoiYWNtZS5jb20ifSwiYXQiOiIyMDI2LTAxLTE5VDA2OjAwOjAwWiIsImlzcyI6ImJhbGxpc3RhLmFwcCJ9.EXAMPLE_SIGNATURE",
+    "jws": "eyJhbGciOiJFZERTQSIsImtpZCI6ImJhX2tleV8wMDEifQ.eyJ2IjoiMC4xIiwiaWQiOiJoYXBfYWJjMTIzeHl6NDU2IiwibWV0aG9kIjoiYmFfcHJpb3JpdHlfbWFpbCIsImRlc2NyaXB0aW9uIjoiUHJpb3JpdHkgbWFpbCBwYWNrZXQgd2l0aCBoYW5kd3JpdHRlbiBjb3ZlciBsZXR0ZXIiLCJ0aWVyIjoic3RhbmRhcmQiLCJ0byI6eyJuYW1lIjoiQWNtZSBDb3JwIiwiZG9tYWluIjoiYWNtZS5jb20ifSwiYXQiOiIyMDI2LTAxLTE5VDA2OjAwOjAwWiIsImlzcyI6ImJhbGxpc3RhLmpvYnMifQ.EXAMPLE_SIGNATURE",
     "issuer": "ballista.jobs",
     "verifyUrl": "https://www.ballista.jobs/v/hap_abc123xyz456"
   },

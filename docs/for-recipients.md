@@ -41,18 +41,21 @@ Response (valid claim):
 {
   "valid": true,
   "id": "hap_abc123xyz456",
-  "claims": {
+  "claim": {
     "v": "0.1",
     "id": "hap_abc123xyz456",
-    "type": "human_effort",
-    "method": "physical_mail",
+    "method": "ba_priority_mail",
+    "description": "Priority mail packet with handwritten cover letter",
     "tier": "standard",
     "to": {
       "name": "Your Organization",
       "domain": "yourorg.com"
     },
     "at": "2026-01-19T06:00:00Z",
-    "iss": "ballista.jobs"
+    "iss": "ballista.jobs",
+    "cost": { "amount": 1500, "currency": "USD" },
+    "time": 1800,
+    "physical": true
   },
   "jws": "eyJhbGciOiJFZERTQSIsImtpZCI6ImJhX2tleV8wMDEifQ...",
   "issuer": "ballista.jobs",

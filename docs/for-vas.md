@@ -69,7 +69,7 @@ This allows verifiers to discover your capabilities without querying a central d
 {
   "valid": true,
   "id": "hap_abc123xyz456",
-  "claims": { ... },
+  "claim": { ... },
   "jws": "eyJ...",
   "issuer": "your-domain.com",
   "verifyUrl": "https://your-domain.com/v/hap_abc123xyz456"
@@ -88,8 +88,8 @@ import * as jose from "jose";
 const claim = {
   v: "0.1",
   id: "hap_" + generateId(),
-  type: "human_effort",
-  method: "your_method", // or use x- prefix for custom: "x-your-method"
+  method: "your_method",
+  description: "Human-readable description of the verification effort",
   to: {
     name: "Target Corp",
     domain: "targetcorp.com", // optional but recommended

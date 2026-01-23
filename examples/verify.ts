@@ -17,8 +17,8 @@ import * as jose from "jose";
 interface Claim {
   v: string;
   id: string;
-  type: string;
   method: string;
+  description: string;
   tier?: string;
   to: {
     name: string;
@@ -27,12 +27,16 @@ interface Claim {
   at: string;
   exp?: string;
   iss: string;
+  cost?: { amount: number; currency: string };
+  time?: number;
+  physical?: boolean;
+  energy?: number;
 }
 
 interface VerifyResponse {
   valid: boolean;
   id?: string;
-  claims?: Claim;
+  claim?: Claim;
   jws?: string;
   issuer?: string;
   verifyUrl?: string;
@@ -148,13 +152,13 @@ async function verifyClaim(
   }
 
   console.log("   Claim found!");
-  console.log(`   Company: ${response.claims?.to.name}`);
-  if (response.claims?.to.domain) {
+  console.log(`   Company: ${response.claim?.to.name}`);
+  if (response.claim?.to.domain) {
     console.log(`   Domain: ${response.claims.to.domain}`);
   }
-  console.log(`   Method: ${response.claims?.method}`);
-  console.log(`   Timestamp: ${response.claims?.at}`);
-  if (response.claims?.exp) {
+  console.log(`   Method: ${response.claim?.method}`);
+  console.log(`   Timestamp: ${response.claim?.at}`);
+  if (response.claim?.exp) {
     console.log(`   Expires: ${response.claims.exp}`);
   }
   console.log("");
