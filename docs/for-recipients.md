@@ -91,7 +91,7 @@ See [SPEC.md](../SPEC.md) for technical details.
 
 In a sea of automated messages, HAP-verified communications stand out because:
 
-1. **Higher intent signal.** Someone who spends money and time to reach you specifically probably has a genuine reason, not just a spray-and-pray approach.
+1. **Higher intent signal.** Someone who spends money and time to reach you specifically is less likely to be mass-messaging hundreds of recipients. It's a stronger signal than free outreach, though not a guarantee of fit or quality.
 
 2. **Lower spam volume.** The cost of verification makes mass-sending impractical.
 

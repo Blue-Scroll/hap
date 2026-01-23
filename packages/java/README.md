@@ -1,6 +1,8 @@
 # human-attestation
 
 [![Maven Central](https://img.shields.io/maven-central/v/io.bluescroll/human-attestation.svg)](https://central.sonatype.com/artifact/io.bluescroll/human-attestation)
+[![CI](https://github.com/Blue-Scroll/hap/actions/workflows/ci.yml/badge.svg)](https://github.com/Blue-Scroll/hap/actions/workflows/ci.yml)
+[![Java](https://img.shields.io/badge/java-17+-blue.svg)](https://openjdk.org/)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](../../LICENSE)
 
 Official HAP (Human Attestation Protocol) SDK for Java.

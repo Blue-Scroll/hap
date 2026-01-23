@@ -1,5 +1,9 @@
 # HAP - Human Attestation Protocol
 
+[![CI](https://github.com/Blue-Scroll/hap/actions/workflows/ci.yml/badge.svg)](https://github.com/Blue-Scroll/hap/actions/workflows/ci.yml)
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
+[![Spec](https://img.shields.io/badge/spec-v0.1-green.svg)](SPEC.md)
+
 **Built to prove your effort matters.**
 
 Proof of human effort for the AI age.

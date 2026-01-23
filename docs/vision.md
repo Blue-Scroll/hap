@@ -171,4 +171,4 @@ The person who paid real money to reach you probably wants to reach _you specifi
 
 ---
 
-_Built for people who refuse to be ignored._
+_Built to prove your effort matters._

@@ -2,6 +2,17 @@
 
 All notable changes to the HAP specification and SDKs.
 
+## [0.4.3] - 2026-01-22
+
+### Added
+- CI status badges to main README and all SDK READMEs
+- Language version badges to SDK READMEs (TypeScript 5.0+, Python 3.9+, etc.)
+- Spec version badge to main README
+
+### Changed
+- Improved accuracy of "intent signal" language in for-recipients.md
+- Aligned CONTRIBUTING.md tagline with main README
+
 ## [0.4.2] - 2026-01-22
 
 ### Changed

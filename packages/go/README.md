@@ -1,6 +1,8 @@
 # human-attestation (Go)
 
 [![Go Reference](https://pkg.go.dev/badge/github.com/Blue-Scroll/hap/packages/go.svg)](https://pkg.go.dev/github.com/Blue-Scroll/hap/packages/go)
+[![CI](https://github.com/Blue-Scroll/hap/actions/workflows/ci.yml/badge.svg)](https://github.com/Blue-Scroll/hap/actions/workflows/ci.yml)
+[![Go](https://img.shields.io/badge/go-1.21+-blue.svg)](https://golang.org/)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](../../LICENSE)
 
 Official HAP (Human Attestation Protocol) SDK for Go.
