@@ -1,6 +1,6 @@
 {
   "name": "human-attestation",
-  "version": "0.4.2",
+  "version": "0.4.4",
   "description": "Official SDK for HAP (Human Attestation Protocol) - cryptographic proof of verified human effort",
   "main": "dist/index.js",
   "module": "dist/index.mjs",

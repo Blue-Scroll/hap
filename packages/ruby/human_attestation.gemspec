@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |spec|
   spec.name = "human-attestation"
-  spec.version = "0.4.2"
+  spec.version = "0.4.4"
   spec.authors = ["BlueScroll Inc."]
   spec.email = ["support@bluescroll.io"]
 
