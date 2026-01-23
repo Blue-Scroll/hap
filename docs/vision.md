@@ -79,7 +79,7 @@ The pattern is always the same:
 
 **HAP solution:** Source pays $10-20 to verify their tip → Journalist sees "12 verified tips this week" → Verified tips can be prioritized.
 
-**Why it matters:** Sources with real information are motivated. The cost filters out noise while preserving anonymity (VA verifies payment, not identity).
+**Why it matters:** Sources with real information are motivated. The cost filters out noise while providing pseudonymity to the recipient—the VA knows who paid, but the recipient only sees that someone paid.
 
 ### Public Comments on Regulations
 
@@ -111,9 +111,9 @@ Every verification service today is an island:
 | Recipients integrate with Ballista specifically | Recipients integrate with HAP once, accept any VA |
 | Competitors are threats | Competitors grow the ecosystem |
 | Network effects are zero-sum | Network effects are positive-sum |
-| If Ballista dies, claims are worthless | Claims are self-verifying, survive VA death |
+| If Ballista dies, claims are worthless | Claims remain valid with cached public keys |
 
-When verification claims follow a standard format with cryptographic signatures, they become **self-verifying**. A recipient with a VA's public keys can verify a claim offline, without calling any API. The claim is the proof.
+When verification claims follow a standard format with cryptographic signatures, anyone can verify them using the VA's public keys—without needing the VA's permission or an API call. The claim itself is the proof.
 
 This is the same shift that happened with:
 - **Email**: Early email required both parties on the same service. SMTP created an ecosystem.
@@ -163,7 +163,7 @@ This mirrors how the web works. HTTPS proves you're talking to `example.com`, bu
 
 We're betting that in a world of infinite AI-generated noise, **proof of human effort becomes valuable**.
 
-Not because effort equals talent. But because effort equals intent.
+Not because effort equals talent. But because effort suggests intent.
 
 The person who paid real money to reach you probably wants to reach _you specifically_, not just anyone. That signal cuts through the noise.
 

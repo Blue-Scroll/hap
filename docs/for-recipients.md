@@ -10,7 +10,7 @@ A valid HAP verification confirms:
 
 - **A human made effort.** Someone completed a costly action (like sending physical mail or paying a fee) to reach you.
 - **It was targeted to you.** The claim includes your organization's name.
-- **It's cryptographically signed.** The claim can't be forged or reused.
+- **It's cryptographically signed.** The signature proves the claim came from the VA. The signature can't be forged without the VA's private key.
 
 A HAP verification does NOT confirm:
 
@@ -95,7 +95,7 @@ In a sea of automated messages, HAP-verified communications stand out because:
 
 2. **Lower spam volume.** The cost of verification makes mass-sending impractical.
 
-3. **No extra work for you.** Verification is optional. You can ignore the QR code entirely and evaluate the message normally.
+3. **Verification is optional.** You can ignore HAP entirely and evaluate messages normally. If you want to display verification status, integration requires developer work.
 
 ## FAQ
 
@@ -113,6 +113,12 @@ None. Verification is free to check. We don't collect your data or require regis
 
 **Q: Who is Ballista?**
 Ballista is a service that helps people send physical mail. They're currently the only Verification Authority implementing HAP.
+
+**Q: What CAN'T HAP detect?**
+HAP verifies effort, not intent or quality. It cannot detect: identity fraud, malicious intent, whether content is truthful, or whether the sender is a good fit for your needs. A verified sender still requires your judgment.
+
+**Q: Can claims be revoked?**
+Yes. Claims can be revoked by the VA or sender for fraud, error, legal requirements, or user request. Always check a claim's current status before relying on it for important decisions.
 
 ## Questions?
 

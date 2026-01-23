@@ -16,7 +16,7 @@ composer require bluescroll/human-attestation
 ## Requirements
 
 - PHP 8.1+
-- sodium extension (included in PHP 7.2+)
+- Sodium extension (built-in since PHP 7.2, but must be explicitly enabled in some environments)
 
 ## Quick Start
 

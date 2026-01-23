@@ -6,7 +6,7 @@ For technical implementation details, see [Becoming a Verification Authority](fo
 
 ## Background: Why These Requirements Exist
 
-HAP exists to verify that a human took deliberate, costly action. The history of proof-of-work systems (Hashcash, Penny Black, Bitcoin) offers hard-won lessons about what works and what doesn't.
+HAP exists to verify that a human took deliberate, costly action. Claims include optional **effort dimensions**—fields like monetary cost, time spent, physical involvement, and energy expended—that describe the effort involved. The history of proof-of-work systems (Hashcash, Penny Black, Bitcoin) offers hard-won lessons about what works and what doesn't.
 
 **Computational proof-of-work failed for anti-spam because:**
 
@@ -87,7 +87,7 @@ No API call to the VA should be required for basic verification. The cryptograph
 
 ## Method Categories
 
-HAP recognizes three categories of verification methods. These are descriptive, not normative — a method's category does not affect its validity, only its properties.
+HAP recognizes three categories of verification methods. These categories describe method types but don't constrain validity—any method meeting the four core requirements above is HAP-compliant regardless of category.
 
 > **Note:** Methods are VA-defined. The protocol does not prescribe specific methods. VAs SHOULD use a prefix based on their domain or brand to avoid namespace collision (e.g., `ba_priority_mail` for Ballista, `vi_video_30` for a video interview VA). Custom methods are first-class citizens in the protocol.
 

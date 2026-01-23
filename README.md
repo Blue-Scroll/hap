@@ -19,7 +19,7 @@ When sending a message costs nothing, messages mean nothing.
 
 The pattern repeats: friction is removed, volume explodes, signal drowns, recipients stop paying attention.
 
-**AI accelerates this dramatically.** The cost of faking sincerity dropped by orders of magnitude.
+**AI accelerates this dramatically.** The cost of faking sincerity dropped significantly.
 
 ## The Insight
 
@@ -31,7 +31,7 @@ We can't detect AI-generated content. But we can verify that someone:
 - Invested real time
 - Moved physical atoms
 
-**Effort equals intent.** The person who paid $15 to reach you probably wants to reach _you specifically_, not just anyone. That signal cuts through the noise.
+**Effort suggests intent.** The person who paid $15 to reach you is less likely to be spray-and-pray mass outreach. That signal cuts through the noise—though it's not a guarantee of quality or good intentions.
 
 ## How It Works
 
@@ -44,7 +44,7 @@ Message   →  Includes claim (QR code, URL, or header)
 Recipient →  Verifies signature, sees proof of effort
 ```
 
-**No API calls required.** Once you have a VA's public keys, verification happens offline. The signature is the proof.
+**No API calls required to verify.** Once you have a VA's public keys (published at `/.well-known/hap.json`), verification happens offline. The signature is the proof.
 
 ## Use Cases
 
@@ -68,7 +68,7 @@ Without a protocol, every verification service is a walled garden. Your proof on
 | ------------------------------ | ---------------------------------------------- |
 | Your proof works with one vendor | Your proof can work anywhere                 |
 | Competitors are threats        | **Competitors grow the ecosystem**             |
-| Vendor dies, claims worthless  | Claims self-verify, survive vendor death       |
+| Vendor dies, claims worthless  | Claims remain valid with cached public keys    |
 | Network effects are zero-sum   | **Network effects are positive-sum**           |
 
 This is the same shift that created email (SMTP), the web (HTTP), and secure connections (TLS). Open protocol, competitive ecosystem, trust earned by implementations.
@@ -151,7 +151,7 @@ See [SPEC.md](SPEC.md) for complete technical details.
 
 - **Identity verification** — We verify effort, not who you are
 - **Content verification** — AI can help write; the effort to send is what matters
-- **Trust authority** — The protocol is open; you decide which VAs to trust
+- **Trust authority** — The protocol places no restrictions on who can become a VA; you decide which VAs to trust
 - **Quality guarantee** — Verified effort ≠ good content
 
 ## Learn More

@@ -135,6 +135,35 @@ puts "Signed JWS: #{jws}"
 | `HumanAttestation.generate_id`                        | Generate cryptographically secure HAP ID |
 | `HumanAttestation.create_claim(...)`                  | Create claim with defaults               |
 
+### Types
+
+The SDK uses Ruby hashes with symbol keys. Key structures:
+
+```ruby
+# Claim structure
+{
+  v: "0.1",
+  id: "hap_...",
+  method: "physical_mail",
+  description: "...",
+  to: { name: "Company", domain: "company.com" },
+  at: "2026-01-19T06:00:00Z",
+  exp: "2028-01-19T06:00:00Z",  # optional
+  iss: "ballista.jobs",
+  cost: { amount: 1500, currency: "USD" },  # optional
+  time: 1800,  # optional
+  physical: true  # optional
+}
+
+# JWK structure (OKP = Octet Key Pair, the format for Ed25519 keys)
+{
+  kid: "my_key_001",
+  kty: "OKP",
+  crv: "Ed25519",
+  x: "<base64url-public-key>"
+}
+```
+
 ## Requirements
 
 - Ruby 3.0+

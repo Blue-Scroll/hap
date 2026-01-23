@@ -92,12 +92,12 @@ if (response.isValid() && response.getJws() != null) {
 
 ```java
 import io.bluescroll.humanattestation.*;
-import com.nimbusds.jose.jwk.OctetKeyPair;
+import com.nimbusds.jose.jwk.OctetKeyPair;  // OKP = Octet Key Pair, the JWK format for Ed25519 keys
 import java.util.Map;
 
 public class SignExample {
     public static void main(String[] args) throws Exception {
-        // Generate a key pair (do this once, store securely)
+        // Generate an Ed25519 key pair (do this once, store securely)
         OctetKeyPair keyPair = Signer.generateKeyPair();
 
         // Export public key for /.well-known/hap.json
