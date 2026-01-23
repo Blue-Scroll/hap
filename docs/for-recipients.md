@@ -2,7 +2,7 @@
 
 ## What Is This QR Code?
 
-If you received a message with a QR code or verification URL, the sender used a HAP-compatible service to reach you. Scanning the code confirms that a real human took deliberate action to send you this message.
+If you received a message with a QR code or verification URL, the sender used a HAP-compatible service to reach you. Scanning the code provides evidence that a real human took deliberate action to send you this message.
 
 ## What Does Verification Mean?
 
@@ -112,7 +112,7 @@ No. You can completely ignore HAP verification and evaluate messages as you norm
 None. Verification is free to check. We don't collect your data or require registration.
 
 **Q: Who is Ballista?**
-Ballista is a service that helps people send physical mail. They're one of the first Verification Authorities implementing HAP.
+Ballista is a service that helps people send physical mail. They're currently the only Verification Authority implementing HAP.
 
 ## Questions?
 

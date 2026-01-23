@@ -41,9 +41,9 @@ HAP is a **specification**, not infrastructure. Each VA hosts their own endpoint
   },
   "at": "2026-01-19T06:00:00Z",
   "exp": "2028-01-19T06:00:00Z",
-  "iss": "ballista.jobs",
-  "method": "ba_priority_mail",
-  "description": "Priority mail packet with handwritten cover letter",
+  "iss": "example-va.com",
+  "method": "xva_verified_mail",
+  "description": "Verified mail packet with cover letter",
   "tier": "standard",
   "cost": {
     "amount": 1500,
@@ -221,10 +221,10 @@ Returns the VA's public keys in JWK format.
 
 ```json
 {
-  "issuer": "ballista.jobs",
+  "issuer": "example-va.com",
   "keys": [
     {
-      "kid": "ba_key_001",
+      "kid": "xva_key_001",
       "kty": "OKP",
       "crv": "Ed25519",
       "x": "<base64url-encoded-public-key>"
@@ -248,13 +248,13 @@ VAs MAY include an optional `va` object to provide additional metadata about the
 
 ```json
 {
-  "issuer": "ballista.jobs",
+  "issuer": "example-va.com",
   "keys": [...],
   "va": {
-    "name": "Ballista",
-    "methods": ["ba_priority_mail", "ba_standard_mail"],
+    "name": "Example VA",
+    "methods": ["xva_verified_mail", "xva_standard_mail"],
     "status": "active",
-    "description": "Physical mail verification service"
+    "description": "Example verification service"
   }
 }
 ```
@@ -307,17 +307,17 @@ Returns the verification claim with its signature.
     },
     "at": "2026-01-19T06:00:00Z",
     "exp": "2028-01-19T06:00:00Z",
-    "iss": "ballista.jobs",
-    "method": "ba_priority_mail",
-    "description": "Priority mail packet with handwritten cover letter",
+    "iss": "example-va.com",
+    "method": "xva_verified_mail",
+    "description": "Verified mail packet with cover letter",
     "tier": "standard",
     "cost": { "amount": 1500, "currency": "USD" },
     "time": 1800,
     "physical": true
   },
-  "jws": "eyJhbGciOiJFZERTQSIsImtpZCI6ImJhX2tleV8wMDEifQ...",
-  "issuer": "ballista.jobs",
-  "verifyUrl": "https://www.ballista.jobs/v/hap_abc123xyz456"
+  "jws": "eyJhbGciOiJFZERTQSIsImtpZCI6Inh2YV9rZXlfMDAxIn0...",
+  "issuer": "example-va.com",
+  "verifyUrl": "https://example-va.com/v/hap_abc123xyz456"
 }
 ```
 
@@ -330,7 +330,7 @@ Returns the verification claim with its signature.
   "revoked": true,
   "revocationReason": "user_request",
   "revokedAt": "2026-02-01T12:00:00Z",
-  "issuer": "ballista.jobs"
+  "issuer": "example-va.com"
 }
 ```
 
@@ -396,10 +396,10 @@ The 12-character suffix should be generated using a cryptographically secure ran
 ### 7.1 For Recipients (Verifiers)
 
 1. Receive message with HAP verification (QR code or URL)
-2. Extract HAP ID from URL: `https://www.ballista.jobs/v/hap_abc123xyz456`
-3. Fetch claim: `GET https://www.ballista.jobs/api/v1/verify/hap_abc123xyz456`
+2. Extract HAP ID from URL: `https://example-va.com/v/hap_abc123xyz456`
+3. Fetch claim: `GET https://example-va.com/api/v1/verify/hap_abc123xyz456`
 4. Optionally verify signature:
-   a. Fetch public key: `GET https://www.ballista.jobs/.well-known/hap.json`
+   a. Fetch public key: `GET https://example-va.com/.well-known/hap.json`
    b. Verify JWS signature against the claim payload
 
 ### 7.2 For VAs (Issuers)
@@ -424,7 +424,7 @@ HAP{version}.{id}.{method}.{to_name}.{to_domain}.{at}.{exp}.{iss}.{signature}
 **Example:**
 
 ```
-HAP1.hap_abc123xyz456.ba_priority_mail.Acme%20Corp.acme%2Ecom.1706169600.1769241600.ballista%2Ejobs.MEUCIQDx...
+HAP1.hap_abc123xyz456.xva_verified_mail.Acme%20Corp.acme%2Ecom.1706169600.1769241600.example-va%2Ecom.MEUCIQDx...
 ```
 
 **Field encoding:**
@@ -450,7 +450,7 @@ HAP1.hap_abc123xyz456.ba_priority_mail.Acme%20Corp.acme%2Ecom.1706169600.1769241
 The signature is computed over the compact payload (everything before the final `.`), making the format self-contained:
 
 ```
-payload = "HAP1.hap_abc123xyz456.ba_priority_mail.Acme%20Corp.acme%2Ecom.1706169600.1769241600.ballista%2Ejobs"
+payload = "HAP1.hap_abc123xyz456.xva_verified_mail.Acme%20Corp.acme%2Ecom.1706169600.1769241600.example-va%2Ecom"
 signature = Ed25519_sign(private_key, payload)
 compact = payload + "." + base64url(signature)
 ```
@@ -478,7 +478,7 @@ These are soft limits to ensure the `url-compact` format stays under 2000 charac
 **Recommended: URL with embedded compact claim**
 
 ```
-https://ballista.jobs/v?c=HAP1.hap_abc123xyz456.ba_priority_mail.Acme%20Corp.acme%2Ecom.1706169600.1769241600.ballista%2Ejobs.MEUCIQDx...
+https://example-va.com/v?c=HAP1.hap_abc123xyz456.xva_verified_mail.Acme%20Corp.acme%2Ecom.1706169600.1769241600.example-va%2Ecom.MEUCIQDx...
 ```
 
 This format:
@@ -605,13 +605,12 @@ Trust decisions remain with recipients, who must evaluate each VA's verification
 
 ```json
 {
-  "$schema": "https://hap.dev/schemas/directory-v1.json",
   "version": "1.0",
   "description": "HAP Verification Authority Directory",
   "updated": "2026-01-20T00:00:00Z",
   "vas": [
     {
-      "domain": "ballista.jobs",
+      "domain": "example-va.com",
       "addedAt": "2026-01-15",
       "lastVerifiedAt": "2026-01-20"
     }
@@ -621,7 +620,6 @@ Trust decisions remain with recipients, who must evaluate each VA's verification
 
 | Field                  | Type   | Description                                         |
 | ---------------------- | ------ | --------------------------------------------------- |
-| `$schema`              | string | JSON Schema reference for validation                |
 | `version`              | string | Directory format version                            |
 | `description`          | string | Human-readable description                          |
 | `updated`              | string | ISO 8601 timestamp of last directory update         |

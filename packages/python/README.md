@@ -1,5 +1,8 @@
 # human-attestation
 
+[![PyPI version](https://img.shields.io/pypi/v/human-attestation.svg)](https://pypi.org/project/human-attestation/)
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](../../LICENSE)
+
 Official HAP (Human Attestation Protocol) SDK for Python.
 
 HAP is an open standard for verified human effort. It enables Verification Authorities (VAs) to cryptographically attest that a sender took deliberate, costly action when communicating with a recipient.

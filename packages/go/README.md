@@ -1,5 +1,8 @@
 # human-attestation (Go)
 
+[![Go Reference](https://pkg.go.dev/badge/github.com/Blue-Scroll/hap/packages/go.svg)](https://pkg.go.dev/github.com/Blue-Scroll/hap/packages/go)
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](../../LICENSE)
+
 Official HAP (Human Attestation Protocol) SDK for Go.
 
 HAP is an open standard for verified human effort. It enables Verification Authorities (VAs) to cryptographically attest that a sender took deliberate, costly action when communicating with a recipient.

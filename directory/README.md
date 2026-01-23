@@ -39,7 +39,6 @@ The [`vas.json`](vas.json) file contains:
 
 ```json
 {
-  "$schema": "https://hap.dev/schemas/directory-v1.json",
   "version": "1.0",
   "description": "HAP Verification Authority Directory",
   "updated": "2026-01-20T00:00:00Z",

@@ -1,8 +1,8 @@
 # The Vision: Verified Human Effort
 
-**HAP exists because the cost of faking human intent is approaching zero.**
+**HAP exists because the cost of faking human intent dropped dramatically.**
 
-AI can generate unlimited text, images, and video. The marginal cost of content is effectively free. Every system that depends on processing human input — job applications, public comments, support tickets, first messages — is drowning in noise.
+AI can generate vast amounts of text, images, and video. The marginal cost of content is effectively free. Every system that depends on processing human input — job applications, public comments, support tickets, first messages — is drowning in noise.
 
 **This is not a spec for a spec's sake. This is infrastructure for making costly signals possible again.**
 
@@ -69,7 +69,7 @@ The pattern is always the same:
 
 **The problem:** Clients post a job, get 50 copy-paste proposals. Good freelancers can't stand out. Race to the bottom.
 
-**HAP solution:** Freelancer pays $5 to verify their proposal → Client sees "3 verified proposals, 47 unverified" → Verified proposals get read first.
+**HAP solution:** Freelancer pays $5 to verify their proposal → Client sees "3 verified proposals, 47 unverified" → Verified proposals can stand out.
 
 **Why it matters:** Freelancers already invest in profiles and certifications. Verified proposals are the same signal: "I'm serious about this specific opportunity."
 
@@ -77,7 +77,7 @@ The pattern is always the same:
 
 **The problem:** Newsrooms get hundreds of "tips" daily. Most are noise. Real whistleblowers get lost.
 
-**HAP solution:** Source pays $10-20 to verify their tip → Journalist sees "12 verified tips this week" → Verified tips get investigated.
+**HAP solution:** Source pays $10-20 to verify their tip → Journalist sees "12 verified tips this week" → Verified tips can be prioritized.
 
 **Why it matters:** Sources with real information are motivated. The cost filters out noise while preserving anonymity (VA verifies payment, not identity).
 
@@ -87,7 +87,7 @@ The pattern is always the same:
 
 **HAP solution:** Citizen pays small fee to verify their comment → Agency sees "3,000 verified comments, 47,000 unverified" → Verified comments get human review.
 
-**Why it matters:** Democracy requires costly signals. When astroturfing is cheap, democratic feedback breaks. HAP makes real voices distinguishable.
+**Why it matters:** Democracy requires costly signals. When fake grassroots campaigns are cheap, democratic feedback breaks. HAP makes real voices distinguishable.
 
 ---
 

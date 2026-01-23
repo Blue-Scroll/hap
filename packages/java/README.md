@@ -1,5 +1,8 @@
 # human-attestation
 
+[![Maven Central](https://img.shields.io/maven-central/v/io.bluescroll/human-attestation.svg)](https://central.sonatype.com/artifact/io.bluescroll/human-attestation)
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](../../LICENSE)
+
 Official HAP (Human Attestation Protocol) SDK for Java.
 
 HAP is an open standard for verified human effort. It enables Verification Authorities (VAs) to cryptographically attest that a sender took deliberate, costly action when communicating with a recipient.
@@ -12,14 +15,14 @@ HAP is an open standard for verified human effort. It enables Verification Autho
 <dependency>
     <groupId>io.bluescroll</groupId>
     <artifactId>human-attestation</artifactId>
-    <version>0.2.0</version>
+    <version>0.4.2</version>
 </dependency>
 ```
 
 ### Gradle
 
 ```groovy
-implementation 'io.bluescroll:human-attestation:0.2.0'
+implementation 'io.bluescroll:human-attestation:0.4.2'
 ```
 
 ## Quick Start

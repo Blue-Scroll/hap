@@ -1,5 +1,8 @@
 # human-attestation
 
+[![Gem Version](https://img.shields.io/gem/v/human-attestation.svg)](https://rubygems.org/gems/human-attestation)
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](../../LICENSE)
+
 Official HAP (Human Attestation Protocol) SDK for Ruby.
 
 HAP is an open standard for verified human effort. It enables Verification Authorities (VAs) to cryptographically attest that a sender took deliberate, costly action when communicating with a recipient.
