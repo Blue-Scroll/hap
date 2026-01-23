@@ -99,8 +99,8 @@ Examples:
 
 - `ba_standard_mail` — Standard postal delivery (Ballista)
 - `ba_certified_mail` — Tracked postal delivery with proof of receipt
-- `no_notarized` — In-person notarization (Notary VA)
-- `ip_in_person` — Physical presence verification
+- `no_notarized` — In-person notarization (hypothetical)
+- `ip_in_person` — Physical presence verification (hypothetical)
 
 Properties:
 

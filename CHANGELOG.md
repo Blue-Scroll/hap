@@ -2,6 +2,13 @@
 
 All notable changes to the HAP specification and SDKs.
 
+## [0.4.4] - 2026-01-22
+
+### Changed
+- Replaced "infinite" with "vast" in vision.md for accuracy
+- Aligned vision.md closing statement with README messaging
+- Marked hypothetical VA examples in method-requirements.md
+
 ## [0.4.3] - 2026-01-22
 
 ### Added

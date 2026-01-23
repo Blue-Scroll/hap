@@ -161,13 +161,13 @@ This mirrors how the web works. HTTPS proves you're talking to `example.com`, bu
 
 ## The Bet
 
-We're betting that in a world of infinite AI-generated noise, **proof of human effort becomes valuable**.
+We're betting that in a world of vast AI-generated noise, **proof of human effort becomes valuable**.
 
 Not because effort equals talent. But because effort suggests intent.
 
 The person who paid real money to reach you probably wants to reach _you specifically_, not just anyone. That signal cuts through the noise.
 
-**HAP is the spam filter for the AI age.**
+**HAP makes proof of human effort verifiable.**
 
 ---
 
