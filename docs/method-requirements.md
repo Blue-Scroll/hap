@@ -64,15 +64,15 @@ The cost of N verifications **must be approximately N times the cost of one veri
 
 Each claim **must be cryptographically bound to**:
 
-- The content being attested (via hash)
-- The intended recipient
-- The timestamp of verification
+- The intended recipient (via `to` field)
+- The timestamp of verification (via `at` field)
+
+VAs **may optionally** bind claims to specific content using the `x-content-hash` custom dimension. This is appropriate when the VA reviews or processes the content itself.
 
 This prevents:
 
 - Replay attacks (reusing a claim for a different recipient)
 - Pre-computation attacks (generating claims before knowing the target)
-- Content substitution (swapping content after verification)
 
 ### 4. Verifiable Commitment
 
@@ -160,9 +160,9 @@ These are VA-level decisions. Market competition and recipient preferences deter
 A VA can be HAP-compliant with:
 
 1. A payment mechanism (real currency)
-1. JWS claim generation with Ed25519 signatures
-1. A `/.well-known/hap.json` endpoint publishing public keys
-1. Content hashing and recipient/timestamp binding
+2. JWS claim generation with Ed25519 signatures
+3. A `/.well-known/hap.json` endpoint publishing public keys
+4. Recipient and timestamp binding (required claim fields)
 
 No physical infrastructure required. No blockchain required.
 
@@ -243,8 +243,8 @@ For deeper background, see the cited research in the specification.
 A HAP-compliant verification method must:
 
 1. ✅ Require non-externalizable cost
-1. ✅ Scale linearly with volume
-1. ✅ Cryptographically bind to content, recipient, and timestamp
-1. ✅ Be verifiable using only the claim and public keys
+2. ✅ Scale linearly with volume
+3. ✅ Cryptographically bind to recipient and timestamp
+4. ✅ Be verifiable using only the claim and public keys
 
-Everything else is VA discretion.
+Content binding (via `x-content-hash`) is optional and VA discretion.
