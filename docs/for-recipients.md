@@ -99,8 +99,8 @@ In a sea of automated messages, HAP-verified communications stand out because:
 
 ## FAQ
 
-**Q: Does this mean the sender is legitimate?**
-No. HAP verifies effort, not legitimacy. A verified sender still needs to be evaluated on their merits.
+**Q: Does verification mean the sender is trustworthy or honest?**
+No. HAP verifies that someone invested real effort (money, time, or physical action). This proves it's not automated spam or mass-market bot outreach. But effort doesn't prove honesty, competence, or good intentions—you still need to evaluate the sender and message on their merits.
 
 **Q: Can senders fake these?**
 No. The cryptographic signature is tied to a specific message. Forging one would require the VA's private key.
@@ -112,13 +112,25 @@ No. You can completely ignore HAP verification and evaluate messages as you norm
 None. Verification is free to check. We don't collect your data or require registration.
 
 **Q: Who is Ballista?**
-Ballista is a service that helps people send physical mail. They're currently the only Verification Authority implementing HAP.
+Ballista is a service that helps people send physical mail. They're currently the primary Verification Authority using HAP, though the protocol is open for any organization to implement.
 
 **Q: What CAN'T HAP detect?**
 HAP verifies effort, not intent or quality. It cannot detect: identity fraud, malicious intent, whether content is truthful, or whether the sender is a good fit for your needs. A verified sender still requires your judgment.
 
 **Q: Can claims be revoked?**
 Yes. Claims can be revoked by the VA or sender for fraud, error, legal requirements, or user request. Always check a claim's current status before relying on it for important decisions.
+
+## Choosing Which VAs to Accept
+
+Different VAs use different verification methods. Choose based on your risk tolerance:
+
+| Risk Level | Strategy |
+|------------|----------|
+| Conservative | Only accept physical mail VAs; reject digital-only methods |
+| Balanced | Accept VAs with established reputation and documented practices |
+| Permissive | Accept any VA with valid endpoint; monitor for fraud patterns |
+
+You can maintain a blocklist of VAs whose methods don't suit your needs.
 
 ## Questions?
 

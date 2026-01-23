@@ -130,7 +130,7 @@ Your verification method must satisfy the four core requirements defined in [Met
 3. **Cryptographic binding** — Claims bound to recipient and timestamp
 4. **Verifiable commitment** — Verifiable using only the claim and public keys
 
-"Clicking a button" is not a verification method. See the [full requirements](method-requirements.md) for detailed criteria and examples.
+A single unauthenticated button click is not sufficient verification—the action must include meaningful cost, difficulty, or authentication to prevent automation. See the [full requirements](method-requirements.md) for detailed criteria and examples.
 
 ### Claims Must Be Accurate
 

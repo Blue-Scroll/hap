@@ -49,8 +49,8 @@
         "method": "vi_video_30",
         "description": "30-minute live video interview with human verifier",
         "to": {
-          "name": "Future Corp",
-          "domain": "futurecorp.io"
+          "name": "Example Video VA",
+          "domain": "example-va.com"
         },
         "at": "2026-01-20T09:00:00Z",
         "iss": "example-va.com",

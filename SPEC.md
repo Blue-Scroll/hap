@@ -1,8 +1,10 @@
 # HAP v0.1 Technical Specification
 
 **Version:** 0.1
-**Status:** Draft
+**Status:** Stable (implementation-ready)
 **Last Updated:** January 2026
+
+> **Note:** Version 0.1 refers to protocol version, not maturity. This specification is stable and actively implemented by production VAs.
 
 ---
 
@@ -69,7 +71,7 @@ HAP is a **specification**, not infrastructure. Each VA hosts their own endpoint
 | `description` | string  | Yes      | Human-readable description of the effort               |
 | `tier`        | string  | No       | Service tier (VA-specific)                             |
 | `cost`        | object  | No       | Monetary cost incurred (see 3.3.1)                     |
-| `time`        | integer | No       | Exclusive dedication time in seconds                   |
+| `time`        | integer | No       | Time sender dedicated to this action (seconds), as measured or estimated by VA |
 | `physical`    | boolean | No       | Whether physical-world atoms were involved             |
 | `energy`      | integer | No       | Human energy expenditure in kilocalories               |
 
@@ -123,9 +125,9 @@ Examples:
 
 #### 3.3.4 Energy (`energy`)
 
-Human energy expenditure in kilocalories (kcal). This captures metabolic cost — what the human body actually expended.
+Human energy expenditure in kilocalories (kcal), as estimated by the VA.
 
-Note: Use kilocalories (what nutrition labels call "Calories"), not joules. Kilocalories better represent human effort because they capture metabolic cost, not just mechanical work output.
+Note: Use kilocalories (what nutrition labels call "Calories"). This is a rough human-readable approximation of physical effort, not a precise measurement. VAs should document how they estimate this figure.
 
 This is appropriate for:
 - Physical labor (moving boxes, delivery)
@@ -494,11 +496,11 @@ This format:
 3. Verify Ed25519 signature using cached public keys from `/.well-known/hap.json`
 4. Validate claim fields (expiration, recipient, etc.)
 
-**Limitations of offline verification:**
-- Cannot check revocation status
-- Requires pre-cached public keys
-- Should validate `exp` field to detect stale claims
-- Does not include effort dimensions (cost, time, etc.)
+**Critical limitations of offline verification:**
+- Cannot check revocation status—you're verifying a snapshot, not current status
+- Requires pre-cached public keys from the VA
+- Must validate `exp` field; stale claims may still validate cryptographically
+- **Effort dimensions (cost, time, energy, etc.) are NOT included in compact format**—only the full JWS format preserves these details
 
 ---
 
@@ -509,6 +511,17 @@ This format:
 - VAs MUST store private keys securely (HSM, encrypted at rest)
 - VAs SHOULD support key rotation via multiple keys in `/.well-known/hap.json`
 - VAs MUST NOT include private keys in JWK responses
+
+#### Key Compromise Response
+
+If a private key is compromised:
+
+1. VA MUST immediately rotate to a new key
+2. VA SHOULD publicly document the compromise date
+3. Claims signed before the compromise remain cryptographically valid, but recipients MAY choose not to trust them
+4. VA SHOULD notify affected parties if possible
+
+Recipients may implement policies like: "Reject claims from keys issued within 7 days of a disclosed compromise."
 
 ### 8.2 Replay Protection
 
@@ -595,11 +608,18 @@ async function verifyClaim(
 
 The official HAP repository maintains a machine-readable directory of Verification Authorities at `directory/vas.json`. This directory serves as a **discovery mechanism**, not a trust authority.
 
-**The directory answers:** "What VAs exist that implement HAP?"
+**The directory answers:** "What VAs exist that implement HAP and have published valid endpoints?"
 
-**The directory does NOT answer:** "Which VAs should I trust?"
+**The directory does NOT answer:** "Which VAs should I trust for my use case?"
 
-Trust decisions remain with recipients, who must evaluate each VA's verification methods and reputation for their specific use case.
+Before accepting claims from a VA, recipients should evaluate:
+
+- Their verification method against the [requirements](docs/method-requirements.md)
+- Public reputation and customer reviews
+- Security practices and published privacy policy
+- Track record and operational history
+
+Being listed in the HAP directory means only: endpoint is valid, protocol is followed. It does not constitute endorsement or security audit.
 
 ### 10.2 Directory Schema
 

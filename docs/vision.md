@@ -79,7 +79,7 @@ The pattern is always the same:
 
 **HAP solution:** Source pays $10-20 to verify their tip → Journalist sees "12 verified tips this week" → Verified tips can be prioritized.
 
-**Why it matters:** Sources with real information are motivated. The cost filters out noise while providing pseudonymity to the recipient—the VA knows who paid, but the recipient only sees that someone paid.
+**Why it matters:** Sources with real information are motivated. The cost filters out noise while providing pseudonymity to the recipient—the recipient only sees that someone paid, not who. However, the VA knows the sender's identity, so anonymity depends on the VA's privacy policy, not technical guarantees.
 
 ### Public Comments on Regulations
 

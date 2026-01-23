@@ -1,8 +1,8 @@
 # HAP - Human Attestation Protocol
 
-**Built for people who refuse to be ignored.**
+**Built to prove your effort matters.**
 
-The spam filter for the AI age.
+Proof of human effort for the AI age.
 
 When AI makes personalized outreach nearly as cheap as mass spam, proving you're real becomes a competitive advantage. HAP is the open standard for verified human effort.
 
@@ -31,7 +31,7 @@ We can't detect AI-generated content. But we can verify that someone:
 - Invested real time
 - Moved physical atoms
 
-**Effort suggests intent.** The person who paid $15 to reach you is less likely to be spray-and-pray mass outreach. That signal cuts through the noise—though it's not a guarantee of quality or good intentions.
+**Effort suggests intent.** A cryptographic signature proves someone invested real money and time—but that alone doesn't guarantee quality, honesty, or good intentions. It's a signal that cuts through automated noise, not a vetting process.
 
 ## How It Works
 
@@ -68,7 +68,7 @@ Without a protocol, every verification service is a walled garden. Your proof on
 | ------------------------------ | ---------------------------------------------- |
 | Your proof works with one vendor | Your proof can work anywhere                 |
 | Competitors are threats        | **Competitors grow the ecosystem**             |
-| Vendor dies, claims worthless  | Claims remain valid with cached public keys    |
+| Vendor dies, claims worthless  | Claims verifiable with cached keys; unverifiable if VA offline |
 | Network effects are zero-sum   | **Network effects are positive-sum**           |
 
 This is the same shift that created email (SMTP), the web (HTTP), and secure connections (TLS). Open protocol, competitive ecosystem, trust earned by implementations.
@@ -134,7 +134,7 @@ Verification Authorities (VAs) are services that verify human effort and sign HA
 
 See [directory/](directory/) for the machine-readable list and listing criteria.
 
-**Note:** Listing in the directory means a VA has published a valid HAP endpoint. Trust decisions remain with you—evaluate each VA's verification methods and reputation for your use case.
+**Note:** Listing in the directory means a VA has published a valid HAP endpoint. Trust decisions remain with you—evaluate each VA's verification methods and reputation for your use case. External links may change; verify current VA websites directly.
 
 ## Technical Foundation
 

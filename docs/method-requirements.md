@@ -30,20 +30,20 @@ A verification method is HAP-compliant if and only if it satisfies all of the fo
 
 ### 1. Non-Externalizable Cost
 
-The cost of verification **cannot be pushed to unwitting third parties**.
+The cost of verification **cannot be systematically externalized to third parties without their knowledge**.
 
 ✅ Valid:
 
-- Payment in real currency
-- Physical postage
+- Personal payment in real currency
+- Personal time investment (where the person choosing the action bears the time cost)
+- Physical postage paid by the sender
 - Notarization fees
-- Time spent in verifiable human activity
 
 ❌ Invalid:
 
-- Computation alone (can be offloaded to botnets)
+- Computation alone (can be offloaded to botnets without owners' knowledge)
 - CAPTCHAs alone (can be outsourced to CAPTCHA farms)
-- Any mechanism where the payer and the cost-bearer can differ
+- Any mechanism where costs are systematically shifted to unwitting parties
 
 ### 2. Linear Scaling
 
@@ -176,7 +176,13 @@ HAP does not mandate pricing, but VAs should consider:
 - **Too high** — Excludes legitimate senders; reduces adoption
 - **Context-dependent** — Entry-level roles may warrant lower friction than executive positions
 
-VAs may offer multiple tiers at different price points.
+**Economic guidance:** Price high enough to exceed the break-even cost of automated attacks (estimated $0.01-0.10 per message for botnets), but low enough to be viable for legitimate senders in your target market. Typical ranges:
+
+- Job applications: $5-20
+- Dating/social messages: $1-5
+- Professional outreach: $10-50
+
+VAs may offer multiple tiers at different price points. Start conservative (higher) and adjust based on adoption and competitive pressure.
 
 ### Combining Methods
 
