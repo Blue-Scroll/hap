@@ -1,5 +1,10 @@
 # human-attestation
 
+[![Maven Central](https://img.shields.io/maven-central/v/io.bluescroll/human-attestation.svg)](https://central.sonatype.com/artifact/io.bluescroll/human-attestation)
+[![CI](https://github.com/Blue-Scroll/hap/actions/workflows/ci.yml/badge.svg)](https://github.com/Blue-Scroll/hap/actions/workflows/ci.yml)
+[![Java](https://img.shields.io/badge/java-17+-blue.svg)](https://openjdk.org/)
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](../../LICENSE)
+
 Official HAP (Human Attestation Protocol) SDK for Java.
 
 HAP is an open standard for verified human effort. It enables Verification Authorities (VAs) to cryptographically attest that a sender took deliberate, costly action when communicating with a recipient.
@@ -12,14 +17,14 @@ HAP is an open standard for verified human effort. It enables Verification Autho
 <dependency>
     <groupId>io.bluescroll</groupId>
     <artifactId>human-attestation</artifactId>
-    <version>0.2.0</version>
+    <version>0.4.2</version>
 </dependency>
 ```
 
 ### Gradle
 
 ```groovy
-implementation 'io.bluescroll:human-attestation:0.2.0'
+implementation 'io.bluescroll:human-attestation:0.4.2'
 ```
 
 ## Quick Start
@@ -89,12 +94,12 @@ if (response.isValid() && response.getJws() != null) {
 
 ```java
 import io.bluescroll.humanattestation.*;
-import com.nimbusds.jose.jwk.OctetKeyPair;
+import com.nimbusds.jose.jwk.OctetKeyPair;  // OKP = Octet Key Pair, the JWK format for Ed25519 keys
 import java.util.Map;
 
 public class SignExample {
     public static void main(String[] args) throws Exception {
-        // Generate a key pair (do this once, store securely)
+        // Generate an Ed25519 key pair (do this once, store securely)
         OctetKeyPair keyPair = Signer.generateKeyPair();
 
         // Export public key for /.well-known/hap.json

@@ -1,8 +1,10 @@
 # HAP v0.1 Technical Specification
 
 **Version:** 0.1
-**Status:** Draft
+**Status:** Stable (implementation-ready)
 **Last Updated:** January 2026
+
+> **Note:** Version 0.1 refers to protocol version, not maturity. This specification is stable and actively implemented by production VAs.
 
 ---
 
@@ -41,9 +43,9 @@ HAP is a **specification**, not infrastructure. Each VA hosts their own endpoint
   },
   "at": "2026-01-19T06:00:00Z",
   "exp": "2028-01-19T06:00:00Z",
-  "iss": "ballista.jobs",
-  "method": "ba_priority_mail",
-  "description": "Priority mail packet with handwritten cover letter",
+  "iss": "example-va.com",
+  "method": "xva_verified_mail",
+  "description": "Verified mail packet with cover letter",
   "tier": "standard",
   "cost": {
     "amount": 1500,
@@ -69,7 +71,7 @@ HAP is a **specification**, not infrastructure. Each VA hosts their own endpoint
 | `description` | string  | Yes      | Human-readable description of the effort               |
 | `tier`        | string  | No       | Service tier (VA-specific)                             |
 | `cost`        | object  | No       | Monetary cost incurred (see 3.3.1)                     |
-| `time`        | integer | No       | Exclusive dedication time in seconds                   |
+| `time`        | integer | No       | Time sender dedicated to this action (seconds), as measured or estimated by VA |
 | `physical`    | boolean | No       | Whether physical-world atoms were involved             |
 | `energy`      | integer | No       | Human energy expenditure in kilocalories               |
 
@@ -123,9 +125,9 @@ Examples:
 
 #### 3.3.4 Energy (`energy`)
 
-Human energy expenditure in kilocalories (kcal). This captures metabolic cost — what the human body actually expended.
+Human energy expenditure in kilocalories (kcal), as estimated by the VA.
 
-Note: Use kilocalories (what nutrition labels call "Calories"), not joules. Kilocalories better represent human effort because they capture metabolic cost, not just mechanical work output.
+Note: Use kilocalories (what nutrition labels call "Calories"). This is a rough human-readable approximation of physical effort, not a precise measurement. VAs should document how they estimate this figure.
 
 This is appropriate for:
 - Physical labor (moving boxes, delivery)
@@ -221,10 +223,10 @@ Returns the VA's public keys in JWK format.
 
 ```json
 {
-  "issuer": "ballista.jobs",
+  "issuer": "example-va.com",
   "keys": [
     {
-      "kid": "ba_key_001",
+      "kid": "xva_key_001",
       "kty": "OKP",
       "crv": "Ed25519",
       "x": "<base64url-encoded-public-key>"
@@ -248,13 +250,13 @@ VAs MAY include an optional `va` object to provide additional metadata about the
 
 ```json
 {
-  "issuer": "ballista.jobs",
+  "issuer": "example-va.com",
   "keys": [...],
   "va": {
-    "name": "Ballista",
-    "methods": ["ba_priority_mail", "ba_standard_mail"],
+    "name": "Example VA",
+    "methods": ["xva_verified_mail", "xva_standard_mail"],
     "status": "active",
-    "description": "Physical mail verification service"
+    "description": "Example verification service"
   }
 }
 ```
@@ -307,17 +309,17 @@ Returns the verification claim with its signature.
     },
     "at": "2026-01-19T06:00:00Z",
     "exp": "2028-01-19T06:00:00Z",
-    "iss": "ballista.jobs",
-    "method": "ba_priority_mail",
-    "description": "Priority mail packet with handwritten cover letter",
+    "iss": "example-va.com",
+    "method": "xva_verified_mail",
+    "description": "Verified mail packet with cover letter",
     "tier": "standard",
     "cost": { "amount": 1500, "currency": "USD" },
     "time": 1800,
     "physical": true
   },
-  "jws": "eyJhbGciOiJFZERTQSIsImtpZCI6ImJhX2tleV8wMDEifQ...",
-  "issuer": "ballista.jobs",
-  "verifyUrl": "https://www.ballista.jobs/v/hap_abc123xyz456"
+  "jws": "eyJhbGciOiJFZERTQSIsImtpZCI6Inh2YV9rZXlfMDAxIn0...",
+  "issuer": "example-va.com",
+  "verifyUrl": "https://example-va.com/v/hap_abc123xyz456"
 }
 ```
 
@@ -330,7 +332,7 @@ Returns the verification claim with its signature.
   "revoked": true,
   "revocationReason": "user_request",
   "revokedAt": "2026-02-01T12:00:00Z",
-  "issuer": "ballista.jobs"
+  "issuer": "example-va.com"
 }
 ```
 
@@ -396,10 +398,10 @@ The 12-character suffix should be generated using a cryptographically secure ran
 ### 7.1 For Recipients (Verifiers)
 
 1. Receive message with HAP verification (QR code or URL)
-2. Extract HAP ID from URL: `https://www.ballista.jobs/v/hap_abc123xyz456`
-3. Fetch claim: `GET https://www.ballista.jobs/api/v1/verify/hap_abc123xyz456`
+2. Extract HAP ID from URL: `https://example-va.com/v/hap_abc123xyz456`
+3. Fetch claim: `GET https://example-va.com/api/v1/verify/hap_abc123xyz456`
 4. Optionally verify signature:
-   a. Fetch public key: `GET https://www.ballista.jobs/.well-known/hap.json`
+   a. Fetch public key: `GET https://example-va.com/.well-known/hap.json`
    b. Verify JWS signature against the claim payload
 
 ### 7.2 For VAs (Issuers)
@@ -424,7 +426,7 @@ HAP{version}.{id}.{method}.{to_name}.{to_domain}.{at}.{exp}.{iss}.{signature}
 **Example:**
 
 ```
-HAP1.hap_abc123xyz456.ba_priority_mail.Acme%20Corp.acme%2Ecom.1706169600.1769241600.ballista%2Ejobs.MEUCIQDx...
+HAP1.hap_abc123xyz456.xva_verified_mail.Acme%20Corp.acme%2Ecom.1706169600.1769241600.example-va%2Ecom.MEUCIQDx...
 ```
 
 **Field encoding:**
@@ -450,7 +452,7 @@ HAP1.hap_abc123xyz456.ba_priority_mail.Acme%20Corp.acme%2Ecom.1706169600.1769241
 The signature is computed over the compact payload (everything before the final `.`), making the format self-contained:
 
 ```
-payload = "HAP1.hap_abc123xyz456.ba_priority_mail.Acme%20Corp.acme%2Ecom.1706169600.1769241600.ballista%2Ejobs"
+payload = "HAP1.hap_abc123xyz456.xva_verified_mail.Acme%20Corp.acme%2Ecom.1706169600.1769241600.example-va%2Ecom"
 signature = Ed25519_sign(private_key, payload)
 compact = payload + "." + base64url(signature)
 ```
@@ -478,7 +480,7 @@ These are soft limits to ensure the `url-compact` format stays under 2000 charac
 **Recommended: URL with embedded compact claim**
 
 ```
-https://ballista.jobs/v?c=HAP1.hap_abc123xyz456.ba_priority_mail.Acme%20Corp.acme%2Ecom.1706169600.1769241600.ballista%2Ejobs.MEUCIQDx...
+https://example-va.com/v?c=HAP1.hap_abc123xyz456.xva_verified_mail.Acme%20Corp.acme%2Ecom.1706169600.1769241600.example-va%2Ecom.MEUCIQDx...
 ```
 
 This format:
@@ -494,11 +496,11 @@ This format:
 3. Verify Ed25519 signature using cached public keys from `/.well-known/hap.json`
 4. Validate claim fields (expiration, recipient, etc.)
 
-**Limitations of offline verification:**
-- Cannot check revocation status
-- Requires pre-cached public keys
-- Should validate `exp` field to detect stale claims
-- Does not include effort dimensions (cost, time, etc.)
+**Critical limitations of offline verification:**
+- Cannot check revocation status—you're verifying a snapshot, not current status
+- Requires pre-cached public keys from the VA
+- Must validate `exp` field; stale claims may still validate cryptographically
+- **Effort dimensions (cost, time, energy, etc.) are NOT included in compact format**—only the full JWS format preserves these details
 
 ---
 
@@ -509,6 +511,17 @@ This format:
 - VAs MUST store private keys securely (HSM, encrypted at rest)
 - VAs SHOULD support key rotation via multiple keys in `/.well-known/hap.json`
 - VAs MUST NOT include private keys in JWK responses
+
+#### Key Compromise Response
+
+If a private key is compromised:
+
+1. VA MUST immediately rotate to a new key
+2. VA SHOULD publicly document the compromise date
+3. Claims signed before the compromise remain cryptographically valid, but recipients MAY choose not to trust them
+4. VA SHOULD notify affected parties if possible
+
+Recipients may implement policies like: "Reject claims from keys issued within 7 days of a disclosed compromise."
 
 ### 8.2 Replay Protection
 
@@ -595,23 +608,29 @@ async function verifyClaim(
 
 The official HAP repository maintains a machine-readable directory of Verification Authorities at `directory/vas.json`. This directory serves as a **discovery mechanism**, not a trust authority.
 
-**The directory answers:** "What VAs exist that implement HAP?"
+**The directory answers:** "What VAs exist that implement HAP and have published valid endpoints?"
 
-**The directory does NOT answer:** "Which VAs should I trust?"
+**The directory does NOT answer:** "Which VAs should I trust for my use case?"
 
-Trust decisions remain with recipients, who must evaluate each VA's verification methods and reputation for their specific use case.
+Before accepting claims from a VA, recipients should evaluate:
+
+- Their verification method against the [requirements](docs/method-requirements.md)
+- Public reputation and customer reviews
+- Security practices and published privacy policy
+- Track record and operational history
+
+Being listed in the HAP directory means only: endpoint is valid, protocol is followed. It does not constitute endorsement or security audit.
 
 ### 10.2 Directory Schema
 
 ```json
 {
-  "$schema": "https://hap.dev/schemas/directory-v1.json",
   "version": "1.0",
   "description": "HAP Verification Authority Directory",
   "updated": "2026-01-20T00:00:00Z",
   "vas": [
     {
-      "domain": "ballista.jobs",
+      "domain": "example-va.com",
       "addedAt": "2026-01-15",
       "lastVerifiedAt": "2026-01-20"
     }
@@ -621,7 +640,6 @@ Trust decisions remain with recipients, who must evaluate each VA's verification
 
 | Field                  | Type   | Description                                         |
 | ---------------------- | ------ | --------------------------------------------------- |
-| `$schema`              | string | JSON Schema reference for validation                |
 | `version`              | string | Directory format version                            |
 | `description`          | string | Human-readable description                          |
 | `updated`              | string | ISO 8601 timestamp of last directory update         |

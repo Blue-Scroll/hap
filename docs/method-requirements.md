@@ -6,7 +6,7 @@ For technical implementation details, see [Becoming a Verification Authority](fo
 
 ## Background: Why These Requirements Exist
 
-HAP exists to verify that a human took deliberate, costly action. The history of proof-of-work systems (Hashcash, Penny Black, Bitcoin) offers hard-won lessons about what works and what doesn't.
+HAP exists to verify that a human took deliberate, costly action. Claims include optional **effort dimensions**—fields like monetary cost, time spent, physical involvement, and energy expended—that describe the effort involved. The history of proof-of-work systems (Hashcash, Penny Black, Bitcoin) offers hard-won lessons about what works and what doesn't.
 
 **Computational proof-of-work failed for anti-spam because:**
 
@@ -30,20 +30,20 @@ A verification method is HAP-compliant if and only if it satisfies all of the fo
 
 ### 1. Non-Externalizable Cost
 
-The cost of verification **cannot be pushed to unwitting third parties**.
+The cost of verification **cannot be systematically externalized to third parties without their knowledge**.
 
 ✅ Valid:
 
-- Payment in real currency
-- Physical postage
+- Personal payment in real currency
+- Personal time investment (where the person choosing the action bears the time cost)
+- Physical postage paid by the sender
 - Notarization fees
-- Time spent in verifiable human activity
 
 ❌ Invalid:
 
-- Computation alone (can be offloaded to botnets)
+- Computation alone (can be offloaded to botnets without owners' knowledge)
 - CAPTCHAs alone (can be outsourced to CAPTCHA farms)
-- Any mechanism where the payer and the cost-bearer can differ
+- Any mechanism where costs are systematically shifted to unwitting parties
 
 ### 2. Linear Scaling
 
@@ -87,7 +87,7 @@ No API call to the VA should be required for basic verification. The cryptograph
 
 ## Method Categories
 
-HAP recognizes three categories of verification methods. These are descriptive, not normative — a method's category does not affect its validity, only its properties.
+HAP recognizes three categories of verification methods. These categories describe method types but don't constrain validity—any method meeting the four core requirements above is HAP-compliant regardless of category.
 
 > **Note:** Methods are VA-defined. The protocol does not prescribe specific methods. VAs SHOULD use a prefix based on their domain or brand to avoid namespace collision (e.g., `ba_priority_mail` for Ballista, `vi_video_30` for a video interview VA). Custom methods are first-class citizens in the protocol.
 
@@ -99,8 +99,8 @@ Examples:
 
 - `ba_standard_mail` — Standard postal delivery (Ballista)
 - `ba_certified_mail` — Tracked postal delivery with proof of receipt
-- `no_notarized` — In-person notarization (Notary VA)
-- `ip_in_person` — Physical presence verification
+- `no_notarized` — In-person notarization (hypothetical)
+- `ip_in_person` — Physical presence verification (hypothetical)
 
 Properties:
 
@@ -176,7 +176,13 @@ HAP does not mandate pricing, but VAs should consider:
 - **Too high** — Excludes legitimate senders; reduces adoption
 - **Context-dependent** — Entry-level roles may warrant lower friction than executive positions
 
-VAs may offer multiple tiers at different price points.
+**Economic guidance:** Price high enough to exceed the break-even cost of automated attacks (estimated $0.01-0.10 per message for botnets), but low enough to be viable for legitimate senders in your target market. Typical ranges:
+
+- Job applications: $5-20
+- Dating/social messages: $1-5
+- Professional outreach: $10-50
+
+VAs may offer multiple tiers at different price points. Start conservative (higher) and adjust based on adoption and competitive pressure.
 
 ### Combining Methods
 

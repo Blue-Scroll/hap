@@ -122,4 +122,4 @@ Open an issue at [github.com/Blue-Scroll/hap](https://github.com/Blue-Scroll/hap
 
 ---
 
-**We exist for the person who refuses to be ignored.**
+**Built to prove your effort matters.**

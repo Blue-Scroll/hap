@@ -1,8 +1,12 @@
 # HAP - Human Attestation Protocol
 
-**Built for people who refuse to be ignored.**
+[![CI](https://github.com/Blue-Scroll/hap/actions/workflows/ci.yml/badge.svg)](https://github.com/Blue-Scroll/hap/actions/workflows/ci.yml)
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
+[![Spec](https://img.shields.io/badge/spec-v0.1-green.svg)](SPEC.md)
 
-The spam filter for the AI age.
+**Built to prove your effort matters.**
+
+Proof of human effort for the AI age.
 
 When AI makes personalized outreach nearly as cheap as mass spam, proving you're real becomes a competitive advantage. HAP is the open standard for verified human effort.
 
@@ -19,7 +23,7 @@ When sending a message costs nothing, messages mean nothing.
 
 The pattern repeats: friction is removed, volume explodes, signal drowns, recipients stop paying attention.
 
-**AI accelerates this dramatically.** The cost of faking sincerity dropped by orders of magnitude.
+**AI accelerates this dramatically.** The cost of faking sincerity dropped significantly.
 
 ## The Insight
 
@@ -31,7 +35,7 @@ We can't detect AI-generated content. But we can verify that someone:
 - Invested real time
 - Moved physical atoms
 
-**Effort equals intent.** The person who paid $15 to reach you probably wants to reach _you specifically_, not just anyone. That signal cuts through the noise.
+**Effort suggests intent.** A cryptographic signature proves someone invested real money and time—but that alone doesn't guarantee quality, honesty, or good intentions. It's a signal that cuts through automated noise, not a vetting process.
 
 ## How It Works
 
@@ -44,7 +48,7 @@ Message   →  Includes claim (QR code, URL, or header)
 Recipient →  Verifies signature, sees proof of effort
 ```
 
-**No API calls required.** Once you have a VA's public keys, verification happens offline. The signature is the proof.
+**No API calls required to verify.** Once you have a VA's public keys (published at `/.well-known/hap.json`), verification happens offline. The signature is the proof.
 
 ## Use Cases
 
@@ -68,7 +72,7 @@ Without a protocol, every verification service is a walled garden. Your proof on
 | ------------------------------ | ---------------------------------------------- |
 | Your proof works with one vendor | Your proof can work anywhere                 |
 | Competitors are threats        | **Competitors grow the ecosystem**             |
-| Vendor dies, claims worthless  | Claims self-verify, survive vendor death       |
+| Vendor dies, claims worthless  | Claims verifiable with cached keys; unverifiable if VA offline |
 | Network effects are zero-sum   | **Network effects are positive-sum**           |
 
 This is the same shift that created email (SMTP), the web (HTTP), and secure connections (TLS). Open protocol, competitive ecosystem, trust earned by implementations.
@@ -134,7 +138,7 @@ Verification Authorities (VAs) are services that verify human effort and sign HA
 
 See [directory/](directory/) for the machine-readable list and listing criteria.
 
-**Note:** Listing in the directory means a VA has published a valid HAP endpoint. Trust decisions remain with you—evaluate each VA's verification methods and reputation for your use case.
+**Note:** Listing in the directory means a VA has published a valid HAP endpoint. Trust decisions remain with you—evaluate each VA's verification methods and reputation for your use case. External links may change; verify current VA websites directly.
 
 ## Technical Foundation
 
@@ -151,7 +155,7 @@ See [SPEC.md](SPEC.md) for complete technical details.
 
 - **Identity verification** — We verify effort, not who you are
 - **Content verification** — AI can help write; the effort to send is what matters
-- **Trust authority** — The protocol is open; you decide which VAs to trust
+- **Trust authority** — The protocol places no restrictions on who can become a VA; you decide which VAs to trust
 - **Quality guarantee** — Verified effort ≠ good content
 
 ## Learn More

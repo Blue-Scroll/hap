@@ -1,5 +1,10 @@
 # human-attestation
 
+[![Gem Version](https://img.shields.io/gem/v/human-attestation.svg)](https://rubygems.org/gems/human-attestation)
+[![CI](https://github.com/Blue-Scroll/hap/actions/workflows/ci.yml/badge.svg)](https://github.com/Blue-Scroll/hap/actions/workflows/ci.yml)
+[![Ruby](https://img.shields.io/badge/ruby-3.0+-blue.svg)](https://www.ruby-lang.org/)
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](../../LICENSE)
+
 Official HAP (Human Attestation Protocol) SDK for Ruby.
 
 HAP is an open standard for verified human effort. It enables Verification Authorities (VAs) to cryptographically attest that a sender took deliberate, costly action when communicating with a recipient.
@@ -131,6 +136,35 @@ puts "Signed JWS: #{jws}"
 | `HumanAttestation.sign_claim(claim, private_key, kid:)` | Sign a claim, returns JWS              |
 | `HumanAttestation.generate_id`                        | Generate cryptographically secure HAP ID |
 | `HumanAttestation.create_claim(...)`                  | Create claim with defaults               |
+
+### Types
+
+The SDK uses Ruby hashes with symbol keys. Key structures:
+
+```ruby
+# Claim structure
+{
+  v: "0.1",
+  id: "hap_...",
+  method: "physical_mail",
+  description: "...",
+  to: { name: "Company", domain: "company.com" },
+  at: "2026-01-19T06:00:00Z",
+  exp: "2028-01-19T06:00:00Z",  # optional
+  iss: "ballista.jobs",
+  cost: { amount: 1500, currency: "USD" },  # optional
+  time: 1800,  # optional
+  physical: true  # optional
+}
+
+# JWK structure (OKP = Octet Key Pair, the format for Ed25519 keys)
+{
+  kid: "my_key_001",
+  kty: "OKP",
+  crv: "Ed25519",
+  x: "<base64url-public-key>"
+}
+```
 
 ## Requirements
 

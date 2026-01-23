@@ -127,10 +127,10 @@ Your verification method must satisfy the four core requirements defined in [Met
 
 1. **Non-externalizable cost** — The cost cannot be pushed to unwitting third parties
 2. **Linear scaling** — N verifications must cost approximately N times one verification
-3. **Cryptographic binding** — Claims bound to content, recipient, and timestamp
+3. **Cryptographic binding** — Claims bound to recipient and timestamp
 4. **Verifiable commitment** — Verifiable using only the claim and public keys
 
-"Clicking a button" is not a verification method. See the [full requirements](method-requirements.md) for detailed criteria and examples.
+A single unauthenticated button click is not sufficient verification—the action must include meaningful cost, difficulty, or authentication to prevent automation. See the [full requirements](method-requirements.md) for detailed criteria and examples.
 
 ### Claims Must Be Accurate
 
@@ -202,14 +202,16 @@ The HAP repository maintains a [VA directory](../directory/) for discovery purpo
 
 Trust decisions belong to verifiers (recipients), who should evaluate your verification methods, reputation, and operational practices for their specific use case.
 
-## Example VAs
+## Possible Verification Methods
 
-| Type               | Method                            | Example  |
-| ------------------ | --------------------------------- | -------- |
-| Physical mail      | Sends physical mail to recipients | Ballista |
-| Video verification | Live interview with a human       | (future) |
-| Paid assessment    | Completes a paid skills test      | (future) |
-| Network referral   | Referred by verified professional | (future) |
+| Category | Description |
+|----------|-------------|
+| Physical delivery | Mail, packages, in-person handoff |
+| Live interaction | Video calls, interviews, assessments |
+| Financial stake | Payments, refundable deposits |
+| Time investment | Assessments, waiting periods |
+
+Ballista currently implements physical mail verification. The protocol supports any method meeting the [requirements](method-requirements.md).
 
 ## Questions?
 

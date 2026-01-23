@@ -1,5 +1,10 @@
 # human-attestation
 
+[![Packagist Version](https://img.shields.io/packagist/v/bluescroll/human-attestation.svg)](https://packagist.org/packages/bluescroll/human-attestation)
+[![CI](https://github.com/Blue-Scroll/hap/actions/workflows/ci.yml/badge.svg)](https://github.com/Blue-Scroll/hap/actions/workflows/ci.yml)
+[![PHP](https://img.shields.io/badge/php-8.1+-blue.svg)](https://www.php.net/)
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](../../LICENSE)
+
 Official HAP (Human Attestation Protocol) SDK for PHP.
 
 HAP is an open standard for verified human effort. It enables Verification Authorities (VAs) to cryptographically attest that a sender took deliberate, costly action when communicating with a recipient.
@@ -13,7 +18,7 @@ composer require bluescroll/human-attestation
 ## Requirements
 
 - PHP 8.1+
-- sodium extension (included in PHP 7.2+)
+- Sodium extension (built-in since PHP 7.2, but must be explicitly enabled in some environments)
 
 ## Quick Start
 

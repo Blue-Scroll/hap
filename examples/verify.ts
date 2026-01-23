@@ -154,12 +154,12 @@ async function verifyClaim(
   console.log("   Claim found!");
   console.log(`   Company: ${response.claim?.to.name}`);
   if (response.claim?.to.domain) {
-    console.log(`   Domain: ${response.claims.to.domain}`);
+    console.log(`   Domain: ${response.claim?.to.domain}`);
   }
   console.log(`   Method: ${response.claim?.method}`);
   console.log(`   Timestamp: ${response.claim?.at}`);
   if (response.claim?.exp) {
-    console.log(`   Expires: ${response.claims.exp}`);
+    console.log(`   Expires: ${response.claim?.exp}`);
   }
   console.log("");
 

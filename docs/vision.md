@@ -1,8 +1,8 @@
 # The Vision: Verified Human Effort
 
-**HAP exists because the cost of faking human intent is approaching zero.**
+**HAP exists because the cost of faking human intent dropped dramatically.**
 
-AI can generate unlimited text, images, and video. The marginal cost of content is effectively free. Every system that depends on processing human input — job applications, public comments, support tickets, first messages — is drowning in noise.
+AI can generate vast amounts of text, images, and video. The marginal cost of content is effectively free. Every system that depends on processing human input — job applications, public comments, support tickets, first messages — is drowning in noise.
 
 **This is not a spec for a spec's sake. This is infrastructure for making costly signals possible again.**
 
@@ -69,7 +69,7 @@ The pattern is always the same:
 
 **The problem:** Clients post a job, get 50 copy-paste proposals. Good freelancers can't stand out. Race to the bottom.
 
-**HAP solution:** Freelancer pays $5 to verify their proposal → Client sees "3 verified proposals, 47 unverified" → Verified proposals get read first.
+**HAP solution:** Freelancer pays $5 to verify their proposal → Client sees "3 verified proposals, 47 unverified" → Verified proposals can stand out.
 
 **Why it matters:** Freelancers already invest in profiles and certifications. Verified proposals are the same signal: "I'm serious about this specific opportunity."
 
@@ -77,9 +77,9 @@ The pattern is always the same:
 
 **The problem:** Newsrooms get hundreds of "tips" daily. Most are noise. Real whistleblowers get lost.
 
-**HAP solution:** Source pays $10-20 to verify their tip → Journalist sees "12 verified tips this week" → Verified tips get investigated.
+**HAP solution:** Source pays $10-20 to verify their tip → Journalist sees "12 verified tips this week" → Verified tips can be prioritized.
 
-**Why it matters:** Sources with real information are motivated. The cost filters out noise while preserving anonymity (VA verifies payment, not identity).
+**Why it matters:** Sources with real information are motivated. The cost filters out noise while providing pseudonymity to the recipient—the recipient only sees that someone paid, not who. However, the VA knows the sender's identity, so anonymity depends on the VA's privacy policy, not technical guarantees.
 
 ### Public Comments on Regulations
 
@@ -87,7 +87,7 @@ The pattern is always the same:
 
 **HAP solution:** Citizen pays small fee to verify their comment → Agency sees "3,000 verified comments, 47,000 unverified" → Verified comments get human review.
 
-**Why it matters:** Democracy requires costly signals. When astroturfing is cheap, democratic feedback breaks. HAP makes real voices distinguishable.
+**Why it matters:** Democracy requires costly signals. When fake grassroots campaigns are cheap, democratic feedback breaks. HAP makes real voices distinguishable.
 
 ---
 
@@ -111,9 +111,9 @@ Every verification service today is an island:
 | Recipients integrate with Ballista specifically | Recipients integrate with HAP once, accept any VA |
 | Competitors are threats | Competitors grow the ecosystem |
 | Network effects are zero-sum | Network effects are positive-sum |
-| If Ballista dies, claims are worthless | Claims are self-verifying, survive VA death |
+| If Ballista dies, claims are worthless | Claims remain valid with cached public keys |
 
-When verification claims follow a standard format with cryptographic signatures, they become **self-verifying**. A recipient with a VA's public keys can verify a claim offline, without calling any API. The claim is the proof.
+When verification claims follow a standard format with cryptographic signatures, anyone can verify them using the VA's public keys—without needing the VA's permission or an API call. The claim itself is the proof.
 
 This is the same shift that happened with:
 - **Email**: Early email required both parties on the same service. SMTP created an ecosystem.
@@ -161,14 +161,14 @@ This mirrors how the web works. HTTPS proves you're talking to `example.com`, bu
 
 ## The Bet
 
-We're betting that in a world of infinite AI-generated noise, **proof of human effort becomes valuable**.
+We're betting that in a world of vast AI-generated noise, **proof of human effort becomes valuable**.
 
-Not because effort equals talent. But because effort equals intent.
+Not because effort equals talent. But because effort suggests intent.
 
 The person who paid real money to reach you probably wants to reach _you specifically_, not just anyone. That signal cuts through the noise.
 
-**HAP is the spam filter for the AI age.**
+**HAP makes proof of human effort verifiable.**
 
 ---
 
-_Built for people who refuse to be ignored._
+_Built to prove your effort matters._
