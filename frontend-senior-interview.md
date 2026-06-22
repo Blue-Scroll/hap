@@ -2,6 +2,32 @@
 
 Three questions. Adjust depth to the candidate; all are discussion-friendly.
 
+## Time-box (~60 min)
+
+| Block | Question | Time |
+|-------|----------|------|
+| Warm-up + intro | — | ~5 min |
+| Q1 — Rendering strategies | discussion | ~15 min |
+| Q2 — `canReachExactly` (frog) | code | ~20 min |
+| Q3 — Model a zoo in TypeScript | design | ~15 min |
+| Candidate questions | — | ~5 min |
+
+## Scoring Rubric (per question)
+
+| Level | What it looks like |
+|-------|--------------------|
+| **Strong hire** | Drives it themselves; names trade-offs unprompted; handles edge cases before being asked; explains *why*, not just *what*. |
+| **Hire** | Gets to a correct, idiomatic answer; needs a nudge or two; reasons clearly when prompted. |
+| **No hire** | Needs heavy hand-holding; misses core concepts (hydration, distinctness/overflow, enums vs unions); can't justify choices. |
+| **Strong no hire** | Pattern-matches without understanding; defends wrong answers; reaches for `any` / brute force and can't improve. |
+
+**The three "senior tells" — one per question:**
+
+- **Q1:** talks in *metrics* and *per-route mixing*, not buzzwords.
+- **Q2:** spots the *distinctness* and *unsigned-overflow* traps without being led.
+- **Q3:** reaches for *discriminated unions* + *exhaustiveness*, and makes illegal
+  states unrepresentable.
+
 ---
 
 ## Question 1 — Rendering Strategies (discussion)
