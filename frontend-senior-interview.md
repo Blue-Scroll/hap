@@ -144,6 +144,47 @@ function canReachExactly(jumps: Set<number>, target: number): boolean {
 5. **No unsigned ints** (JS/TS) → does the trap still exist? Tests whether they
    understand it was about *representation*, not logic.
 
+### Frontend-Flavored Variant — `fitsInFrame` (use this for a React-native feel)
+
+Same algorithm, dressed as a perf problem so it doesn't feel like a generic LeetCode question:
+
+> **`fitsInFrame(durations, budget)`** — You're profiling a render. You have a set
+> of task durations (in **ms**) and a **frame budget** (e.g. `16` ms for 60fps).
+> Can you fill the budget **exactly** by running **at most two distinct tasks**?
+> (One task that exactly fills the budget counts.)
+>
+> Return `true` / `false`.
+
+It maps 1:1 onto the frog: tasks → jumps, frame budget → target, "exactly fill"
+→ "land exactly," "at most two distinct tasks" → distinctness + one-jump case.
+Every trap survives the reskin:
+
+| `durations` | `budget` | →       | Catches                          |
+|-------------|----------|---------|----------------------------------|
+| `{4, 9, 12}`| `16`     | `true`  | two tasks fill it (`4 + 12`)     |
+| `{8, 16, 3}`| `16`     | `true`  | one task exactly fills the frame |
+| `{8}`       | `16`     | `false` | can't run the same task twice    |
+| `{3, 5, 6}` | `20`     | `false` | need three tasks; only two allowed |
+| `{}`        | `16`     | `false` | no tasks                         |
+
+```typescript
+function fitsInFrame(durations: Set<number>, budget: number): boolean {
+  if (durations.has(budget)) return true;          // one task fills the frame
+  for (const d of durations) {
+    if (d < budget && d !== budget - d && durations.has(budget - d)) {
+      return true;                                 // two distinct tasks
+    }
+  }
+  return false;
+}
+```
+
+**Why prefer this for a frontend hire:** the framing (frame budget, 60fps, render
+profiling) lets you naturally branch into perf follow-ups — "now it's *at most*
+the budget, maximize utilization," "tasks stream from the profiler," "what's the
+real-world 16.67 ms and why integers lie here." The unsigned-overflow trap
+disappears in JS, so lean on the **distinctness** and **one-task** traps instead.
+
 ---
 
 ## Question 3 — Model a Zoo in TypeScript (open-ended)
